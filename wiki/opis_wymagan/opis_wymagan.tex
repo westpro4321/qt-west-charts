@@ -1,0 +1,73 @@
+\documentclass[11pt,twoside,a4paper,final]{llncs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[MeX]{polski}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\bibliographystyle{splncs}
+
+\begin{document}
+
+\date{12 lutego 2013}
+\title{Opis wymagań}
+
+\author{Łukasz Szewczyk}
+\institute{Politechnika Warszawska, Wydział Elektroniki i Technik Informacyjnych}
+\maketitle
+
+\section{Wymagania}
+,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i najwyraźniej stykają się interesy wszystkich jego udziałowców."~\cite{sacha-wymagania}
+
+\section{Wymagania funkcjonalne}
+\subsection{Obligatoryjne}
+Biblioteka musi umożliwiać:
+\begin{itemize}
+\item{tworzenie wykresów -- wymagane jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i kołowego,}
+\item{modyfikację danych -- dodawanie, edycję i usuwanie danych prezentowanych za pomocą wykresu,}
+\item{wyświetlenie elementów dekoracyjnych wykresu, takich jak legenda, siatka czy osie,}
+\item{interakcję docelowego użytkownika z wykresem -- zaznaczanie i przybliżanie fragmentu wykresu,}
+\item{wyświetlanie wykresów różnych typów w jednym układzie współrzędnych.}
+\end{itemize}
+
+\subsection{Opcjonalne}
+Biblioteka może udostępniać:
+\begin{itemize}
+\item{tworzenie mniej popularnych wykresów, takich jak: bąblekowy, punktowy czy pierścieniowy,}
+\item{pobieranie danych do wyświetlania z plików XML,}
+\item{rozszerzenie interakcji z użytkownikiem, np. poprzez wyświetlanie dodatkowych informacji o wskazywanej kursorem próbce danych,}
+\item{generowanie plików SVG na podstawie istniejącego wykresu,}
+\item{animację procesu budowania wykresu,}
+\item{tworzenie nowych i wykorzystywanie istniejących motywów -- potrzeba stworzenia mechanizmu podobnego do \textit{QStyle}~\cite{qstyle}.}
+\end{itemize}
+
+\section{Wymagania pozafunkcjonalne}
+\subsection{Obligatoryjne}
+Biblioteka musi:
+\begin{itemize}
+\item{być przenośna -- minimum to działanie na platformach Windows i Ubuntu,}
+\item{pozwalać na tworzenie atrakcyjnie i nowocześnie wyglądających wykresów 2D,}
+\item{posiadać interfejs C++ w stylu Qt~\cite{qt-style-API},}
+\item{posiadać interfejs dla Qt Quick.}
+\end{itemize}
+
+\subsection{Zalecane}
+Biblioteka powinna:
+\begin{itemize}
+\item{wymagać do działania jedynie biblioteki standardowej C++ oraz bibliotek Qt,}
+\item{wykorzystywać Qt w wersji 5,}
+
+\end{itemize}
+
+
+\begin{thebibliography}{}
+\bibitem[1]{sacha-wymagania}
+Inżynieria oprogramowania, Krzysztof Sacha, Wydawnictwo Naukowe PWN, 2010, ISBN: 978-83-01-16179-8
+\bibitem[2]{qstyle}
+QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
+\bibitem[3]{qt-style-API}
+API w stylu Qt \url{http://doc.qt.digia.com/qq/qq13-apis.html}
+
+\end{thebibliography}
+
+\end{document}
