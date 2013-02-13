@@ -17,54 +17,57 @@
 \maketitle
 
 \section{Wymagania}
-,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i najwyraźniej stykają się interesy wszystkich jego udziałowców."~\cite{sacha-wymagania}
+,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców."~\cite{sacha-wymagania}
 
 \section{Wymagania funkcjonalne}
 
 \subsection{Tworzenie wykresów}
-Biblioteka musi umożliwiać łatwe tworzenie wykresów 2D. Konieczne jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i kołowego. Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o kolejne typy wykresów, takie jak: bąbelkowy, punktowy czy pierścieniowy. Powinno być możliwe tworzenie kilku wykresów w jednym układzie współrzędnych, np. słupkowy i liniowy.
-Biblioteka musi udostępniać takie elementy wykresów jak legenda, siatka i osie, przy czym ich wyświetlaniem powinien sterować programista korzystający z biblioteki.
+Biblioteka musi umożliwiać łatwe tworzenie wykresów 2D. Konieczne jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i~kołowego. Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o~kolejne typy wykresów, takie jak: bąbelkowy, punktowy czy pierścieniowy. Powinno być możliwe tworzenie kilku wykresów w jednym układzie współrzędnych, np. słupkowy i~liniowy.
+Biblioteka musi udostępniać takie elementy wykresów jak legenda, siatka, tło i~osie, przy czym ich wyświetlaniem powinien sterować programista korzystający z biblioteki. Wszelkie właściwości wyświetlanych elementów reprezentujących próbki danych, takie jak kolor czy podpis, muszą być proste w obsłudze i~przyjmować sensowne domyślne wartości.
 
 \subsection{Interakcja}
-Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem, i tak dla wykresów osadzonych w kartezjańskim układzie współrzędnych, powinno być możliwe zaznaczanie i przybliżanie ich fragmentów. Z kolei dla wykresów kołowego i pierścieniowego powinna istnieć opcja obracania ich. Wykresy muszą umożliwiać reakcję na ruchy kursora myszy po ich powierzchni, np. zawieszenie kursora na wycinku wykresu kołowego.
+Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem, i tak dla wykresów osadzonych w kartezjańskim układzie współrzędnych powinno być możliwe zaznaczanie i przybliżanie ich fragmentów. Z kolei dla wykresów kołowego i pierścieniowego powinna istnieć opcja obracania ich. Wykresy muszą umożliwiać reakcję na ruchy kursora myszy po ich powierzchni, np. zawieszenie kursora na wycinku wykresu kołowego.
+
+\subsection{Interfejsy}
+Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~Qt~Quick~2. API dla języka C++ powinno możliwie dobrze wpisywać się w styl Qt opisany w artykule~\cite{qt-style-API}.
 
 \subsection{Dane}
 Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Opcjonalna jest implementacja dla danych pobieranych w formacie XML lub JSON. Biblioteka musi umożliwiać łatwe dodawanie, modyfikowanie i~usuwanie próbek danych.
 
 \subsection{Osie}
-Podstawową funkcjonalnością jest obsługa dwóch osi, jednej pionowej i jednej poziomej. Jednak implementacja nie powinna wykluczać obługi większej liczby osi. Ponadto ogólność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
+Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obługi większej liczby osi. Ponadto uniwersalność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
 
 \subsection{Efekty graficzne}
-Wszystkie opisane tu funkcjonalności są opcjonalne, a ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.\newline
-Biblioteka może udostępniać \textit{efekt 2,5D}. Kolejnym ciekawym dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Ostatnim dodatkiem może być możliwość animacji procesu tworzenia wykresu -- jest to element nadający aplikacjom dynamizmu. Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w formatach .PNG i~.SVG.
+Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.\newline
+Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności. Kolejnym ciekawym dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Ostatnim elementem może być możliwość animacji procesu tworzenia wykresu -- jest to element nadający aplikacjom dynamizmu. Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
 
 
 \section{Wymagania pozafunkcjonalne}
-\subsection{Obligatoryjne}
-Biblioteka musi:
-\begin{itemize}
-\item{być przenośna -- minimum to działanie na platformach Windows i Ubuntu,}
-\item{pozwalać na tworzenie atrakcyjnie i nowocześnie wyglądających wykresów 2D,}
-\item{posiadać interfejs C++ w stylu Qt~\cite{qt-style-API},}
-\item{posiadać interfejs dla Qt Quick.}
-\end{itemize}
 
-\subsection{Zalecane}
-Biblioteka powinna:
-\begin{itemize}
-\item{wymagać do działania jedynie biblioteki standardowej C++ oraz bibliotek Qt,}
-\item{wykorzystywać Qt w wersji 5,}
+\subsection{Przenośność}
+Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach Windows oraz Linux (Ubuntu).
 
-\end{itemize}
+\subsection{Struktura biblioteki}
+Biblioteka powinna mieć przejrzystą strukturę, która w~połączeniu z~dokumentacją w~stylu Qt (przykład tutaj~\cite{qt-doc}) powinna umożliwić programistom sprawne przeanalizowanie jej działania i~szybkie przystąpienie do tworzenia wykresów.
+
+\subsection{Wymienność biblioteki}
+Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie wymiennych bibliotek dynamicznych. Wprowadzenie nowej wersji biblioteki z~niezmienionym interfejsem nie powinno wymagać przebudowania całej aplikacji.
+
+\subsection{Nowoczesność i~uniwersalność}
+Biblioteka powinna wykorzystywać możliwie nowe technologie, m.in. Qt5. Jednak użycie standardu \textit{C++11} nie jest wskazane ze względu na ograniczenie liczby potencjalnych odbiorców. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
+
+
 
 
 \begin{thebibliography}{}
 \bibitem[1]{sacha-wymagania}
 Inżynieria oprogramowania -- rozdział 2, Krzysztof Sacha, Wydawnictwo Naukowe PWN, 2010, ISBN: 978-83-01-16179-8
-\bibitem[2]{qstyle}
-QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
-\bibitem[3]{qt-style-API}
+\bibitem[2]{qt-style-API}
 API w stylu Qt \url{http://doc.qt.digia.com/qq/qq13-apis.html}
+\bibitem[3]{qstyle}
+QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
+\bibitem[4]{qt-doc}
+Przykład dokumentacji Qt \url{http://qt-project.org/doc/qt-4.8/qobject.html}
 
 \end{thebibliography}
 
