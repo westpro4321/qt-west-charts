@@ -33,7 +33,14 @@ Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o~kolejne typ
 Powinno być możliwe tworzenie w jednym, wspólnym układzie współrzędnych kilku różnych wykresów, np. słupkowego i~liniowego.
 
 \subsubsection{Elementy dekoracyjne}
-Biblioteka musi udostępniać takie elementy wykresów jak legenda, siatka, tło i~osie, przy czym ich wyświetlaniem powinien sterować programista korzystający z biblioteki. Wszelkie właściwości wyświetlanych elementów reprezentujących próbki danych, takie jak kolor czy podpis, muszą być intuicyjne w obsłudze i~przyjmować sensowne domyślne wartości.
+Biblioteka musi udostępniać takie elementy wykresów jak:
+\begin{itemize}
+\item {legenda,}
+\item {siatka,}
+\item {tło,}
+\item {osie.}
+\end{itemize}
+ 
 
 \subsection{Interakcja}
 Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem.
@@ -55,7 +62,7 @@ Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~
 Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt opisany w artykule~\cite{qt-style-API}.
 
 \subsubsection{Interfejs QML}
-Interfejs ten powinien spełniać paradygmat programowania deklaratywnego.
+Interfejs ten powinien spełniać paradygmaty programowania deklaratywnego.
 
 \subsection{Dane}
 
@@ -67,31 +74,34 @@ Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać ser
 \subsection{Osie}
 
 \subsubsection{Liczba osi}
-Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obługi większej liczby osi. 
+Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obsługi większej liczby osi. 
 
-\subsubsection{Nieliniowość wykresu}
+\subsubsection{Nieliniowość dziedziny}
 Uniwersalność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
+
+\subsection{Przenośność}
+Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach:
+
+\begin{itemize}
+\item{Windows NT,}
+\item{Linux (Ubuntu).}
+\end{itemize}
+
 
 \subsection{Efekty graficzne}
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
 
 \subsubsection{Przestrzenność}
-Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności. 
+Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności (2,5D). 
 
 \subsubsection{Motywy}
 Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Z~jego pomocą, tworzenie zbioru wykresów o jednolitej kolorystyce i czcionkach stałoby się łatwe. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
 
 \subsubsection{Animacje}
-Ostatnim elementem może być możliwość animacji procesu tworzenia wykresu -- jest to element nadający aplikacjom dynamizmu. 
+Animacje procesu tworzenia lub modyfikowania wykresu -- jest to element nadający aplikacjom dynamizmu.
 
 \subsubsection{Generowanie obrazków}
 Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
-
-\subsection{Przenośność}
-Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach:
-
-\subsubsection{Windows NT}
-\subsubsection{Linux (Ubuntu)}
 
 
 \section{Wymagania pozafunkcjonalne}
@@ -110,12 +120,19 @@ Biblioteka powinna wykorzystywać możliwie nowe technologie, m.in. Qt5. Jednak 
 Jako, że okoliczności wykorzystania wykresów biurowych są znacząco inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
 
 \subsubsection{Wykresy w uk. współrzędnych}
-Wstępnie zakłada się, że operacje dokonywane na wykresach osadzonych w~układzie współrzędnych powinny działać względnie płynnie dla danych do tysiąca próbek. Nie jest wykluczona późnijesza optymalizacja
+Wstępnie zakłada się, że operacje dokonywane na wykresach osadzonych w~układzie współrzędnych powinny działać względnie płynnie dla danych do tysiąca próbek. Nie jest wykluczona późniejesza optymalizacja
 pozwalająca operować na większych ilościach danych.
 
-\subsubsection{Wykresy inne}
+\subsubsection{Inne wykresy}
 Wykresy inne, np. kołowy, nie powinny powodować ,,zamrażania aplikacji'' przy liczbie rekordów nie~przekraczającej 100. 
 
+\subsection{Niezawodność}
+Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w celu minimalizacji liczby błędów w kodzie, powinny zostać zastosowane testy, m.in. jednostkowe, regresyjne, itp. Zachowanie biblioteki w warunkach ekstremalnych, np. przepełnienia stosu, nie jest głównym celem projektu.
+
+%\subsubsection{Wiarygodnosć}
+
+\subsection{Skalowalność}
+Zarówno dodawanie nowych jak i~usuwanie już istniejących elementów biblioteki powinno być łatwe i~nie powinno mieć wpływu na stabilność pracy biblioteki. Dodawanie nowych elementów powinno być możliwe dzięki uniwersalnym interfejsom. Natomiast usuwanie istniejących elementów powinno sprowadzać się do wyłączenia ich z~procesu kompilacji biblioteki.
 
 \begin{thebibliography}{}
 \bibitem[1]{sacha-wymagania}
