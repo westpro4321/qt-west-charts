@@ -1,4 +1,4 @@
-\documentclass[11pt,twoside,a4paper,final]{llncs}
+\documentclass[11pt,twoside,a4paper,final]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[MeX]{polski}
@@ -13,39 +13,89 @@
 \title{Opis wymagań}
 
 \author{Łukasz Szewczyk}
-\institute{Politechnika Warszawska, Wydział Elektroniki i Technik Informacyjnych}
+
 \maketitle
 
 \section{Wymagania}
-,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców."~\cite{sacha-wymagania}
+,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców.''~\cite{sacha-wymagania}
 
 \section{Wymagania funkcjonalne}
 
 \subsection{Tworzenie wykresów}
-Biblioteka musi umożliwiać łatwe tworzenie wykresów 2D. Konieczne jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i~kołowego. Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o~kolejne typy wykresów, takie jak: bąbelkowy, punktowy czy pierścieniowy. Powinno być możliwe tworzenie kilku wykresów w jednym układzie współrzędnych, np. słupkowy i~liniowy.
-Biblioteka musi udostępniać takie elementy wykresów jak legenda, siatka, tło i~osie, przy czym ich wyświetlaniem powinien sterować programista korzystający z biblioteki. Wszelkie właściwości wyświetlanych elementów reprezentujących próbki danych, takie jak kolor czy podpis, muszą być proste w obsłudze i~przyjmować sensowne domyślne wartości.
+
+\subsubsection{Podstawowe wykresy 2D}
+Konieczne jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i~kołowego. 
+
+\subsubsection{Mniej standardowe wykresy}
+Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o~kolejne typy wykresów, takie jak: bąbelkowy, punktowy czy pierścieniowy.
+
+\subsubsection{Łączenie wykresów}
+Powinno być możliwe tworzenie w jednym, wspólnym układzie współrzędnych kilku różnych wykresów, np. słupkowego i~liniowego.
+
+\subsubsection{Elementy dekoracyjne}
+Biblioteka musi udostępniać takie elementy wykresów jak legenda, siatka, tło i~osie, przy czym ich wyświetlaniem powinien sterować programista korzystający z biblioteki. Wszelkie właściwości wyświetlanych elementów reprezentujących próbki danych, takie jak kolor czy podpis, muszą być intuicyjne w obsłudze i~przyjmować sensowne domyślne wartości.
 
 \subsection{Interakcja}
-Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem, i tak dla wykresów osadzonych w kartezjańskim układzie współrzędnych powinno być możliwe zaznaczanie i przybliżanie ich fragmentów. Z kolei dla wykresów kołowego i pierścieniowego powinna istnieć opcja obracania ich. Wykresy muszą umożliwiać reakcję na ruchy kursora myszy po ich powierzchni, np. zawieszenie kursora na wycinku wykresu kołowego.
+Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem.
+
+\subsubsection{Reaktywność}
+Wykresy muszą umożliwiać reakcję na wszelkie zdarzenia, np. zawieszenie kursora na wycinku wykresu kołowego czy wciśnięcie klawisza na klawiaturze.
+
+\subsubsection{Wykresy w uk. współrzędnych} 
+Dla wykresów osadzonych w kartezjańskim układzie współrzędnych powinno być możliwe zaznaczanie i przybliżanie ich fragmentów. 
+
+\subsubsection{Wykresy inne} 
+Dla pozostałych wykresów powinne być dostępne operacje zgodne z ich naturą, np. dla wykresów kołowego i pierścieniowego powinna istnieć opcja obracania ich. 
+
 
 \subsection{Interfejsy}
-Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~Qt~Quick~2. API dla języka C++ powinno możliwie dobrze wpisywać się w styl Qt opisany w artykule~\cite{qt-style-API}.
+Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~Qt~Quick~2. 
+
+\subsubsection{Interfejs C++}
+Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt opisany w artykule~\cite{qt-style-API}.
+
+\subsubsection{Interfejs QML}
+Interfejs ten powinien spełniać paradygmat programowania deklaratywnego.
 
 \subsection{Dane}
-Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Opcjonalna jest implementacja dla danych pobieranych w formacie XML lub JSON. Biblioteka musi umożliwiać łatwe dodawanie, modyfikowanie i~usuwanie próbek danych.
+
+\subsubsection{Uniwersalny interfejs}
+Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Operacje dodawania, modyfikowania i~usuwania próbek danych powinny być możliwie proste dla użytkownika.
+
+\subsubsection{Implementacja interfejsu} Opcjonalna jest implementacja dla danych pobieranych w formacie XML lub JSON.
 
 \subsection{Osie}
-Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obługi większej liczby osi. Ponadto uniwersalność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
+
+\subsubsection{Liczba osi}
+Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obługi większej liczby osi. 
+
+\subsubsection{Nieliniowość wykresu}
+Uniwersalność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
 
 \subsection{Efekty graficzne}
-Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.\newline
-Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności. Kolejnym ciekawym dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Ostatnim elementem może być możliwość animacji procesu tworzenia wykresu -- jest to element nadający aplikacjom dynamizmu. Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
+Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
+
+\subsubsection{Przestrzenność}
+Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności. 
+
+\subsubsection{Motywy}
+Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Z~jego pomocą, tworzenie zbioru wykresów o jednolitej kolorystyce i czcionkach stałoby się łatwe. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
+
+\subsubsection{Animacje}
+Ostatnim elementem może być możliwość animacji procesu tworzenia wykresu -- jest to element nadający aplikacjom dynamizmu. 
+
+\subsubsection{Generowanie obrazków}
+Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
+
+\subsection{Przenośność}
+Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach:
+
+\subsubsection{Windows NT}
+\subsubsection{Linux (Ubuntu)}
 
 
 \section{Wymagania pozafunkcjonalne}
 
-\subsection{Przenośność}
-Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach Windows oraz Linux (Ubuntu).
 
 \subsection{Struktura biblioteki}
 Biblioteka powinna mieć przejrzystą strukturę, która w~połączeniu z~dokumentacją w~stylu Qt (przykład tutaj~\cite{qt-doc}) powinna umożliwić programistom sprawne przeanalizowanie jej działania i~szybkie przystąpienie do tworzenia wykresów.
@@ -56,7 +106,15 @@ Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie wymiennyc
 \subsection{Nowoczesność i~uniwersalność}
 Biblioteka powinna wykorzystywać możliwie nowe technologie, m.in. Qt5. Jednak użycie standardu \textit{C++11} nie jest wskazane ze względu na ograniczenie liczby potencjalnych odbiorców. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
 
+\subsection{Wydajność}
+Jako, że okoliczności wykorzystania wykresów biurowych są znacząco inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
 
+\subsubsection{Wykresy w uk. współrzędnych}
+Wstępnie zakłada się, że operacje dokonywane na wykresach osadzonych w~układzie współrzędnych powinny działać względnie płynnie dla danych do tysiąca próbek. Nie jest wykluczona późnijesza optymalizacja
+pozwalająca operować na większych ilościach danych.
+
+\subsubsection{Wykresy inne}
+Wykresy inne, np. kołowy, nie powinny powodować ,,zamrażania aplikacji'' przy liczbie rekordów nie~przekraczającej 100. 
 
 
 \begin{thebibliography}{}
