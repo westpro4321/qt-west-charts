@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\date{13 lutego 2013}
+\date{14 maja 2013}
 \title{Opis wymagań}
 
 \author{Łukasz Szewczyk}
@@ -20,40 +20,125 @@
 ,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców.''~\cite{sacha-wymagania}
 
 \section{Wymagania funkcjonalne}
-
-\subsection{Tworzenie wykresów}
-
-\subsubsection{Podstawowe wykresy 2D}
-Konieczne jest udostępnienie najpopularniejszych wykresów biurowych, czyli: słupkowego, liniowego i~kołowego. 
-
-\subsubsection{Mniej standardowe wykresy}
-Dodatkowo powinno być możliwe stopniowe uzupełnianie biblioteki o~kolejne typy wykresów, takie jak: bąbelkowy, punktowy czy pierścieniowy.
-
-\subsubsection{Łączenie wykresów}
-Powinno być możliwe tworzenie w jednym, wspólnym układzie współrzędnych kilku różnych wykresów, np. słupkowego i~liniowego.
-
-\subsubsection{Elementy dekoracyjne}
-Biblioteka musi udostępniać takie elementy wykresów jak:
+\subsection{Wykres liniowy}
+\subsubsection{Tworzenie wykresu}
+Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z~jednej bądź kilku serii danych. Na wykres liniowy składają się:
 \begin{itemize}
-\item {legenda,}
-\item {siatka,}
-\item {tło,}
-\item {osie.}
+\item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej, odpowiadającej dziedzinie i jednej pionowej, odpowiadającej zbiorowi wartości,}
+\item{serie danych,}
+\item{krzywe łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę, domyślnie pobieraną z serii danych doń przypisanej, oraz unikalny w~danym wykresie kolor,}
+\item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie, wzrokowe porównywanie danych,}
+\item{tytuł wykresu,}
+\item{tytuły osi,}
+\item{legenda,}
+\item{tło.}
 \end{itemize}
- 
 
-\subsection{Interakcja}
-Wykresy tworzone za pomocą biblioteki muszą być nastawione na interakcję z użytkownikiem.
+Wyświetlanie każdego z~elementów powinno być opcjonalne. 
+\subsubsection{Modyfikacja stanu wykresu}
+Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
+\begin{itemize}
+\item{zawartość serii danych,}
+\item{kolor krzywej,}
+\item{nazwa krzywej (serii danych),}
+\item{opis osi,}
+\item{kolor siatki,}
+\item{ziarnistość siatki,}
+\item{kolor/grafika tła.}
+\end{itemize}
 
-\subsubsection{Reaktywność}
+\subsubsection{Dostępne operacje}
+Operacje, które powinny być dostępne dla wykresu liniowego:
+\begin{itemize}
+\item{przybliżanie i oddalanie,}
+\item{zaznaczanie przedziałów dziedziny,}
+\item{zaznaczanie pojedynczej próbki danych,}
+\item{zaznaczenie krzywej.}
+\end{itemize}
+
+\subsection{Wykres słupkowy}
+\subsubsection{Tworzenie wykresu}
+Biblioteka musi umożliwiać utworzenie wykresu słupkowego prezentującego dane z~jednej bądź kilku serii danych. Wykres ten ma przyjmować jedną z~dwóch orientacji: horyzontalną bądź wertykalną. Wertykalny wykres słupkowy jest czasem nazywany wykresem kolumnowym. Na wykres słupkowy składają się:
+\begin{itemize}
+\item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej i jednej pionowej, z których jedna odpowiada dyskretnej dziedzinie, a inna ciągłemu zbiorowi wartości,}
+\item{serie danych,}
+\item{prostokątne słupki o długości proporcjonalnej do reprezentowanej wartości. Kolor wszystkich słupków z~danej serii danych jest jednakowy i unikalny w skali wykresu,}
+\item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie porównywanie danych,}
+\item{tytuł wykresu,}
+\item{tytuły osi,}
+\item{legenda,}
+\item{tło.}
+\end{itemize}
+
+Wyświetlanie każdego z~elementów powinno być opcjonalne. 
+\subsubsection{Modyfikacja stanu wykresu}
+Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
+\begin{itemize}
+\item{zawartość serii danych,}
+\item{kolor grupy słupków (serii danych),}
+\item{nazwa grupy słupków (serii danych),}
+\item{opis osi,}
+\item{kolor siatki,}
+\item{ziarnistość siatki,}
+\item{kolor/grafika tła.}
+\end{itemize}
+
+\subsubsection{Dostępne operacje}
+Operacje, które powinny być dostępne dla wykresu słupkowego:
+\begin{itemize}
+\item{przybliżanie i oddalanie,}
+\item{zaznaczanie przedziałów dziedziny,}
+\item{zaznaczanie pojedynczego słupka,}
+\item{zaznaczenie grupy słupków.}
+\end{itemize}
+
+
+\subsection{Wykres kołowy}
+\subsubsection{Tworzenie wykresu}
+Biblioteka musi umożliwiać utworzenie wykresu kołowego prezentującego dane z~jednej serii danych. Na wykres kołowy składają się:
+\begin{itemize}
+\item{serie danych}
+\item{wycinki kołowe o~wspólnym środku, których kąt środkowy jest proporcjonalny do reprezentowanej wartości. Suma kątów środkowych wszystkich wycinków wynosi 360 stopni. Kolor danego wycinka jest unikalny w skali wykresu.}
+\item{tytuł wykresu,}
+\item{opis próbek,}
+\item{legenda,}
+\item{tło.}
+\end{itemize}
+
+Wyświetlanie każdego z~elementów powinno być opcjonalne. 
+
+\subsubsection{Modyfikacja stanu wykresu}
+Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
+\begin{itemize}
+\item{zawartość serii danych,}
+\item{kolor wycinka (próbki danych),}
+\item{tytuł próbki,}
+\item{opis próbki,}
+\item{kolor/grafika tła.}
+\end{itemize}
+
+\subsubsection{Dostępne operacje}
+Operacje, które powinny być dostępne dla wykresu kołowego:
+\begin{itemize}
+\item{obracanie wykresu,}
+\item{wysuwanie wycinka.}
+\end{itemize}
+
+\subsection{Elementy składowe wykresu}
+\subsubsection{Serie danych}
+Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Operacje dodawania, modyfikowania i~usuwania próbek danych powinny być możliwie proste dla użytkownika
+\subsubsection{Legenda}
+Dla wykresów obsługujących wiele serii danych, powinna prezentować kolory oraz tytuły tych serii.
+Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o kolorze i tytule każdej z próbek.
+\subsubsection{Siatka}
+Element składający się ze zbioru prostopadłych linii, ułatwiający porównywanie danych różnych próbek. Powinna istnieć możliwość określenia grubości i~koloru linii oraz ziarnistości samej siatki.
+\subsubsection{Osie}	
+\subsubsection{Tło}
+Tłem wykresu może być kolor, gradient bądź obrazek.
+
+\subsection{Reaktywność}
+TODO: DUPA!!!
 Wykresy muszą umożliwiać reakcję na wszelkie zdarzenia, np. zawieszenie kursora na wycinku wykresu kołowego czy wciśnięcie klawisza na klawiaturze.
-
-\subsubsection{Wykresy w uk. współrzędnych} 
-Dla wykresów osadzonych w kartezjańskim układzie współrzędnych powinno być możliwe zaznaczanie i przybliżanie ich fragmentów. 
-
-\subsubsection{Wykresy inne} 
-Dla pozostałych wykresów powinne być dostępne operacje zgodne z ich naturą, np. dla wykresów kołowego i pierścieniowego powinna istnieć opcja obracania ich. 
-
 
 \subsection{Interfejsy}
 Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~Qt~Quick~2. 
@@ -64,28 +149,6 @@ Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt 
 \subsubsection{Interfejs QML}
 Interfejs ten powinien spełniać paradygmaty programowania deklaratywnego.
 
-\subsection{Dane}
-
-\subsubsection{Uniwersalny interfejs}
-Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Operacje dodawania, modyfikowania i~usuwania próbek danych powinny być możliwie proste dla użytkownika.
-
-\subsubsection{Implementacja interfejsu} Opcjonalna jest implementacja dla danych pobieranych w formacie XML lub JSON.
-
-\subsection{Osie}
-
-\subsubsection{Liczba osi}
-Podstawową funkcjonalnością jest obsługa dwóch osi -- jednej pionowej i~jednej poziomej. Jednak implementacja nie powinna wykluczać obsługi większej liczby osi. 
-
-\subsubsection{Nieliniowość dziedziny}
-Uniwersalność interfejsów powinna umożliwiać wprowadzenie w~późniejszym czasie osi innych niż liniowa.
-
-\subsection{Przenośność}
-Biblioteka musi wpisywać się w politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na najpopularniejszych, wspieranych przez Qt platformach. Minimum to uruchomienie na platformach:
-
-\begin{itemize}
-\item{Windows NT,}
-\item{Linux (Ubuntu).}
-\end{itemize}
 
 
 \subsection{Efekty graficzne}
@@ -104,6 +167,7 @@ Animacje procesu tworzenia lub modyfikowania wykresu -- jest to element nadając
 Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
 
 
+
 \section{Wymagania pozafunkcjonalne}
 
 
@@ -119,12 +183,12 @@ Biblioteka powinna wykorzystywać możliwie nowe technologie, m.in. Qt5. Jednak 
 \subsection{Wydajność}
 Jako, że okoliczności wykorzystania wykresów biurowych są znacząco inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
 
-\subsubsection{Wykresy w uk. współrzędnych}
+\subsubsection{Wydajność wykresów w uk. współrzędnych}
 Wstępnie zakłada się, że operacje dokonywane na wykresach osadzonych w~układzie współrzędnych powinny działać względnie płynnie dla danych do tysiąca próbek. Nie jest wykluczona późniejesza optymalizacja
-pozwalająca operować na większych ilościach danych.
+pozwalająca komfortowo operować na większych ilościach danych.
 
-\subsubsection{Inne wykresy}
-Wykresy inne, np. kołowy, nie powinny powodować ,,zamrażania aplikacji'' przy liczbie rekordów nie~przekraczającej 100. 
+\subsubsection{Wydajność wykresu kołowego}
+Wykres kołowy, nie powinien powodować ,,zamrażania aplikacji'' przy liczbie próbek nie~przekraczającej 100. 
 
 \subsection{Niezawodność}
 Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w celu minimalizacji liczby błędów w kodzie, powinny zostać zastosowane testy, m.in. jednostkowe, regresyjne, itp. Zachowanie biblioteki w warunkach ekstremalnych, np. przepełnienia stosu, nie jest głównym celem projektu.
