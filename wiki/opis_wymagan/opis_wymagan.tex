@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\date{14 maja 2013}
+\date{19 maja 2013}
 \title{Opis wymagań}
 
 \author{Łukasz Szewczyk}
@@ -28,6 +28,7 @@ Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z
 \item{serie danych,}
 \item{krzywe łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę oraz unikalny w~danym wykresie kolor,}
 \item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie, wzrokowe porównywanie danych,}
+\item{tytuły krzywych,}
 \item{tytuł wykresu,}
 \item{tytuły osi,}
 \item{legenda,}
@@ -36,14 +37,13 @@ Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z
 
 Wyświetlanie każdego z~elementów powinno być opcjonalne. 
 \subsubsection{Modyfikacja stanu wykresu}
-Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
+Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące elementy:
 \begin{itemize}
 \item{zawartość serii danych,}
 \item{kolor krzywej,}
-\item{nazwa krzywej (serii danych),}
+\item{nazwa krzywej,}
 \item{dowolny z~parametrów osi,}
-\item{kolor siatki,}
-\item{ziarnistość siatki,}
+\item{dowolny z~parametrów siatki,}
 \item{kolor/grafika tła.}
 \end{itemize}
 
@@ -63,8 +63,8 @@ Biblioteka musi umożliwiać utworzenie wykresu słupkowego prezentującego dane
 \begin{itemize}
 \item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej i jednej pionowej, z których jedna odpowiada dyskretnej dziedzinie, a inna ciągłemu zbiorowi wartości,}
 \item{serie danych,}
-\item{prostokątne słupki o długości proporcjonalnej do reprezentowanej wartości. Kolor wszystkich słupków z~danej serii danych jest jednakowy i unikalny w skali wykresu,}
-\item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie porównywanie danych,}
+\item{prostokątne słupki o~wysokości proporcjonalnej do reprezentowanej wartości. Kolor wszystkich słupków z~danej serii danych jest jednakowy i~unikalny w skali wykresu,}
+\item{siatka,}
 \item{tytuł wykresu,}
 \item{tytuły osi,}
 \item{legenda,}
@@ -73,14 +73,13 @@ Biblioteka musi umożliwiać utworzenie wykresu słupkowego prezentującego dane
 
 Wyświetlanie każdego z~elementów powinno być opcjonalne. 
 \subsubsection{Modyfikacja stanu wykresu}
-Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
+Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące elementy:
 \begin{itemize}
 \item{zawartość serii danych,}
-\item{kolor grupy słupków (serii danych),}
-\item{nazwa grupy słupków (serii danych),}
+\item{kolor grupy słupków,}
+\item{nazwa grupy słupków,}
 \item{dowolny z~parametrów osi,}
-\item{kolor siatki,}
-\item{ziarnistość siatki,}
+\item{dowolny z~parametrów siatki,}
 \item{kolor/grafika tła.}
 \end{itemize}
 
@@ -99,7 +98,7 @@ Operacje, które powinny być dostępne dla wykresu słupkowego:
 \subsubsection{Tworzenie wykresu}
 Biblioteka musi umożliwiać utworzenie wykresu kołowego prezentującego dane z~jednej serii danych. Na wykres kołowy składają się:
 \begin{itemize}
-\item{serie danych}
+\item{seria danych}
 \item{wycinki kołowe o~wspólnym środku, których kąt środkowy jest proporcjonalny do reprezentowanej wartości. Suma kątów środkowych wszystkich wycinków wynosi 360 stopni. Kolor danego wycinka jest unikalny w skali wykresu.}
 \item{tytuł wykresu,}
 \item{opis próbek,}
@@ -113,8 +112,8 @@ Wyświetlanie każdego z~elementów powinno być opcjonalne.
 Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następujące parametry:
 \begin{itemize}
 \item{zawartość serii danych,}
-\item{kolor wycinka (próbki danych),}
-\item{tytuł próbki,}
+\item{kolor wycinka,}
+\item{podpis wycinka,}
 \item{opis próbki,}
 \item{kolor/grafika tła.}
 \end{itemize}
@@ -132,7 +131,7 @@ Operacje, które powinny być dostępne dla wykresu kołowego:
 Biblioteka musi obsługiwać próbki oraz serie danych. Każda z~próbek powinna posiadać następujące parametry:
 \begin{itemize}
 \item{wartość z~dziedziny (w~zależności od dziedziny, może to być liczba, ciąg znaków lub data),}
-\item{wartości liczbowa, która będzie prezenetowana w postaci, np. słupka,}
+\item{wartości liczbowa, która będzie prezentowana, np. w postaci słupka,}
 \item{opcjonalnie tytuł próbki (wyświetlany w~legendzie).}
 \end{itemize}
 
