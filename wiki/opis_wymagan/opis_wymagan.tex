@@ -22,11 +22,11 @@
 \section{Wymagania funkcjonalne}
 \subsection{Wykres liniowy}
 \subsubsection{Tworzenie wykresu}
-Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z~jednej bądź kilku serii danych. Na wykres liniowy składają się:
+Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z~jednej lub kilku serii danych. Na wykres liniowy składają się:
 \begin{itemize}
 \item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej, odpowiadającej dziedzinie i jednej pionowej, odpowiadającej zbiorowi wartości,}
 \item{serie danych,}
-\item{krzywe łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę, domyślnie pobieraną z serii danych doń przypisanej, oraz unikalny w~danym wykresie kolor,}
+\item{krzywe łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę oraz unikalny w~danym wykresie kolor,}
 \item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie, wzrokowe porównywanie danych,}
 \item{tytuł wykresu,}
 \item{tytuły osi,}
@@ -41,7 +41,7 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \item{zawartość serii danych,}
 \item{kolor krzywej,}
 \item{nazwa krzywej (serii danych),}
-\item{opis osi,}
+\item{dowolny z~parametrów osi,}
 \item{kolor siatki,}
 \item{ziarnistość siatki,}
 \item{kolor/grafika tła.}
@@ -50,7 +50,8 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \subsubsection{Dostępne operacje}
 Operacje, które powinny być dostępne dla wykresu liniowego:
 \begin{itemize}
-\item{przybliżanie i oddalanie,}
+\item{skalowanie,}
+\item{zoom,}
 \item{zaznaczanie przedziałów dziedziny,}
 \item{zaznaczanie pojedynczej próbki danych,}
 \item{zaznaczenie krzywej.}
@@ -58,7 +59,7 @@ Operacje, które powinny być dostępne dla wykresu liniowego:
 
 \subsection{Wykres słupkowy}
 \subsubsection{Tworzenie wykresu}
-Biblioteka musi umożliwiać utworzenie wykresu słupkowego prezentującego dane z~jednej bądź kilku serii danych. Wykres ten ma przyjmować jedną z~dwóch orientacji: horyzontalną bądź wertykalną. Wertykalny wykres słupkowy jest czasem nazywany wykresem kolumnowym. Na wykres słupkowy składają się:
+Biblioteka musi umożliwiać utworzenie wykresu słupkowego prezentującego dane z~jednej lub kilku serii danych. Wykres ten ma przyjmować jedną z~dwóch orientacji: horyzontalną bądź wertykalną. Wertykalny wykres słupkowy jest czasem nazywany wykresem kolumnowym. Na wykres słupkowy składają się:
 \begin{itemize}
 \item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej i jednej pionowej, z których jedna odpowiada dyskretnej dziedzinie, a inna ciągłemu zbiorowi wartości,}
 \item{serie danych,}
@@ -77,7 +78,7 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \item{zawartość serii danych,}
 \item{kolor grupy słupków (serii danych),}
 \item{nazwa grupy słupków (serii danych),}
-\item{opis osi,}
+\item{dowolny z~parametrów osi,}
 \item{kolor siatki,}
 \item{ziarnistość siatki,}
 \item{kolor/grafika tła.}
@@ -86,7 +87,8 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \subsubsection{Dostępne operacje}
 Operacje, które powinny być dostępne dla wykresu słupkowego:
 \begin{itemize}
-\item{przybliżanie i oddalanie,}
+\item{skalowanie,}
+\item{zoom,}
 \item{zaznaczanie przedziałów dziedziny,}
 \item{zaznaczanie pojedynczego słupka,}
 \item{zaznaczenie grupy słupków.}
@@ -120,28 +122,47 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \subsubsection{Dostępne operacje}
 Operacje, które powinny być dostępne dla wykresu kołowego:
 \begin{itemize}
+\item{skalowanie,}
 \item{obracanie wykresu,}
-\item{wysuwanie wycinka.}
+\item{wysuwanie wycinków.}
 \end{itemize}
 
 \subsection{Elementy składowe wykresu}
 \subsubsection{Serie danych}
-Biblioteka musi zapewniać uniwersalny interfejs do danych oraz obsługiwać serie danych. Operacje dodawania, modyfikowania i~usuwania próbek danych powinny być możliwie proste dla użytkownika
+Biblioteka musi obsługiwać próbki oraz serie danych. Każda z~próbek powinna posiadać następujące parametry:
+\begin{itemize}
+\item{wartość z~dziedziny (w~zależności od dziedziny, może to być liczba, ciąg znaków lub data),}
+\item{wartości liczbowa, która będzie prezenetowana w postaci, np. słupka,}
+\item{opcjonalnie tytuł próbki (wyświetlany w~legendzie).}
+\end{itemize}
+
+Wymagane są operacje dodawania, modyfikowania i~usuwania danych z~serii. Każda z tych operacji powinna skutkować aktualizacją wykresu powiązanego z~daną serią.
+  
 \subsubsection{Legenda}
 Dla wykresów obsługujących wiele serii danych, powinna prezentować kolory oraz tytuły tych serii.
-Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o kolorze i tytule każdej z próbek.
+Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o kolorze i tytule każdej z próbek. Legenda powinna reagować na zmianę stanu wykresu, w~szczególności na zmianę danych.
+
 \subsubsection{Siatka}
 Element składający się ze zbioru prostopadłych linii, ułatwiający porównywanie danych różnych próbek. Powinna istnieć możliwość określenia grubości i~koloru linii oraz ziarnistości samej siatki.
-\subsubsection{Osie}	
+
+\subsubsection{Osie}
+Oś ma być reprezentowana przez odcinek o~jednym z~końców zaznaczonym strzałką. Odcinek ten ma być przecinany krótkimi, prostopadłymi odcinkami oznaczającymi kolejne wartości z przypisanej do osi serii. Takie znaki na osi zwane są tick-ami. Każdy z~tick-ów powinien posiadać podpis.
+Powinna być możliwość zmiany następujących parametrów osi:
+\begin{itemize}
+\item{kolor,}
+\item{grubość,}
+\item{tytuł,}
+\item{widoczność tytułu,}
+\item{widoczność podpisów tick-ów.}
+\end{itemize}
+
+Dla dwóch osi tworzących układ współrzędnych powinna istnieć możliwość ustalenia punktu przecięcia innego niż (0,0). 
+
 \subsubsection{Tło}
 Tłem wykresu może być kolor, gradient bądź obrazek.
 
-\subsection{Reaktywność}
-TODO: DUPA!!!
-Wykresy muszą umożliwiać reakcję na wszelkie zdarzenia, np. zawieszenie kursora na wycinku wykresu kołowego czy wciśnięcie klawisza na klawiaturze.
-
 \subsection{Interfejsy}
-Biblioteka musi umożliwiać tworzenie wykresów zarówno w~klasycznym Qt jak i~Qt~Quick~2. 
+Głównym celem mojej pracy inżynierskiej jest stworzenie uniwersalnego silnika do tworzenia wykresów. Tym niemniej możliwe i~porządane jest stworzenie dwóch przykładowych interfejsów wykorzystujących nowopowstały silnik. Potencjalne interfejsy powinny powstać zarówno dla klasycznego Qt jak i~Qt~Quick~2. 
 
 \subsubsection{Interfejs C++}
 Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt opisany w artykule~\cite{qt-style-API}.
@@ -149,22 +170,17 @@ Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt 
 \subsubsection{Interfejs QML}
 Interfejs ten powinien spełniać paradygmaty programowania deklaratywnego.
 
-
-
 \subsection{Efekty graficzne}
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
-
-\subsubsection{Przestrzenność}
-Biblioteka może w~jakiś sposób nadawać wykresom głębi i~wrażenia przestrzenności (2,5D). 
 
 \subsubsection{Motywy}
 Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Z~jego pomocą, tworzenie zbioru wykresów o jednolitej kolorystyce i czcionkach stałoby się łatwe. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
 
 \subsubsection{Animacje}
-Animacje procesu tworzenia lub modyfikowania wykresu -- jest to element nadający aplikacjom dynamizmu.
+Powinno być możliwe animowanie procesu budowania wykresu. Mechanizm ten powinien korzystać z~dostępnego API Qt\cite{qt-anim} i~działać w~sposób spójny z~już istniejącym framework-iem.
 
-\subsubsection{Generowanie obrazków}
-Łatwym powinno być generowanie plików graficznych na podstawie istniejących wykresów, np. w~formatach .PNG i~.SVG.
+\subsubsection{Generowanie grafik}
+Powinno być możliwe generowanie plików graficznych na podstawie istniejących wykresów w~formatach .PNG i~.SVG.
 
 
 
@@ -202,11 +218,14 @@ Zarówno dodawanie nowych jak i~usuwanie już istniejących elementów bibliotek
 \bibitem[1]{sacha-wymagania}
 Inżynieria oprogramowania -- rozdział 2, Krzysztof Sacha, Wydawnictwo Naukowe PWN, 2010, ISBN: 978-83-01-16179-8
 \bibitem[2]{qt-style-API}
-API w stylu Qt \url{http://doc.qt.digia.com/qq/qq13-apis.html}
+API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
 \bibitem[3]{qstyle}
 QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
-\bibitem[4]{qt-doc}
+\bibitem[4]{qt-anim}
+Animacje w~Qt \url{http://doc.qt.digia.com/4.7/animation-overview.html}
+\bibitem[5]{qt-doc}
 Przykład dokumentacji Qt \url{http://qt-project.org/doc/qt-4.8/qobject.html}
+
 
 \end{thebibliography}
 
