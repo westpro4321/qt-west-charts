@@ -26,7 +26,7 @@ Biblioteka musi umożliwiać utworzenie wykresu liniowego prezentującego dane z
 \begin{itemize}
 \item{układ współrzędnych, zbudowany na dwóch osiach -- jednej poziomej, odpowiadającej dziedzinie i jednej pionowej, odpowiadającej zbiorowi wartości,}
 \item{serie danych,}
-\item{krzywe łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę oraz unikalny w~danym wykresie kolor,}
+\item{łamane prezentujące dane z~serii dostarczonych do wykresu, posiadające nazwę oraz unikalny w~danym wykresie kolor,}
 \item{siatka, czyli zbiór prostopadłych linii dopasowanych do osi, ułatwiających szybkie, wzrokowe porównywanie danych,}
 \item{tytuły krzywych,}
 \item{tytuł wykresu,}
@@ -52,9 +52,9 @@ Operacje, które powinny być dostępne dla wykresu liniowego:
 \begin{itemize}
 \item{skalowanie,}
 \item{zoom,}
-\item{zaznaczanie przedziałów dziedziny,}
-\item{zaznaczanie pojedynczej próbki danych,}
-\item{zaznaczenie krzywej.}
+\item{zaznaczenie przedziałów dziedziny,}
+\item{zaznaczenie wierzchołków łamanej,}
+\item{zaznaczenie łamanych.}
 \end{itemize}
 
 \subsection{Wykres słupkowy}
@@ -88,8 +88,8 @@ Operacje, które powinny być dostępne dla wykresu słupkowego:
 \begin{itemize}
 \item{skalowanie,}
 \item{zoom,}
-\item{zaznaczanie przedziałów dziedziny,}
-\item{zaznaczanie pojedynczego słupka,}
+\item{zaznaczenie przedziałów dziedziny,}
+\item{zaznaczenie słupków,}
 \item{zaznaczenie grupy słupków.}
 \end{itemize}
 
@@ -122,8 +122,10 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 Operacje, które powinny być dostępne dla wykresu kołowego:
 \begin{itemize}
 \item{skalowanie,}
+\item{zaznaczenie wycinków,}
+\item{zaznaczenie całego wykresu,}
 \item{obracanie wykresu,}
-\item{wysuwanie wycinków.}
+\item{przesuwanie wycinków.}
 \end{itemize}
 
 \subsection{Elementy składowe wykresu}
@@ -131,9 +133,11 @@ Operacje, które powinny być dostępne dla wykresu kołowego:
 Biblioteka musi obsługiwać próbki oraz serie danych. Każda z~próbek powinna posiadać następujące parametry:
 \begin{itemize}
 \item{wartość z~dziedziny (w~zależności od dziedziny, może to być liczba, ciąg znaków lub data),}
-\item{wartości liczbowa, która będzie prezentowana, np. w postaci słupka,}
+\item{co najmniej jedną wartość liczbową, która będzie prezentowana, np. w postaci słupka,}
 \item{opcjonalnie tytuł próbki (wyświetlany w~legendzie).}
 \end{itemize}
+
+Seria danych powinna zawierać posortowany zbiór próbek oraz tytuł.
 
 Wymagane są operacje dodawania, modyfikowania i~usuwania danych z~serii. Każda z tych operacji powinna skutkować aktualizacją wykresu powiązanego z~daną serią.
   
@@ -160,6 +164,29 @@ Dla dwóch osi tworzących układ współrzędnych powinna istnieć możliwość
 \subsubsection{Tło}
 Tłem wykresu może być kolor, gradient bądź obrazek.
 
+\subsection{Operacje na wykresach}
+\subsubsection{Skalowanie}
+Każdy z~wykresów powinien przyjmować sensowny domyślny rozmiar. Jednocześnie powinna istnieć możliwość zmiany jego wymiarów oraz skalowania całego wykresu.
+
+\subsubsection{Zoom}
+Musi istnieć możliwość przybliżenia konkretnego fragmentu wykresu. Przybliżanie powinno być możliwe dla jednej z osi bądź dla obu jednocześnie. Oddalanie jako operacja symetryczna również powinna być dostępna.
+
+\subsubsection{Zaznaczanie przedziałów dziedziny}
+Powinno być możliwe zaznaczenie elementów z~zadanego przedziału dziedziny. Zaznaczenie powinno być widoczne przez narysowanie przezroczystego prostokąta pokrywającego wszystkie żądane elementy i~tylko te elementy. Kolor prostokąta i~poziom jego przezroczystości powinny być konfigurowalne.
+
+\subsubsection{Zaznaczenie wierzchołków łamanej, słupków lub wycinków}
+Dla wykresu liniowego zaznaczenie będzie sygnalizowane poprzez narysowanie okręgu wokół wybranych wierzchołków łamanej. Z~kolei dla dla wykresół słupkowego i~kołowego będzie to narysowanie przylegającej ramki wokół odpowiednio słupków lub wycinków. Grubość i~kolor obramowań powinny być konfigurowalne.
+
+\subsubsection{Zaznaczenie łamanych, grupy słupków lub wykresu kołowego}
+Powinna istnieć możliwość zaznaczenia wszystkich elementów rezprezentujących dane z~wybranej serii. Dla wykresu liniowego będzie to łamana, dla słupkówego grupa słupków, a dla kołowego cały wykres. Zaznaczenie wybranych elementów powinno skutkować obrysowaniem ich przylegającą ramką.
+Grubość i~kolor obramowań powinny być konfigurowalne.
+
+\subsubsection{Obracanie wykresu}
+Powinna być możliwość obracania wykresu kołowego względem jego środka.
+
+\subsubsection{Przesuwanie wycinków}
+Powinna istnieć możliwość przesuwania wycinków wzdłuż prostej wyznaczonej przez promień dzielący wycinek na połowy. Powinna być przyjmowana nieujemna liczba pixeli, o którą wycinek powinien zostać przesunięty względem środka. Proces przesuwania wycinków powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt.
+ 
 \subsection{Interfejsy}
 Głównym celem mojej pracy inżynierskiej jest stworzenie uniwersalnego silnika do tworzenia wykresów. Tym niemniej możliwe i~porządane jest stworzenie dwóch przykładowych interfejsów wykorzystujących nowopowstały silnik. Potencjalne interfejsy powinny powstać zarówno dla klasycznego Qt jak i~Qt~Quick~2. 
 
