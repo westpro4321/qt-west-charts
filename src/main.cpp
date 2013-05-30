@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include <QPointF>
 #include <QDebug>
+#include <QPainter>
 
 #include "qoc_data_series.h"
 
@@ -24,6 +25,8 @@ int main(int argc, char *argv[])
 	qDebug() << series.samples();
 
 	mw.show();
+
+
 	return a.exec();
 }
 
