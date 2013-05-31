@@ -3,7 +3,9 @@
 #include <QPointF>
 #include <QDebug>
 #include <QPainter>
+#include <QVBoxLayout>
 
+#include "testwidget.h"
 #include "qoc_data_series.h"
 
 
@@ -11,6 +13,8 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	QMainWindow mw;
+	mw.setLayout(new QVBoxLayout(&mw));
+	mw.layout()->addWidget(new TestWidget(&mw));
 
 	QocDataSeries<QPointF> series;
 
