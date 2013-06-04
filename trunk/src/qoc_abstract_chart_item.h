@@ -1,18 +1,20 @@
 #ifndef QOC_ABSTRACT_CHART_ITEM_H
 #define QOC_ABSTRACT_CHART_ITEM_H
 
+#include <QObject>
 #include <QRectF>
 #include <QString>
 #include <QColor>
 #include <QPen>
 #include <QBrush>
 
-class QocAbstractChartItem
+class QocAbstractChartItem : public QObject
 {
+	Q_OBJECT
 public:
 	enum TitleAnchor{ TopAnchor, BottomAnchor, LeftAnchor, RightAnchor };
 
-	QocAbstractChartItem(const QString &title = QString());
+	QocAbstractChartItem(const QString &title = QString(), QObject *parent = 0);
 
 	virtual void draw(QPainter *painter, const QRectF &rect = QRectF()) = 0;
 
