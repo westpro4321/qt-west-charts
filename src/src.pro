@@ -9,8 +9,9 @@ HEADERS = qoc_global.h \
     qoc_legend.h \
     qoc_pie_sector.h \
     qoc_pie_chart.h \
+    qoc_data_series_owner.h \
     testwidget.h \
-    qoc_data_series_owner.h
+    mainwindow.h
 
 SOURCES += \
     main.cpp \
@@ -18,4 +19,8 @@ SOURCES += \
     qoc_legend.cpp \
     qoc_pie_sector.cpp \
     qoc_pie_chart.cpp \
-    testwidget.cpp
+    testwidget.cpp \
+    mainwindow.cpp
+
+FORMS += \
+    mainwindow.ui

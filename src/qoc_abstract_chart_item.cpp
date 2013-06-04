@@ -3,7 +3,8 @@
 #include <QPen>
 #include <QBrush>
 
-QocAbstractChartItem::QocAbstractChartItem(const QString &title) :
+QocAbstractChartItem::QocAbstractChartItem(const QString &title, QObject *parent) :
+	QObject(parent),
 	m_titleAnchor(TopAnchor),
 	m_titleVisible(false),
 	m_visible(true),
@@ -12,6 +13,7 @@ QocAbstractChartItem::QocAbstractChartItem(const QString &title) :
 {
 	m_title = title;
 }
+
 
 QocAbstractChartItem::TitleAnchor QocAbstractChartItem::titleAnchor() const
 {
