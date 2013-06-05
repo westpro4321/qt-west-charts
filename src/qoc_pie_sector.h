@@ -3,6 +3,8 @@
 
 #include "qoc_abstract_chart_item.h"
 
+#include <QPointF>
+
 extern const int fullCircle;
 
 class QocPieChart;
@@ -30,6 +32,7 @@ public slots:
 
 private:
 	QRectF getRectWithOffset(const QRectF &rect);
+	QPointF getTitlePointF(const QRectF &rect);
 
 private:
 	QocPieChart *m_chart;

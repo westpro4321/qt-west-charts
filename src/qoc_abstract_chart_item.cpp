@@ -6,7 +6,7 @@
 QocAbstractChartItem::QocAbstractChartItem(const QString &title, QObject *parent) :
 	QObject(parent),
 	m_titleAnchor(TopAnchor),
-	m_titleVisible(false),
+	m_titleVisible(true),
 	m_visible(true),
 	m_pen(new QPen(QColor(Qt::black))),
 	m_brush(new QBrush(Qt::red))
