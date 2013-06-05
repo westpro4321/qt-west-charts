@@ -32,8 +32,7 @@ TestWidget::TestWidget(QWidget *parent) :
 	br->setColor(QColor(Qt::blue).lighter(180));
 	pieChart.setBackground(br);
 
-	pieChart.item(2)->setOffset(10);
-	pieChart.item(4)->setOffset(20);
+	pieChart.item(2)->setOffset(20);
 
 	pieChart.item(2)->setBrush(new QBrush(Qt::yellow));
 	pieChart.item(3)->setBrush(new QBrush(Qt::green));

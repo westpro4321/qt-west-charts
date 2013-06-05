@@ -14,22 +14,21 @@ QocPieChart::QocPieChart(QObject *parent) :
 	m_titleVisible(true),
 	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop)
 {
-	setMargins(0.1, 0.05, 0.1, 0.2);
+	setMargins(0.15, 0.05, 0.1, 0.2);
 }
 
 void QocPieChart::draw(QPainter *p, const QRectF &r)
 {
 	m_printRect = r;
+	m_itemsRect = getItemsRect(r);
 
 	if ( p->isActive() )
 	{
-		QRectF itemsRect = getItemsRect(r);
-
 		p->save();
 		p->setRenderHint(QPainter::Antialiasing, m_antialiased);
 
 		drawBackground(p, r);
-		drawItems(p, itemsRect);
+		drawItems(p, m_itemsRect);
 		drawTitle(p, r);
 
 		p->restore();
@@ -150,9 +149,19 @@ void QocPieChart::repaint()
 	draw(&p, m_printRect);
 }
 
-int QocPieChart::startAngle()
+int QocPieChart::startAngle() const
 {
 	return m_startAngle;
+}
+
+QRectF QocPieChart::printRect() const
+{
+	return m_printRect;
+}
+
+QRectF QocPieChart::itemsRect() const
+{
+	return m_itemsRect;
 }
 
 QString QocPieChart::title() const
@@ -233,9 +242,6 @@ void QocPieChart::drawTitle(QPainter *painter, const QRectF &rect)
 QRectF QocPieChart::getItemsRect(const QRectF &r)
 {
 	QRectF retVal;
-
-//	retVal.setX(r.x() + r.width() * m_leftMargin);
-//	retVal.setY(r.y() + r.height() * m_topMargin);
 	retVal.setWidth(r.width() - r.width() * (m_leftMargin + m_rightMargin));
 	retVal.setHeight(r.height() - r.height() * (m_topMargin + m_bottomMargin));
 
