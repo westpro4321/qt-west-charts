@@ -1,5 +1,5 @@
-#ifndef QOCPIESECTOR_H
-#define QOCPIESECTOR_H
+#ifndef QOC_PIE_SECTOR_H
+#define QOC_PIE_SECTOR_H
 
 #include "qoc_abstract_chart_item.h"
 
@@ -41,4 +41,4 @@ private:
 	uint m_offset;
 };
 
-#endif // QOCPIESECTOR_H
+#endif // QOC_PIE_SECTOR_H
