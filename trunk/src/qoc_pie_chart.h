@@ -40,7 +40,10 @@ public:
 	QocPieSector *item(double x);
 	virtual void repaint();
 
-	int startAngle();
+	int startAngle() const;
+	QRectF printRect() const;
+	QRectF itemsRect() const;
+
 
 	QString title() const;
 	void setTitle(const QString &title);
@@ -71,6 +74,8 @@ protected:
 	double m_leftMargin;
 	double m_rightMargin;
 	QRectF m_printRect;
+	QRectF m_itemsRect;
+
 	int m_startAngle;
 
 	QString m_title;
