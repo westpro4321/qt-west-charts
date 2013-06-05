@@ -14,7 +14,7 @@ QocPieChart::QocPieChart(QObject *parent) :
 	m_titleVisible(true),
 	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop)
 {
-	setMargins(0.1, 0.1, 0.1, 0.1);
+	setMargins(0.1, 0.05, 0.1, 0.2);
 }
 
 void QocPieChart::draw(QPainter *p, const QRectF &r)
@@ -83,7 +83,7 @@ double QocPieChart::topMargin()
 
 void QocPieChart::setTopMargin(double fraction)
 {
-	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
 
 	m_topMargin = fraction;
 }
@@ -95,7 +95,7 @@ double QocPieChart::bottomMargin()
 
 void QocPieChart::setBottomMargin(double fraction)
 {
-	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
 
 	m_bottomMargin = fraction;
 }
@@ -107,7 +107,7 @@ double QocPieChart::leftMargin()
 
 void QocPieChart::setLeftMargin(double fraction)
 {
-	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
 
 	m_leftMargin = fraction;
 }
@@ -119,7 +119,7 @@ double QocPieChart::rightMargin()
 
 void QocPieChart::setRightMargin(double fraction)
 {
-	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
 
 	m_rightMargin = fraction;
 }
