@@ -8,10 +8,13 @@ QocPieChart::QocPieChart(QObject *parent) :
 	QObject(parent),
 	m_antialiased(true),
 	m_backgroundBrush(0),
-	m_xMargin(0),
-	m_yMargin(0),
-	m_startAngle(16*90)
+	m_startAngle(16*90),
+	m_title("Chart Title"),
+	m_titleFont(QFont("Arial", 12, QFont::Normal)),
+	m_titleVisible(true),
+	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop)
 {
+	setMargins(0.1, 0.1, 0.1, 0.1);
 }
 
 void QocPieChart::draw(QPainter *p, const QRectF &r)
@@ -20,21 +23,14 @@ void QocPieChart::draw(QPainter *p, const QRectF &r)
 
 	if ( p->isActive() )
 	{
-		QRectF rect = getPrintRect(r);
+		QRectF itemsRect = getItemsRect(r);
 
 		p->save();
 		p->setRenderHint(QPainter::Antialiasing, m_antialiased);
 
-		if ( m_backgroundBrush )
-		{
-			p->setBackground(*m_backgroundBrush);
-			p->fillRect(r, *m_backgroundBrush);
-		}
-
-		foreach(QocPieSector *i, m_items)
-		{
-			i->draw(p, rect);
-		}
+		drawBackground(p, r);
+		drawItems(p, itemsRect);
+		drawTitle(p, r);
 
 		p->restore();
 	}
@@ -49,7 +45,7 @@ void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
 
 	foreach(QPointF p, m_series->samples())
 	{
-		QocPieSector *ps = new QocPieSector("Untitled", this);
+		QocPieSector *ps = new QocPieSector(QString("Untitled %1").arg(m_items.size()), this);
 		ps->setStartAngle(startAngle);
 		int spanAngle = (-1) * fullCircle * p.y() / m_series->sumOfValues();
 		ps->setSpanAngle(spanAngle);
@@ -79,35 +75,61 @@ void QocPieChart::setBackground(QBrush *brush)
 	m_backgroundBrush = brush;
 }
 
-double QocPieChart::xMargin()
+double QocPieChart::topMargin()
 {
-	return m_xMargin;
+	return m_topMargin;
 }
 
 
-void QocPieChart::setXMargin(double fraction)
+void QocPieChart::setTopMargin(double fraction)
 {
 	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
 
-	m_xMargin = fraction;
+	m_topMargin = fraction;
 }
 
-double QocPieChart::yMargin()
+double QocPieChart::bottomMargin()
 {
-	return m_yMargin;
+	return m_bottomMargin;
 }
 
-void QocPieChart::setYMargin(double fraction)
+void QocPieChart::setBottomMargin(double fraction)
 {
 	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
 
-	m_yMargin = fraction;
+	m_bottomMargin = fraction;
 }
 
-void QocPieChart::setMargins(double x, double y)
+double QocPieChart::leftMargin()
 {
-	setXMargin(x);
-	setYMargin(y);
+	return m_leftMargin;
+}
+
+void QocPieChart::setLeftMargin(double fraction)
+{
+	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+
+	m_leftMargin = fraction;
+}
+
+double QocPieChart::rightMargin()
+{
+	return m_rightMargin;
+}
+
+void QocPieChart::setRightMargin(double fraction)
+{
+	Q_ASSERT(0.0 <= fraction && fraction <= 0.5);
+
+	m_rightMargin = fraction;
+}
+
+void QocPieChart::setMargins(double top, double bottom, double left, double right)
+{
+	setTopMargin(top);
+	setBottomMargin(bottom);
+	setLeftMargin(left);
+	setRightMargin(right);
 }
 
 QocPieSector *QocPieChart::item(double x)
@@ -133,6 +155,46 @@ int QocPieChart::startAngle()
 	return m_startAngle;
 }
 
+QString QocPieChart::title() const
+{
+	return m_title;
+}
+
+void QocPieChart::setTitle(QString title)
+{
+	m_title = title;
+}
+
+QFont QocPieChart::titleFont() const
+{
+	return m_titleFont;
+}
+
+void QocPieChart::setTitleFont(QFont font)
+{
+	m_titleFont = font;
+}
+
+bool QocPieChart::isTitleVisible() const
+{
+	return m_titleVisible;
+}
+
+void QocPieChart::setTitleVisible(bool b)
+{
+	m_titleVisible = b;
+}
+
+int QocPieChart::titleFlags() const
+{
+	return m_titleFlags;
+}
+
+void QocPieChart::setTitleFlags(int flags)
+{
+	m_titleFlags = flags;
+}
+
 void QocPieChart::setStartAngle(int start)
 {
 	if ( m_startAngle != start )
@@ -142,14 +204,40 @@ void QocPieChart::setStartAngle(int start)
 	}
 }
 
-QRectF QocPieChart::getPrintRect(const QRectF &r)
+void QocPieChart::drawBackground(QPainter *painter, const QRectF &rect)
+{
+	if ( m_backgroundBrush )
+	{
+		painter->setBackground(*m_backgroundBrush);
+		painter->fillRect(rect, *m_backgroundBrush);
+	}
+}
+
+void QocPieChart::drawItems(QPainter *painter, const QRectF &rect)
+{
+	foreach(QocPieSector *i, m_items)
+	{
+		i->draw(painter, rect);
+	}
+}
+
+void QocPieChart::drawTitle(QPainter *painter, const QRectF &rect)
+{
+	if ( m_titleVisible )
+	{
+		painter->setFont(m_titleFont);
+		painter->drawText(rect, m_titleFlags, m_title);
+	}
+}
+
+QRectF QocPieChart::getItemsRect(const QRectF &r)
 {
 	QRectF retVal;
 
-	retVal.setX(r.x() + r.width() * m_xMargin);
-	retVal.setY(r.y() + r.height() * m_yMargin);
-	retVal.setWidth(r.width() - 2 * r.width() * m_xMargin);
-	retVal.setHeight(r.height() - 2 * r.height() * m_yMargin);
+	retVal.setX(r.x() + r.width() * m_leftMargin);
+	retVal.setY(r.y() + r.height() * m_topMargin);
+	retVal.setWidth(r.width() - r.width() * (m_leftMargin + m_rightMargin));
+	retVal.setHeight(r.height() - r.height() * (m_topMargin + m_bottomMargin));
 
 	return retVal;
 }

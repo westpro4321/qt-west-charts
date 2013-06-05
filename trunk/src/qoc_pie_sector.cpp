@@ -4,8 +4,11 @@
 #include <QPainter>
 #include <QtCore/qmath.h>
 #include <QDebug>
+#include <QPointF>
 
 const int fullCircle = 5760;
+const int titleMargin = 10; //px
+
 
 QocPieSector::QocPieSector(const QString &title, QObject *parent) :
 	QocAbstractChartItem(title, parent),
@@ -31,6 +34,12 @@ void QocPieSector::draw(QPainter *painter, const QRectF &rect)
 	painter->drawPie(r, m_chart->startAngle() + m_startAngle, m_spanAngle);
 
 	painter->restore();
+
+	if ( m_titleVisible )
+	{
+		QPointF point = getTitlePointF(rect);
+		painter->drawText(point, m_title);
+	}
 }
 
 int QocPieSector::startAngle() const
@@ -82,6 +91,23 @@ QRectF QocPieSector::getRectWithOffset(const QRectF &rect)
 
 	retVal.setWidth(rect.width());
 	retVal.setHeight(rect.height());
+
+	return retVal;
+}
+
+QPointF QocPieSector::getTitlePointF(const QRectF &rect)
+{
+	QPointF retVal, center;
+	center.setX(rect.x() + rect.width() / 2);
+	center.setY(rect.y() + rect.height() / 2);
+
+	double alfa = m_chart->startAngle() + m_startAngle + m_spanAngle / 2;
+
+	retVal.setX(center.x() + qCos(2 * alfa / fullCircle * M_PI) * rect.width() / 2);
+	retVal.setY(center.y() - qSin(2 * alfa / fullCircle * M_PI) * rect.height() / 2);
+
+	retVal.setX(retVal.x() + qCos(2 * alfa / fullCircle * M_PI) * (titleMargin + m_offset));
+	retVal.setY(retVal.y() - qSin(2 * alfa / fullCircle * M_PI) * (titleMargin + m_offset));
 
 	return retVal;
 }
