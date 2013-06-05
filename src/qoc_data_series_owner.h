@@ -1,5 +1,5 @@
-#ifndef QOCDATASERIESOWNER_H
-#define QOCDATASERIESOWNER_H
+#ifndef QOC_DATA_SERIES_OWNER_H
+#define QOC_DATA_SERIES_OWNER_H
 
 #include "qoc_data_series.h"
 
@@ -27,4 +27,4 @@ void QocDataSeriesOwner<T>::setSeries(QocDataSeries<T> *ds)
 	delete m_series;
 	m_series = ds;
 }
-#endif // QOCDATASERIESOWNER_H
+#endif // QOC_DATA_SERIES_OWNER_H

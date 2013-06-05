@@ -160,7 +160,7 @@ QString QocPieChart::title() const
 	return m_title;
 }
 
-void QocPieChart::setTitle(QString title)
+void QocPieChart::setTitle(const QString &title)
 {
 	m_title = title;
 }
@@ -170,7 +170,7 @@ QFont QocPieChart::titleFont() const
 	return m_titleFont;
 }
 
-void QocPieChart::setTitleFont(QFont font)
+void QocPieChart::setTitleFont(const QFont &font)
 {
 	m_titleFont = font;
 }
@@ -234,10 +234,17 @@ QRectF QocPieChart::getItemsRect(const QRectF &r)
 {
 	QRectF retVal;
 
-	retVal.setX(r.x() + r.width() * m_leftMargin);
-	retVal.setY(r.y() + r.height() * m_topMargin);
+//	retVal.setX(r.x() + r.width() * m_leftMargin);
+//	retVal.setY(r.y() + r.height() * m_topMargin);
 	retVal.setWidth(r.width() - r.width() * (m_leftMargin + m_rightMargin));
 	retVal.setHeight(r.height() - r.height() * (m_topMargin + m_bottomMargin));
+
+	double length = qMin(retVal.width(), retVal.height());
+
+	retVal.setX(r.x() + r.width() / 2 - length / 2);
+	retVal.setY(r.y() + r.height() / 2 - length / 2);
+	retVal.setWidth(length);
+	retVal.setHeight(length);
 
 	return retVal;
 }

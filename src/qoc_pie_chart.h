@@ -43,9 +43,9 @@ public:
 	int startAngle();
 
 	QString title() const;
-	void setTitle(QString title);
+	void setTitle(const QString &title);
 	QFont titleFont() const;
-	void setTitleFont(QFont font);
+	void setTitleFont(const QFont &font);
 	bool isTitleVisible() const;
 	void setTitleVisible(bool b);
 	int titleFlags() const;
