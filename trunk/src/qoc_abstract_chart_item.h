@@ -42,6 +42,9 @@ public:
 	QBrush brush() const;
 	void setBrush(QBrush *brush);
 
+	bool isSelected() const;
+	void setSelected(bool b);
+
 
 protected:
 	TitleAnchor m_titleAnchor;
@@ -53,6 +56,7 @@ protected:
 	bool m_visible;
 	QPen *m_pen;
 	QBrush *m_brush;
+	bool m_selected;
 };
 
 #endif // QOC_ABSTRACT_CHART_ITEM_H

@@ -19,14 +19,20 @@ QocPieSector::QocPieSector(const QString &title, QObject *parent) :
 	m_offset(0),
 	m_mode(TitlePercentMode)
 {
-	qDebug() << Q_FUNC_INFO << metaObject()->propertyOffset();
 }
 
 void QocPieSector::draw(QPainter *painter, const QRectF &rect)
 {
 	painter->save();
 
-	painter->setPen(*m_pen);
+	if ( isSelected() )
+	{
+		painter->setPen(m_chart->selectionPen());
+	}
+	else
+	{
+		painter->setPen(*m_pen);
+	}
 	painter->setBrush(*m_brush);
 
 	QRectF r = rect;

@@ -9,7 +9,8 @@ QocAbstractChartItem::QocAbstractChartItem(const QString &title, QObject *parent
 	m_titleVisible(true),
 	m_visible(true),
 	m_pen(new QPen(QColor(Qt::black))),
-	m_brush(new QBrush(Qt::red))
+	m_brush(new QBrush(Qt::red)),
+	m_selected(false)
 {
 	m_title = title;
 }
@@ -95,4 +96,14 @@ void QocAbstractChartItem::setBrush(QBrush *brush)
 {
 	delete m_brush;
 	m_brush = brush;
+}
+
+bool QocAbstractChartItem::isSelected() const
+{
+	return m_selected;
+}
+
+void QocAbstractChartItem::setSelected(bool b)
+{
+	m_selected = b;
 }
