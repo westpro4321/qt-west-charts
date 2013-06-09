@@ -44,6 +44,14 @@ TestWidget::TestWidget(QWidget *parent) :
 	pieChart.item(5)->setBrush(new QBrush(Qt::darkCyan));
 	pieChart.item(6)->setBrush(new QBrush(Qt::magenta));
 
+	pieChart.item(1)->setTitle(pieChart.item(1)->brush().color().name());
+	pieChart.item(2)->setTitle(pieChart.item(2)->brush().color().name());
+	pieChart.item(3)->setTitle(pieChart.item(3)->brush().color().name());
+	pieChart.item(4)->setTitle(pieChart.item(4)->brush().color().name());
+	pieChart.item(5)->setTitle(pieChart.item(5)->brush().color().name());
+	pieChart.item(6)->setTitle(pieChart.item(6)->brush().color().name());
+
+
 
 	legend.setChart(&pieChart);
 }
