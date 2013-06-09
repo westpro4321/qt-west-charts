@@ -54,6 +54,8 @@ public:
 	int titleFlags() const;
 	void setTitleFlags(int flags);
 
+	QList<QocPieSector *> items();
+
 public slots:
 	void setStartAngle(int start);
 

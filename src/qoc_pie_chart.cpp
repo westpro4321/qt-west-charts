@@ -8,7 +8,7 @@ QocPieChart::QocPieChart(QObject *parent) :
 	QObject(parent),
 	m_antialiased(true),
 	m_backgroundBrush(0),
-	m_startAngle(16*90),
+	m_startAngle(0),
 	m_title("Chart Title"),
 	m_titleFont(QFont("Arial", 12, QFont::Normal)),
 	m_titleVisible(true),
@@ -46,7 +46,7 @@ void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
 	{
 		QocPieSector *ps = new QocPieSector(QString("Untitled %1").arg(m_items.size()), this);
 		ps->setStartAngle(startAngle);
-		int spanAngle = (-1) * fullCircle * p.y() / m_series->sumOfValues();
+		int spanAngle = (-1) * g_fullCircle * p.y() / m_series->sumOfValues();
 		ps->setSpanAngle(spanAngle);
 		startAngle += spanAngle;
 		m_items.append(ps);
@@ -204,6 +204,11 @@ void QocPieChart::setTitleFlags(int flags)
 	m_titleFlags = flags;
 }
 
+QList<QocPieSector *> QocPieChart::items()
+{
+	return m_items;
+}
+
 void QocPieChart::setStartAngle(int start)
 {
 	if ( m_startAngle != start )
@@ -227,6 +232,11 @@ void QocPieChart::drawItems(QPainter *painter, const QRectF &rect)
 	foreach(QocPieSector *i, m_items)
 	{
 		i->draw(painter, rect);
+	}
+
+	foreach(QocPieSector *i, m_items)
+	{
+		i->drawTitle(painter, rect);
 	}
 }
 
