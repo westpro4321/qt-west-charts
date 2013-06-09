@@ -231,12 +231,14 @@ void QocPieChart::drawItems(QPainter *painter, const QRectF &rect)
 {
 	foreach(QocPieSector *i, m_items)
 	{
-		i->draw(painter, rect);
+		if ( i->isVisible() )
+			i->draw(painter, rect);
 	}
 
 	foreach(QocPieSector *i, m_items)
 	{
-		i->drawTitle(painter, rect);
+		if ( i->isVisible() )
+			i->drawTitle(painter, rect);
 	}
 }
 
