@@ -24,6 +24,9 @@ public:
 	QBrush background() const;
 	void setBackground(QBrush *brush);
 
+	QPen selectionPen() const;
+	void setSelectionPen(QPen *pen);
+
 	double topMargin();
 	void setTopMargin(double fraction);
 	double bottomMargin();
@@ -51,6 +54,7 @@ public slots:
 protected:
 	bool m_antialiased;
 
+	QPen *m_selectionPen;
 	QBrush *m_backgroundBrush;
 
 	double m_topMargin;

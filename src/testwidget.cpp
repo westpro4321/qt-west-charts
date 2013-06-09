@@ -36,7 +36,13 @@ TestWidget::TestWidget(QWidget *parent) :
 	br->setColor(QColor(Qt::blue).lighter(180));
 	pieChart.setBackground(br);
 
+	QPen *pen = new QPen(QColor(255, 140, 0));
+	pieChart.setSelectionPen(pen);
+
 	pieChart.item(2)->setOffset(20);
+	pieChart.item(2)->setSelected(true);
+	pieChart.item(4)->setSelected(true);
+
 //	pieChart.item(4)->setVisible(false);
 
 	pieChart.item(1)->setBrush(new QBrush(Qt::red, Qt::Dense1Pattern));

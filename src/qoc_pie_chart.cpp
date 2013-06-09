@@ -114,7 +114,13 @@ void QocPieChart::drawItems(QPainter *painter, const QRectF &rect)
 {
 	foreach(QocPieSector *i, m_items)
 	{
-		if ( i->isVisible() )
+		if ( i->isVisible() && ! i->isSelected() )
+			i->draw(painter, rect);
+	}
+
+	foreach(QocPieSector *i, m_items)
+	{
+		if ( i->isVisible() && i->isSelected() )
 			i->draw(painter, rect);
 	}
 

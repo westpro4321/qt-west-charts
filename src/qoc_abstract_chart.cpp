@@ -1,12 +1,13 @@
 #include "qoc_abstract_chart.h"
 
 #include <QBrush>
-
+#include <QPen>
 
 QocAbstractChart::QocAbstractChart(QObject *parent) :
 	QObject(parent),
 	m_antialiased(true),
 	m_backgroundBrush(0),
+	m_selectionPen(new QPen),
 	m_title("Chart Title"),
 	m_titleFont(QFont("Arial", 12, QFont::Normal)),
 	m_titleVisible(true),
@@ -34,6 +35,17 @@ void QocAbstractChart::setBackground(QBrush *brush)
 {
 	delete m_backgroundBrush;
 	m_backgroundBrush = brush;
+}
+
+QPen QocAbstractChart::selectionPen() const
+{
+	return *m_selectionPen;
+}
+
+void QocAbstractChart::setSelectionPen(QPen *pen)
+{
+	delete m_selectionPen;
+	m_selectionPen = pen;
 }
 
 double QocAbstractChart::topMargin()
