@@ -5,16 +5,9 @@
 #include <QWidget>
 
 QocPieChart::QocPieChart(QObject *parent) :
-	QObject(parent),
-	m_antialiased(true),
-	m_backgroundBrush(0),
-	m_startAngle(0),
-	m_title("Chart Title"),
-	m_titleFont(QFont("Arial", 12, QFont::Normal)),
-	m_titleVisible(true),
-	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop)
+	QocAbstractChart(parent),
+	m_startAngle(0)
 {
-	setMargins(0.15, 0.05, 0.1, 0.2);
 }
 
 void QocPieChart::draw(QPainter *p, const QRectF &r)
@@ -35,6 +28,11 @@ void QocPieChart::draw(QPainter *p, const QRectF &r)
 	}
 }
 
+QList<QocPieSector *> QocPieChart::items()
+{
+	return m_items;
+}
+
 void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
 {
 	QocDataSeriesOwner<QPointF>::setSeries(ds);
@@ -53,83 +51,8 @@ void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
 	}
 }
 
-bool QocPieChart::isAntialiased()
-{
-	return m_antialiased;
-}
-
-void QocPieChart::setAntialiased(bool b)
-{
-	m_antialiased = b;
-}
-
-QBrush QocPieChart::background() const
-{
-	return *m_backgroundBrush;
-}
-
-void QocPieChart::setBackground(QBrush *brush)
-{
-	delete m_backgroundBrush;
-	m_backgroundBrush = brush;
-}
-
-double QocPieChart::topMargin()
-{
-	return m_topMargin;
-}
 
 
-void QocPieChart::setTopMargin(double fraction)
-{
-	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-	m_topMargin = fraction;
-}
-
-double QocPieChart::bottomMargin()
-{
-	return m_bottomMargin;
-}
-
-void QocPieChart::setBottomMargin(double fraction)
-{
-	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-	m_bottomMargin = fraction;
-}
-
-double QocPieChart::leftMargin()
-{
-	return m_leftMargin;
-}
-
-void QocPieChart::setLeftMargin(double fraction)
-{
-	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-	m_leftMargin = fraction;
-}
-
-double QocPieChart::rightMargin()
-{
-	return m_rightMargin;
-}
-
-void QocPieChart::setRightMargin(double fraction)
-{
-	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-	m_rightMargin = fraction;
-}
-
-void QocPieChart::setMargins(double top, double bottom, double left, double right)
-{
-	setTopMargin(top);
-	setBottomMargin(bottom);
-	setLeftMargin(left);
-	setRightMargin(right);
-}
 
 QocPieSector *QocPieChart::item(double x)
 {
@@ -141,6 +64,11 @@ QocPieSector *QocPieChart::item(double x)
 		}
 	}
 	return 0;
+}
+
+QocPieSector *QocPieChart::itemAt(size_t i)
+{
+	return m_items.at(i);
 }
 
 void QocPieChart::repaint()
@@ -162,51 +90,6 @@ QRectF QocPieChart::printRect() const
 QRectF QocPieChart::itemsRect() const
 {
 	return m_itemsRect;
-}
-
-QString QocPieChart::title() const
-{
-	return m_title;
-}
-
-void QocPieChart::setTitle(const QString &title)
-{
-	m_title = title;
-}
-
-QFont QocPieChart::titleFont() const
-{
-	return m_titleFont;
-}
-
-void QocPieChart::setTitleFont(const QFont &font)
-{
-	m_titleFont = font;
-}
-
-bool QocPieChart::isTitleVisible() const
-{
-	return m_titleVisible;
-}
-
-void QocPieChart::setTitleVisible(bool b)
-{
-	m_titleVisible = b;
-}
-
-int QocPieChart::titleFlags() const
-{
-	return m_titleFlags;
-}
-
-void QocPieChart::setTitleFlags(int flags)
-{
-	m_titleFlags = flags;
-}
-
-QList<QocPieSector *> QocPieChart::items()
-{
-	return m_items;
 }
 
 void QocPieChart::setStartAngle(int start)

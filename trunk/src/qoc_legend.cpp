@@ -23,7 +23,7 @@ void QocLegend::draw(QPainter *p, const QRectF &rect)
 
 		for(int i=0, j=0; i< m_chart->items().size(); ++i)
 		{
-			QocPieSector *item = m_chart->items().at(i);
+			QocAbstractChartItem *item = m_chart->items().at(i);
 
 			if ( m_drawMode == DrawAllMode || (m_drawMode == DrawVisibleOnlyMode && item->isVisible()) )
 			{
