@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\date{19 maja 2013}
+\date{12 czerwca 2013}
 \title{Opis wymagań}
 
 \author{Łukasz Szewczyk}
@@ -101,7 +101,7 @@ Biblioteka musi umożliwiać utworzenie wykresu kołowego prezentującego dane z
 \item{seria danych}
 \item{wycinki kołowe o~wspólnym środku, których kąt środkowy jest proporcjonalny do reprezentowanej wartości. Suma kątów środkowych wszystkich wycinków wynosi 360 stopni. Kolor danego wycinka jest unikalny w skali wykresu.}
 \item{tytuł wykresu,}
-\item{opis próbek,}
+\item{tytuły wycinków,}
 \item{legenda,}
 \item{tło.}
 \end{itemize}
@@ -113,8 +113,7 @@ Już po utworzeniu wykresu powinny być możliwe do skonfigurowania następując
 \begin{itemize}
 \item{zawartość serii danych,}
 \item{kolor wycinka,}
-\item{podpis wycinka,}
-\item{opis próbki,}
+\item{tytuł wycinka,}
 \item{kolor/grafika tła.}
 \end{itemize}
 
@@ -132,18 +131,17 @@ Operacje, które powinny być dostępne dla wykresu kołowego:
 \subsubsection{Serie danych}
 Biblioteka musi obsługiwać próbki oraz serie danych. Każda z~próbek powinna posiadać następujące parametry:
 \begin{itemize}
-\item{wartość z~dziedziny (w~zależności od dziedziny, może to być liczba, ciąg znaków lub data),}
-\item{co najmniej jedną wartość liczbową, która będzie prezentowana, np. w postaci słupka,}
-\item{opcjonalnie tytuł próbki (wyświetlany w~legendzie).}
+\item{wartość liczbowa z~dziedziny,}
+\item{co najmniej jedną wartość liczbową, która będzie prezentowana, np. w postaci słupka}
 \end{itemize}
 
-Seria danych powinna zawierać posortowany zbiór próbek oraz tytuł.
+Seria danych powinna zawierać zbiór próbek. Niektóre z~wykresów mogą wymagać, aby było to zbiór posortowany ze względu na wartość z~dziedziny. Umożliwi to poprawne odwzorowanie próbek na wykresach.
 
 Wymagane są operacje dodawania, modyfikowania i~usuwania danych z~serii. Każda z tych operacji powinna skutkować aktualizacją wykresu powiązanego z~daną serią.
   
 \subsubsection{Legenda}
 Dla wykresów obsługujących wiele serii danych, powinna prezentować kolory oraz tytuły tych serii.
-Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o kolorze i tytule każdej z próbek. Legenda powinna reagować na zmianę stanu wykresu, w~szczególności na zmianę danych.
+Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o kolorze i tytule każdej z próbek. Legenda powinna reagować na zmianę stanu wykresu, w~szczególności na zmianę danych. Legenda powinna przyjmować jedną z dwóch orientacji: horyzontalną lub wertykalną.
 
 \subsubsection{Siatka}
 Element składający się ze zbioru prostopadłych linii, ułatwiający porównywanie danych różnych próbek. Powinna istnieć możliwość określenia grubości i~koloru linii oraz ziarnistości samej siatki.
@@ -159,14 +157,14 @@ Powinna być możliwość zmiany następujących parametrów osi:
 \item{widoczność podpisów tick-ów.}
 \end{itemize}
 
-Dla dwóch osi tworzących układ współrzędnych powinna istnieć możliwość ustalenia punktu przecięcia innego niż (0,0). 
+Opcjonalnie dla dwóch osi tworzących układ współrzędnych może istnieć możliwość ustalenia punktu przecięcia innego niż (0,0). 
 
 \subsubsection{Tło}
 Tłem wykresu może być kolor, gradient bądź obrazek.
 
 \subsection{Operacje na wykresach}
 \subsubsection{Skalowanie}
-Każdy z~wykresów powinien przyjmować sensowny domyślny rozmiar. Jednocześnie powinna istnieć możliwość zmiany jego wymiarów oraz skalowania całego wykresu.
+Powinno być możliwe skalowanie wykresu. Wykres powinien dostosowywać swój rozmiar do przekazanego mu obszaru przeznaczonego na jego odrysowanie.
 
 \subsubsection{Zoom}
 Musi istnieć możliwość przybliżenia konkretnego fragmentu wykresu. Przybliżanie powinno być możliwe dla jednej z osi bądź dla obu jednocześnie. Oddalanie jako operacja symetryczna również powinna być dostępna.
@@ -174,15 +172,15 @@ Musi istnieć możliwość przybliżenia konkretnego fragmentu wykresu. Przybli�
 \subsubsection{Zaznaczanie przedziałów dziedziny}
 Powinno być możliwe zaznaczenie elementów z~zadanego przedziału dziedziny. Zaznaczenie powinno być widoczne przez narysowanie przezroczystego prostokąta pokrywającego wszystkie żądane elementy i~tylko te elementy. Kolor prostokąta i~poziom jego przezroczystości powinny być konfigurowalne.
 
-\subsubsection{Zaznaczenie wierzchołków łamanej, słupków lub wycinków}
-Dla wykresu liniowego zaznaczenie będzie sygnalizowane poprzez narysowanie okręgu wokół wybranych wierzchołków łamanej. Z~kolei dla dla wykresół słupkowego i~kołowego będzie to narysowanie przylegającej ramki wokół odpowiednio słupków lub wycinków. Grubość i~kolor obramowań powinny być konfigurowalne.
+\subsubsection{Zaznaczenie elementów reprezentujących próbki}
+Dla wykresu liniowego zaznaczenie będzie sygnalizowane poprzez narysowanie okręgu wokół wybranych wierzchołków łamanej. Z~kolei dla dla wykresów słupkowego i~kołowego będzie to narysowanie przylegającej ramki wokół odpowiednio słupków lub wycinków. Grubość i~kolor obramowań powinny być konfigurowalne.
 
-\subsubsection{Zaznaczenie łamanych, grupy słupków lub wykresu kołowego}
+\subsubsection{Zaznaczenie elementów reprezentujących serie danych}
 Powinna istnieć możliwość zaznaczenia wszystkich elementów rezprezentujących dane z~wybranej serii. Dla wykresu liniowego będzie to łamana, dla słupkówego grupa słupków, a dla kołowego cały wykres. Zaznaczenie wybranych elementów powinno skutkować obrysowaniem ich przylegającą ramką.
 Grubość i~kolor obramowań powinny być konfigurowalne.
 
 \subsubsection{Obracanie wykresu}
-Powinna być możliwość obracania wykresu kołowego względem jego środka.
+Powinna być możliwość obracania wykresu kołowego względem jego środka o~zadany kąt. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt.
 
 \subsubsection{Przesuwanie wycinków}
 Powinna istnieć możliwość przesuwania wycinków wzdłuż prostej wyznaczonej przez promień dzielący wycinek na połowy. Powinna być przyjmowana nieujemna liczba pixeli, o którą wycinek powinien zostać przesunięty względem środka. Proces przesuwania wycinków powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt.
@@ -197,12 +195,10 @@ Interfejs dla klasycznego Qt powinien możliwie dobrze wpisywać się w styl Qt 
 Interfejs ten powinien spełniać paradygmaty programowania deklaratywnego.
 
 \subsection{Przenośność}
-Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna, na poziomie kodu źródłowego, między najważniejszymi wspieranymi przez Qt platformami.
+Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na poziomie kodu źródłowego między najważniejszymi wspieranymi przez Qt platformami.
 Minimum to uruchomienie na systemach:
-\begin{itemize}
-\item{Windows NT,}
-\item{Linux (Ubuntu).}
-\end{itemize}
+\subsubsection{Windows NT}
+\subsubsection{Linux (Ubuntu)}
 
 \subsection{Efekty graficzne}
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
@@ -222,10 +218,10 @@ Powinno być możliwe generowanie plików graficznych na podstawie istniejących
 
 
 \subsection{Struktura biblioteki}
-Biblioteka powinna mieć przejrzystą strukturę, która w~połączeniu z~dokumentacją w~stylu Qt (przykład tutaj~\cite{qt-doc}) powinna umożliwić programistom sprawne przeanalizowanie jej działania i~szybkie przystąpienie do tworzenia wykresów.
+Biblioteka powinna mieć przejrzystą strukturę, która umożliwi programistom sprawne przeanalizowanie jej działania i~szybkie przystąpienie do tworzenia wykresów.
 
 \subsection{Wymienność biblioteki}
-Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie wymiennych bibliotek dynamicznych. Wprowadzenie nowej wersji biblioteki z~niezmienionym interfejsem nie powinno wymagać przebudowania całej aplikacji.
+Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie bibliotek dynamicznych wymiennych pomiędzy wersjami. Wprowadzenie nowej wersji biblioteki z~niezmienionym interfejsem nie powinno wymagać przebudowania całej aplikacji.
 
 \subsection{Nowoczesność i~uniwersalność}
 Biblioteka powinna wykorzystywać możliwie nowe technologie, m.in. Qt5. Jednak użycie standardu \textit{C++11} nie jest wskazane ze względu na ograniczenie liczby potencjalnych odbiorców. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
@@ -241,7 +237,7 @@ pozwalająca komfortowo operować na większych ilościach danych.
 Wykres kołowy, nie powinien powodować ,,zamrażania aplikacji'' przy liczbie próbek nie~przekraczającej 100. 
 
 \subsection{Niezawodność}
-Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w celu minimalizacji liczby błędów w kodzie, powinny zostać zastosowane testy, m.in. jednostkowe, regresyjne, itp. Zachowanie biblioteki w warunkach ekstremalnych, np. przepełnienia stosu, nie jest głównym celem projektu.
+Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy jednostkowe. Zachowanie biblioteki w warunkach ekstremalnych, np. przepełnienia stosu, nie jest głównym celem projektu.
 
 %\subsubsection{Wiarygodnosć}
 
@@ -257,8 +253,6 @@ API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
 QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
 \bibitem[4]{qt-anim}
 Animacje w~Qt \url{http://doc.qt.digia.com/4.7/animation-overview.html}
-\bibitem[5]{qt-doc}
-Przykład dokumentacji Qt \url{http://qt-project.org/doc/qt-4.8/qobject.html}
 
 
 \end{thebibliography}
