@@ -97,7 +97,7 @@ Podobnie jak w Commercial Charts, logika wykresów jest zawarta w~seriach odpowi
 \subsection{Qwt}
 Qt Widgets for Technical Applications to otwarta biblioteka umożliwiająca tworzenie wykresów oraz innych widgetów technicznych. Biblioteka ta była projektowana z~myślą o zastosowaniach technicznych, w~szczególności w~systemach czasu rzeczywistego, przez co głównym celem było zapewne osiągnięcie wysokiej wydajności przy dynamicznie zmieniających się danych. Cel ten osiągnięto między innymi poprzez wykorzystywanie stosunkowo niskopoziomowych mechanizmów, jak Arthur czy intensywne wykorzystanie szablonów języka C++. Niestety przez to biblioteka nie jest szczególnie przyjazna użytkownikowi. Programista często musi sięgać do niskopoziomowych narzędzia, a stworzenie mniej standardowego rozwiązania może sprawić wiele trudności.\newline
 
-Qwt zawiera szerokie API służące do przeprowadzania różnorakich operacji na wykresach, m.in. skalowania, powiększania i zaznaczania. Problematyczną kwestią jest wygląd wykresów, z~jednej strony są one adekwatne dla zastosowań technicznych, z~drugiej zaś sprawia on, że nie sposób użyć tych wykresów w~aplikacji innego typu, ze względu na ich brzydotę. Najlepszym przykładem będzie tu wykres wyglądający niczym oscylogram na rys. \ref{rys:wykres:sinus}.
+Qwt zawiera szerokie API służące do przeprowadzania różnorakich operacji na wykresach, m.in. skalowania i zaznaczania. Problematyczną kwestią jest wygląd wykresów, z~jednej strony są one adekwatne dla zastosowań technicznych, z~drugiej zaś sprawia on, że nie sposób użyć tych wykresów w~aplikacji innego typu, ze względu na ich brzydotę. Najlepszym przykładem niech będzie wykres załączony na rys. \ref{rys:wykres:sinus}, wyglądający niczym oscylogram.
 \begin{figure}
 \centering
 \caption{Przykładowy wykres Qwt}\label{rys:wykres:sinus}
@@ -144,7 +144,6 @@ Jak widać GobChartWidget jest nieco dziwną hybrydą, której z~pewnością nie
 
 
 \section{Dostępne typy wykresów}
-\subsection{Qt}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 &  Qt Charts & KD Chart & Qtitan & Qwt & GobChart\\
@@ -191,6 +190,7 @@ Prawie wszystkie biblioteki zawierają wartościowe elementy niepowtarzalne lub 
 \item{możliwość konfiguracji elementu prezentującego kolor w~legendzie (np. koło dla wykresu bąbelkowego, odcinek dla liniowego),}
 \item{generowanie plików graficznych zawierających wykresy,}
 \item{możliwość wyświetlania kilku wykresów różnego typu w~jednym układzie współrzędnych,}
+\item{nieliniowe skale osi,}
 \item{wyeksponowanie klas C++ w QML.}
 \end{itemize}
 
