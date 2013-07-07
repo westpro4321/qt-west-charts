@@ -34,7 +34,42 @@ Pierwsze podejście, oferujące gotowe kontrolki, jest bardzo mało uniwersalne 
 Mimo iż w~drugim podejściu widać odseparowanie logiki od widoku, nadal jest to rozwiązanie ograniczone ze względu na niewielką liczbę kompatybilnych widoków.
 Dochodzimy więc do wniosku, że  rozwiązanie polegające na stworzeniu silnika generującego pewne abstrakcje, które mogą zostać wyrenderowane na dowolnej powierzchni, np. na kontrolce, w~dokumencie tekstowym czy w~widoku QML,
 jest podejściem świeżym, najbardziej uniwersalnym oraz być może najlepszym.
-%Jest to pierwsze i~najważniejsze z~wymagań stawianych temu projektowi.
+
+\subsubsection{Przenośność}
+Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na poziomie kodu źródłowego między najważniejszymi wspieranymi przez Qt platformami.
+Minimum to uruchomienie na systemach:
+\begin{itemize}
+\item{Windows NT,}
+\item{Linux (Ubuntu).}
+\end{itemize}
+
+
+\subsubsection{API w stylu Qt}
+API tworzonej przeze mnie bilioteki powinno posiadać sześć cech charakteryzujących dobre interfejsy programistyczne:
+\begin{itemize}
+\item{minimalne,}
+\item{kompletne,}
+\item{intuicyjne,} 
+\item{łatwe do zapamiętania,}
+\item{czysta i~prosta semantyka,}
+\item{czytelny kod.}
+\end{itemize}
+
+Jednak nie są to wszystkie wymagania stawiane projektowanej bibliotece. Aby tworzony przeze mnie kod był czytelny dla innych programistów Qt, musi on wykorzystywać standardowe mechanizmy tej platformy:
+\begin{itemize}
+\item{statyczny polimorfizm, polegający na tworzeniu podobnych interfejsów dla podobnych, ale niespokrewnionych klas, np. kontenerów. Zastępuje wprowadzanie sztucznych klas bazowych.}
+\item{właściwości jako sposób na parametryzowanie klas,}
+\item{preferowanie przyjmowania wskaźników zamiast referencji do funkcji modyfikujących argumenty,}
+\item{asynchroniczna komunikacja między obiektami rozwiązana za pomocą sygnałów i~slotów,}
+\item{nazewnictwo, sposób zwracania wartości z~funkcji i~wiele innych opisanych w~załączonym artykule~\cite{qt-api}.}
+\end{itemize}
+
+
+\subsubsection{Wyeksponowanie klas C++ w QML}
+Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosowanie, którym ma być m.in. tworzenie wykresów w~QML. Programista piszący w~QML powinien mieć możliwość ustawienia wszystkich lub chociaż większości parametrów wykresu dostępnych z~poziomu C++. Z~drugiej strony, musi istnieć możliwość stworzenia wysokopoziomowych interfejsów, z~których korzystanie będzie intuicyjne. Dodatkowo należy uwzględnić przyjęty w Qt~Quick sposób prezentacji danych. Polega on na podziale elementów na widok, model oraz delegaty. Pożądaną cechą jest możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. pobieranie danych z~obiektu klasy ListModel~\cite{list-model}. 
+
+\subsubsection{Interaktywność}
+Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} usprawniają, m.in. porównywanie położenia kursora względem elementów wykresu.
 
 %\section{Wymagania}
 %,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców.''~\cite{sacha-wymagania}
@@ -265,15 +300,11 @@ jest podejściem świeżym, najbardziej uniwersalnym oraz być może najlepszym.
 %Zarówno dodawanie nowych jak i~usuwanie już istniejących elementów biblioteki powinno być łatwe i~nie powinno mieć wpływu na stabilność pracy biblioteki. Dodawanie nowych elementów powinno być możliwe dzięki uniwersalnym interfejsom. Natomiast usuwanie istniejących elementów powinno sprowadzać się do wyłączenia ich z~procesu kompilacji biblioteki.
 
 \begin{thebibliography}{}
-\bibitem[1]{sacha-wymagania}
-Inżynieria oprogramowania -- rozdział 2, Krzysztof Sacha, Wydawnictwo Naukowe PWN, 2010, ISBN: 978-83-01-16179-8
-\bibitem[2]{qt-style-API}
-API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
-\bibitem[3]{qstyle}
-QStyle \url{http://doc.qt.digia.com/4.7-snapshot/qstyle.html#details}
-\bibitem[4]{qt-anim}
-Animacje w~Qt \url{http://doc.qt.digia.com/4.7/animation-overview.html}
 
+\bibitem[1]{qt-api}
+API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
+\bibitem[2]{list-model}
+ListModel \url{http://qt-project.org/doc/qt-5.0/qtqml/qml-qtquick2-listmodel.html}
 
 \end{thebibliography}
 
