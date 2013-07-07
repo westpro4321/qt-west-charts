@@ -71,6 +71,25 @@ Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosow
 \subsubsection{Interaktywność}
 Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} usprawniają, m.in. porównywanie położenia kursora względem elementów wykresu.
 
+
+\subsubsection{Elementy składowe wykresów}
+Tworzone wykresy muszą zawierać następujące elementy:
+\begin{itemize}
+\item{tytuł wykresu,}
+\item{elementy prezentujące próbki danych (słupek, punkt, wycinek kołowy),}
+\item{elementy reprezentujące serię próbek,}
+\item{legenda i jej wewnętrzne elementy,}
+\item{osie,}
+\item{siatka,}
+\item{tooltip.}
+\end{itemize}
+
+Każdemu z elementów powinno dać się ustawić po dwa pióra i~pędzle -- dla trybu normalnego i~zaznaczenia. Każdy z~nich powinien posiadać również podpis, którego czcionka i~kolor również są konfigurowalne. Wyświetalnie każdego z~elementów powinno być sterowane przez programistę. Powinna również istnieć możliwość ustawienia tła wykresu.
+
+Musi być dostępna operacja zaznaczania każdego elementu z~osobna oraz całej grupy elementów reprezentujących daną serię.
+
+
+
 %\section{Wymagania}
 %,,Określenie wymagań, jakie musi spełniać oprogramowanie, jest tym miejscem projektu, w którym najbardziej i~najwyraźniej stykają się interesy wszystkich jego udziałowców.''~\cite{sacha-wymagania}
 
