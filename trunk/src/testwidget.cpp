@@ -36,7 +36,7 @@ TestWidget::TestWidget(QWidget *parent) :
 	br->setColor(QColor(Qt::blue).lighter(180));
 	pieChart.setBackground(br);
 
-	QPen *pen = new QPen(QColor(255, 140, 0));
+	QPen *pen = new QPen(QBrush(QColor(255, 140, 0)), 5);
 	pieChart.setSelectionPen(pen);
 
 	pieChart.item(2)->setOffset(20);
@@ -45,12 +45,12 @@ TestWidget::TestWidget(QWidget *parent) :
 
 //	pieChart.item(4)->setVisible(false);
 
-	pieChart.item(1)->setBrush(new QBrush(Qt::red, Qt::Dense1Pattern));
+	pieChart.item(1)->setBrush(new QBrush(Qt::red));
 	pieChart.item(2)->setBrush(new QBrush(Qt::yellow, Qt::Dense2Pattern));
 	pieChart.item(3)->setBrush(new QBrush(Qt::green, Qt::Dense5Pattern));
-	pieChart.item(4)->setBrush(new QBrush(Qt::blue, Qt::Dense6Pattern));
-	pieChart.item(5)->setBrush(new QBrush(Qt::darkCyan, Qt::DiagCrossPattern));
-	pieChart.item(6)->setBrush(new QBrush(Qt::magenta, Qt::BDiagPattern));
+	pieChart.item(4)->setBrush(new QBrush(Qt::blue));
+	pieChart.item(5)->setBrush(new QBrush(Qt::darkCyan));
+	pieChart.item(6)->setBrush(new QBrush(Qt::magenta, Qt::Dense1Pattern));
 
 	pieChart.item(1)->setTitle(pieChart.item(1)->brush().color().name());
 	pieChart.item(2)->setTitle(pieChart.item(2)->brush().color().name());
