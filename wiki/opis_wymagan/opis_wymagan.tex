@@ -18,9 +18,9 @@
 
 \section{Wstęp}
 Istotą tego rozdziału jest opisanie wszystkich wymagań stawianych tworzonej bibliotece. 
-Rozdział ten będzie składał się z~dwóch głównych części: opisu wymagań funkcjonalnych i~opisu wymagań pozafunkcjonalnych.\newline
-Opis wymagań funkcjonalnych rozpoczną wymagania stawiane całej bibliotece jako takiej oraz uniwersalne wymagania odnoszące się do wszystkich tworzonych za jej pomocą wykresów. Następnie zostaną przedstawione specyficzne wymagania dotyczące konkretnych typów wykresów.\newline
-Opis wymagań pozafunkcjonalnych zostanie dokonany w~kontekście całej biblioteki, a~w~jego skład wchodzą rozważania na temat takich zagadnień jak skalowalność, wydajność czy niezawodność.
+Rozdział ten składa się z~dwóch głównych części: opisu wymagań funkcjonalnych i~opisu wymagań pozafunkcjonalnych.\newline
+Opis wymagań funkcjonalnych rozpoczynają wymagania stawiane całej bibliotece oraz wymagania odnoszące się do wszystkich tworzonych za jej pomocą wykresów. Następnie zostały przedstawione specyficzne wymagania dotyczące konkretnych typów wykresów.\newline
+Opis wymagań pozafunkcjonalnych został dokonany w~kontekście całej biblioteki, a~w~jego skład wchodzą rozważania na temat takich zagadnień jak skalowalność, wydajność czy niezawodność.
 
 \section{Wspólne wymagania funkcjonalne}
 %\subsection{Wspólne}
@@ -42,9 +42,7 @@ Minimum to uruchomienie na systemach:
 \item{Linux (Ubuntu).}
 \end{itemize}
 
-
 %\subsection{API w stylu Qt}
-
 
 
 \subsection{Qt~Quick}
@@ -54,10 +52,10 @@ Już na etapie projektowania należy zadbać, aby tworzone struktury były łatw
 Tworzenie interfejsów do QML nie jest celem tego projektu, jednak ich implementacja powinna być możliwie łatwa dla programistów decydujących się na korzystanie z~mojej biblioteki.
 
 \subsubsection{Uwzględnienie dostępnych mechanizmów}
-W Qt~Quick prezentacja danych została podzielona na widok, model oraz delegaty. Tworzona biblioteka powinna wpisywać się w ten wzorzec. Cenną własnością będzie możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. poprzez pobieranie danych z~obiektu klasy ListModel~\cite{list-model}. 
+W Qt~Quick prezentacja danych została podzielona na widok, model oraz delegaty. Tworzona biblioteka powinna wpisywać się w ten wzorzec. Cenną własnością będzie możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. poprzez pobieranie danych z~obiektu klasy ListModel~\cite{list-model}. Warto wprowadzić również możliwość zmiany delegata służącego do renderowania danego elementu wykresu.
 
 \subsection{Interaktywność}
-Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację interakcji. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} usprawniają, m.in. porównywanie położenia kursora względem elementów graficznych.
+Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację interakcji. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} ułatwiają wykonywanie pewnych operacji, np. porównanie położenia kursora względem elementów graficznych.
 
 
 \subsection{Elementy składowe wykresów}
@@ -67,13 +65,13 @@ Wszystkie wykresy muszą zawierać następujące elementy:
 \item{elementy prezentujące pojedyncze próbki danych (słupek, punkt, wycinek kołowy),}
 \item{tytuł wykresu,}
 \item{legenda,}
-\item{dodatkowe elementy.}
+\item{dodatkowe elementy dostarczane przez programistów.}
 \end{itemize}
 
-Dodatkowo wykresy umieszczone w~układzie współrzędnych zawierają:
+Ponadto wykresy umieszczone w~układzie współrzędnych zawierają:
 \begin{itemize}
 \item{osie,} % i ich skale,}
-\item{siatka.}
+\item{siatkę.}
 \end{itemize}
 
 Wyświetalnie każdego z~elementów wykresu powinno być sterowane przez programistę. Powinna również istnieć możliwość ustawienia tła wykresu.
@@ -85,21 +83,21 @@ Biblioteka musi obsługiwać próbki danych, które posiadają następujące par
 \item{co najmniej jedna wartość z~dziedziny liczb rzeczywistych. Bardziej złożone wykresy mogą mieć kilka takich wartości.}
 \end{itemize}
 
-Serie danych są kontenerami na próbki. Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora wartości z~dziedziny.
+Serie danych są kontenerami na próbki. Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny.
 
 Niezbędne są operacje dodawania, modyfikowania i~usuwania danych z~serii. Każda z tych operacji powinna skutkować aktualizacją wykresu powiązanego z~daną serią.
  
 \subsubsection{Elementy prezentujące dane}
-Każdy z~wykresów posiada specyficzny dla niego element służący do prezentacji danych z~próbki. Powinna istnieć możliwość ustawienia tym elementom dwóch piór i~dwóch pędzli -- dla trybu normalnego i~zaznaczenia. Użytkownik powinien mieć możliwość podmiany klasy takiego elementu na własną, przy czym odpowiedzialność za poprawne odrysowanie się wykresu spada wtedy na programistę.
+Każdy z~wykresów posiada specyficzny dla niego element służący do prezentacji danych z~próbki, którego rozmiar lub położenie w~układzie współrzędnych odzwierciedla wartość próbki. Każdy z~elementów może mieć swój podpis. Powinna istnieć możliwość ustawienia tym elementom dwóch piór i~dwóch pędzli -- dla trybu normalnego i~zaznaczenia. Programista powinien mieć możliwość podmiany, dla danego wykresu, klasy takiego elementu na własną, przy czym odpowiedzialność za poprawne odrysowanie się wykresu spada wtedy na programistę.
 
 \subsubsection{Tytuł wykresu i podpisy elementów}
 Dla wszelkich napisów będących składowymi wykresu musi być możliwość ustawienia ich treści, fontu oraz koloru.
 
 \subsubsection{Legenda}
-Dla wykresów obsługujących wiele serii danych legenda powinna prezentować kolory oraz tytuły tych serii. Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o~kolorze i~tytule każdej z~próbek. Legenda powinna przyjmować jedną z~dwóch orientacji: horyzontalną lub wertykalną.
+Dla wykresów obsługujących wiele serii danych legenda powinna prezentować kolory oraz tytuły tych serii. Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o~kolorze i~tytule każdej z~próbek. Legenda powinna przyjmować jedną z~dwóch orientacji: horyzontalną lub wertykalną. Powinna istnieć możliwość zmiany elementu prezentującego kolor za pomocą mechanizmu delegatów.
 
 \subsubsection{Dodatkowe elementy}
-Programiści powinni mieć możliwość tworzenia własnych elementów. Aby to osiągnąć powinni jedynie zaimplementować odpowiednie interfejsy.
+Programiści powinni mieć możliwość tworzenia własnych elementów i~dodawania ich do wykresów już istniejących klas. Aby to osiągnąć powinni jedynie zaimplementować odpowiednie interfejsy.
 
 \subsubsection{Osie}
 Powinna być możliwość ustawienia pióra służącego do rysowania osi, jej tytułu, gęstości ticków oraz zakresu wartości. Powinna istnieć możliwość przypisania do osi skali innej niż liniowa.
@@ -112,7 +110,7 @@ Powinna istnieć możliwość określenia grubości i~koloru linii oraz ziarnist
 Powinno być możliwe skalowanie wykresu. Wykres powinien dostosowywać swój rozmiar do przekazanego mu obszaru przeznaczonego na jego odrysowanie.
 
 \subsubsection{Zaznaczenie elementów reprezentujących próbki}
-Zaznaczenie pojedynczego elementu prezentującego dane powinno polegać na zmianie jego stanu zaznaczony. W~tym stanie element przy odrysowywaniu powinien korzystać ze~specjalnego pióra i~pędzla.
+Zaznaczenie pojedynczego elementu prezentującego dane powinno polegać na zmianie jego stanu na zaznaczony. W~tym stanie element przy odrysowywaniu powinien korzystać ze~specjalnego pióra i~pędzla.
 
 \subsubsection{Zaznaczenie serii}
 Powinna istnieć możliwość zaznaczania wszystkich elementów prezentujących dane z~wybranej serii.
@@ -121,7 +119,7 @@ Powinna istnieć możliwość zaznaczania wszystkich elementów prezentujących 
 Powinna istnieć możliwość wyświetlania kilku wykresów, również różnych typów, w~jednym układzie współrzędnych.
 
 \section{Wykres kołowy}
-Wykres kołowy służy do prezentacji danych z~jednej serii. Każda z~próbek jest prezentowana za pomocą wycinka kołowego o~kącie środkowym proporcjonalnym do prezentowanej wartości, przez co muszą to być wartości rzeczywiste dodatnie. Wartości wszystkich próbek serii sumują się do stu procent, a~przez to suma kątów wewnętrznych wycinków wynosi 360 stopni. Wszystkie wycinki z~danej serii mają wspólny środek oraz jednakowy promień.
+Wykres kołowy służy do prezentacji danych z~jednej serii. Każda z~próbek jest prezentowana za pomocą wycinka kołowego o~kącie środkowym proporcjonalnym do prezentowanej wartości, przez co muszą to być wartości rzeczywiste dodatnie. Wartości wszystkich próbek serii sumują się do stu procent, a~suma kątów wewnętrznych wycinków wynosi 360 stopni. Wszystkie wycinki z~danej serii mają wspólny środek oraz jednakowy promień.
 
 \subsection{Wysuwanie wycinka}
 Dowolny z~wycinków powinno się dać wysunąć o~zadany dodatni ułamek jego promienia. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt~\cite{animation}
@@ -141,20 +139,21 @@ Wykres słupkowy może zostać przedstawiony w~trybie stosowym. Wtedy dla każde
 
 
 \section{Wykres liniowy}
-W wykresie liniowym dana próbka jest prezentowana za pomocą pojedynczego punktu. Próbka Wszystkie punkty są prezentowane jako okręci o~takim samym promieniu. Punkty danej serii mogą zostać połączone w~krzywą łamaną.
+W wykresie liniowym dana próbka jest prezentowana za pomocą pojedynczego punktu. Punkty są prezentowane jako koła o~zadanym promieniu. Wartości próbek należą do zbioru liczb rzeczywistych. Punkty danej serii mogą zostać połączone w~łamaną.
 
-\subsection{}
+\subsection{Łączenie punktów}
+Programista powinien mieć możliwość wyboru w~kwestii łączenia punktów w~łamaną. Powinien mieć również możliwość zmiany wszystkich parametrów łamanej, tak jak dla elementów odpowiedzialnych za prezentację próbek.
 
 \section{Dodatki}
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
 
-\subsubsection{Motywy}
+\subsection{Motywy}
 Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Mechanizm ten powinien umożliwiać tworzenie wykresów o~spójnej kolorystyce oraz czcionkach. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
 
-\subsubsection{Budowanie wykresu}
+\subsection{Budowanie wykresu}
 Powinno być możliwe animowanie procesu budowania wykresu. Podczas tego procesu kolejne elementy wykresu będą stawały się widoczne, a~elementy odpowiedzialne za prezentację danych powinny stopniowo przyjmować swoje wartości, począwszy od zera.
 
-\subsubsection{Generowanie grafik}
+\subsection{Generowanie plików graficznych}
 Powinno być możliwe generowanie na podstawie istniejących wykresów plików graficznych  w~formatach .PNG i~.SVG.
 
 
@@ -186,11 +185,11 @@ Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie bibliotek
 Biblioteka powinna wykorzystywać możliwie nowe technologie, np. Qt5. Jednak użycie standardu \textit{C++11} nie jest wskazane ze względu na ograniczenie liczby potencjalnych odbiorców. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
 
 \subsection{Wydajność}
-Jako, że okoliczności wykorzystania wykresów biurowych są znacząco inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
+Jako, że okoliczności wykorzystania wykresów biurowych są inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
 Z~tego powodu oraz z~chęci uniknięcia antywzorca projektowego przedwczesnej optymalizacji, kwestie wydajności bilioteki jest odsuwana na dalszy plan.
 
 \subsection{Niezawodność}
-Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. bardzo ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
+Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
 
 %\subsubsection{Wiarygodnosć}
 
@@ -204,7 +203,9 @@ Zarówno dodawanie nowych jak i~usuwanie już istniejących elementów bibliotek
 ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtquick2-listmodel.html}
 \bibitem[2]{animation}
 Animacje w Qt \url{http://qt-project.org/doc/qt-5.1/qtcore/animation-overview.html}
-\bibitem[3]{qt-api}
+\bibitem[3]{qstyle}
+QStyle \url{http://qt-project.org/doc/qt-5.0/qtwidgets/qstyle.html}
+\bibitem[4]{qt-api}
 API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
 
 \end{thebibliography}
