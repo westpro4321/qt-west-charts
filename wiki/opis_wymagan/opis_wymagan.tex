@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\date{7 lipca 2013}
+\date{14 lipca 2013}
 \title{Opis wymagań}
 
 \author{Łukasz Szewczyk}
@@ -79,13 +79,11 @@ Wyświetalnie każdego z~elementów wykresu powinno być sterowane przez program
 \subsubsection{Serie danych}
 Biblioteka musi obsługiwać próbki danych, które posiadają następujące parametry:
 \begin{itemize}
-\item{jedna wartość ze specyficznego dla danego wykresu zbioru wartości,}
+\item{jedna wartość ze specyficznego dla danego wykresu zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych,}
 \item{co najmniej jedna wartość z~dziedziny liczb rzeczywistych. Bardziej złożone wykresy mogą mieć kilka takich wartości.}
 \end{itemize}
 
-Serie danych są kontenerami na próbki. Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny.
-
-Niezbędne są operacje dodawania, modyfikowania i~usuwania danych z~serii. Każda z tych operacji powinna skutkować aktualizacją wykresu powiązanego z~daną serią.
+Serie danych są kontenerami na próbki. Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny. Niezbędne są operacje dodawania, modyfikowania i~usuwania danych z~serii.
  
 \subsubsection{Elementy prezentujące dane}
 Każdy z~wykresów posiada specyficzny dla niego element służący do prezentacji danych z~próbki, którego rozmiar lub położenie w~układzie współrzędnych odzwierciedla wartość próbki. Każdy z~elementów może mieć swój podpis. Powinna istnieć możliwość ustawienia tym elementom dwóch piór i~dwóch pędzli -- dla trybu normalnego i~zaznaczenia. Programista powinien mieć możliwość podmiany, dla danego wykresu, klasy takiego elementu na własną, przy czym odpowiedzialność za poprawne odrysowanie się wykresu spada wtedy na programistę.
@@ -142,7 +140,7 @@ Wykres słupkowy może zostać przedstawiony w~trybie stosowym. Wtedy dla każde
 W wykresie liniowym dana próbka jest prezentowana za pomocą pojedynczego punktu. Punkty są prezentowane jako koła o~zadanym promieniu. Wartości próbek należą do zbioru liczb rzeczywistych. Punkty danej serii mogą zostać połączone w~łamaną.
 
 \subsection{Łączenie punktów}
-Programista powinien mieć możliwość wyboru w~kwestii łączenia punktów w~łamaną. Powinien mieć również możliwość zmiany wszystkich parametrów łamanej, tak jak dla elementów odpowiedzialnych za prezentację próbek.
+Programista powinien mieć możliwość podjęcia wyboru w~kwestii łączenia punktów w~łamaną. Powinien mieć również możliwość zmiany wszystkich parametrów łamanej, tak jak dla elementów odpowiedzialnych za prezentację próbek.
 
 \section{Dodatki}
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
