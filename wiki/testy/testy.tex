@@ -11,55 +11,44 @@
 \begin{document}
 
 \date{28 lipca 2013}
-\title{QTestLib \\}
+\title{Testy}
 
 \author{Łukasz Szewczyk}
 \maketitle
 
 
 \section{Wstęp}
-W celu osiągnięcia kodu o~wysokiej jakości należy przeprowadzać jego testy. Jest to szczególnie ważne przy tworzeniu bibliotek, gdyż wszelkie błędy w~nich zawarte wpływają negatywnie na programy klientów.
-Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\cite{qtest}. Biblioteka ta udostępnia narzędznia umożliwiające pisanie testów jednostkowych, testów starowanych danymi oraz testów wydajnościowych. 
+Aby osiągnąć wysokiej jakości kod, należy przeprowadzać jego testy. Jest to szczególnie ważne przy tworzeniu bibliotek, gdyż wszelkie błędy w~nich zawarte wpływają negatywnie na programy klientów.
+Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\cite{qttest}. Biblioteka ta udostępnia narzędzia umożliwiające tworzenie, m.in. testów jednostkowych, testów starowanych danymi oraz testów wydajnościowych. Jako, że do testowania mojej biblioteki wykorzystam właśnie tę platformę, poniżej opisuję pokrótce jej możliwości. Następnie opisuję sposób i~zakres testów, które zostaną przeprowadzone na mojej bibliotece.
 
-\section{Testy jednostkowe}
-Poniżej opisuję kolejne kroki prowadzące do stworzenia zbioru testów jednostkowych w~Qt.
+\section{QtTestLib}
+Stworzenie aplikacji testowej w~QtTestLib składa się z~kilku kroków. Pierwszym z~nich jest stworzenie klasy będącej swego rodzaju zbiorem testów jednostkowych. Następnie trzeba zaimplementować same testy jednostkowe, oraz zasilić je danymi, które umożliwią weryfikację poprawności działania testowanego oprogramowania. Kolejnym, opcjonalnym, krokiem jest napisanie testów wydajnościowych. Ostatnim etapem jest stworzenie funkcji \textit{main()}, zbudowanie oraz uruchomienie testów.
 
-\subsection{Podstawa}
-Podstawą tworzonych testów jednostkowych jest klasa, którą należy stworzyć. Musi ona dziedziczyć po QObject, a~wszystkie testy jednostkowe muszą być realizowane w~metodach tej klasy, z~kolei metody te muszą być prywatnymi slotami. Zabieg ten jest konieczny, aby QTestLib mógł wykryć wszystkie nasze funkcje testowe.
+\subsection{Klasa testowa}
+Podstawą testów jednostkowych jest klasa, którą należy stworzyć. Musi ona dziedziczyć po QObject, a~wszystkie testy jednostkowe muszą być realizowane w~metodach tej klasy. Z~kolei metody te muszą być jej prywatnymi slotami. Zabieg ten jest konieczny, aby QtTestLib mógł wykryć wszystkie nasze testy jednostkowe.
 
-\subsection{Implementacja funkcji testowych}
-Funkcje testowe są zazwyczaj prostymi kawałkami kodu, w~których sprawdzany jest efekt wywołania metody testowanej klasy. Jeśli jest on zgodny z~oczekiwaniami to test jest zaliczany i~system przechodzi do następnego testu. W~przeciwnym przypadku test jest oblewany, a~informacja o~tym zdarzeniu zostaje zapisana w~logu. W~zależności od ustawień aplikacj testowej, może ona zostać w~tym momencie przerwana, bądź kontynuowana do samego końca. 
-QTestLib swoje funkcjonalności za pomocą zbioru makrodefinicji, przykłady:
+
+\subsection{Testy jednostkowe}
+Testy jednostkowe są zazwyczaj prostymi kawałkami kodu, w~których sprawdzany jest efekt wywołania metody testowanej klasy. Jeśli jest on zgodny z~oczekiwaniami to test jest zaliczany i~system przechodzi do następnego testu. W~przeciwnym przypadku test jest oblewany, a~informacja o~tym zdarzeniu zostaje zapisana w~logu. W~zależności od ustawień aplikacj testowej, może ona zostać w~tym momencie przerwana, bądź kontynuowana. 
+QtTestLib udostępnia swoją funkcjonalność za pomocą zbioru makrodefinicji, np:
 \begin{itemize}
 \item{QVERIFY(warunek) -- sprawdzenie bool-owskiej wartości. Prawda zalicza test.}
 \item{QCOMPARE(faktyczna,~oczekiwana) -- porównanie dwóch wartości. Równość zalicza test.}
 \end{itemize}
 
-\subsection{Utworzenie funkcji main}
-Utworzenie funkcji main naszego testu sprowadza się do wykorzystania makra, które jako argument przyjmuje nazwę naszej funkcji testowej, np.\newline 
-\textit{QTEST\_MAIN(TestOfSomeClass)}. Tak utworzona funkcja main sprawi, że wszystkie nasze funkcje testowe zostaną uruchomione.
 
-\subsection{Uruchomienie testu}
-Aby zbudować naszą testową aplikację należy wpisać w~konsoli następujące komendy:
-\begin{lstlisting}
-qmake -project "CONFIG += qtestlib"
-qmake
-make
-\end{lstlisting}
-
-\section{Testy sterowane danymi}
-Aby odseparować logikę testów od danych, którymi będą zasilane, należy utworzyć dla każdego testu dwa sloty:
+\subsection{Testy sterowane danymi}
+Aby stworzyć test sterowany danymi, należy dodać do klasy testowej dwa sloty:
 \begin{lstlisting}
 void someTest();
 void someTest_data();
 \end{lstlisting}
-Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczenie danych do owego testu. Technika ta bardziej szczegółowo została omówiona w~artykule~\cite{datadriven}.
-Zastosowanie w tym przypadku makra \textit{QTEST\_MAIN()} spowoduje uruchomienie każdego testu dla wszystkich przygotowanych dlań zestawów danych.
+Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczenie danych do owego testu. Takie odseparowanie logiki od danych ułatwia dodawanie nowych danych, gdyż nie powoduje zmian w~kodzie logiki testu. Technika ta bardziej szczegółowo została omówiona w~artykule~\cite{datadriven}.
 
-\section{Testy wydajnościowe}
-Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test:
+\subsection{Testy wydajnościowe}
+Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test wydajności:
 \begin{lstlisting}
-void TestBenchmark::simpleTest()
+void TestFoo::simpleTest()
 {
 	Foo foo;
 
@@ -72,16 +61,36 @@ void TestBenchmark::simpleTest()
 }
 \end{lstlisting}
 
-Za pomocą tej techniki oraz testów sterowanych danymi można stworzyć automatyczne testy porównujące wydajność danego rozwiązania dla różnych zbiorów danych.
+Jak widać, w~jednym miejscu łączone są tutaj dwa testy metody \newline \textit{Foo::doSomething()}. Pierwszy z~nich to poprostu weryfikacja poprawności jej działania. Drugi test odpowiada za test wydajności tej metody. Za pomocą tej techniki oraz testów sterowanych danymi można stworzyć automatyczne testy porównujące wydajność danego rozwiązania dla różnych zbiorów danych.
 
-\section{Testy w mojej bibliotece}
-Testy jednostkowe
-Testy regresji
+\subsection{Funkcja main}
+Utworzenie funkcji main naszego testu sprowadza się do wykorzystania makra, które jako argument przyjmuje nazwę naszej klasy testowej, np.
+\begin{lstlisting}
+	QTEST_MAIN(TestFoo)
+\end{lstlisting}
+Tak utworzona funkcja main spowoduje uruchomienie każdego testu jednostkowego, dla każdego przygotowanego dlań zbioru danych.
 
+\subsection{Uruchomienie testu}
+Aby zbudować naszą testową aplikację należy wpisać w~konsoli następujące komendy:
+\begin{lstlisting}
+qmake -project "CONFIG += qtestlib"
+qmake
+make
+\end{lstlisting}
+
+Następnie należy uruchomić stworzony plik wykonywalny. Jako rezultat jego działania otrzymamy plik z~logami, które należy przeanalizować.
+
+\section{Testy w mojej pracy inżynierskiej}
+Tę część rozdziału będę mógł stworzyć dopiero w~końcowym etapie fazy projektowania.
+
+\subsection{Testy jednostkowe}
+\subsection{Testy wydajnościowe}
+\subsection{Testy regresji}
+\subsection{Wyniki i wnioski}
 
 \begin{thebibliography}{}
 
-\bibitem[1]{qtest}
+\bibitem[1]{qttest}
 Testy w Qt \url{http://qt-project.org/doc/qt-5.1/qttestlib/qtest-overview.html}
 \bibitem[2]{datadriven}
 Testy sterowane danymi \url{http://qt-project.org/doc/qt-4.8/qtestlib-tutorial2.html}
