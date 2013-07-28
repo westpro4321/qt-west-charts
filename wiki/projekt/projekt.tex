@@ -6,6 +6,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{eurosym}
+\usepackage{listings}
 \bibliographystyle{splncs}
 
 \begin{document}
@@ -19,6 +20,22 @@
 
 \section{Wstęp}
 W tym dokumencie opisuję rozwiązania części z wymagań stawianych mojej bibliotece.
+
+\section{2.3.1 Wyeksponowanie klas C++ w QML}
+Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.
+
+Większość klas powinna być gotowa do wyeksportowania ich do QML za pomocą standardowej procedury, np. poprzez wywołanie funkcji szablonowej
+\begin{lstlisting}
+template<typename T>
+int qmlRegisterType(const char *uri, int versionMajor, 
+		    int versionMinor, const char *qmlName)
+\end{lstlisting}
+Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.\newline
+
+Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
+
+\section{2.3.2 Uwzględnienie dostępnych mechanizmów}
+
 
 \section{7.2 Wymienność biblioteki}
 \subsection{Wersje Qt}
@@ -53,17 +70,18 @@ Wskaźniki do uchwytu i~ciała mają teraz typy klas znajdujących się na szczy
 Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwa należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tabelce~\ref{tab:makra}.
 
 \begin{table}[h]\footnotesize
-  	\caption{Makrodefinicje}
-	\label{tab:makra}
-	\begin{tabular}{|c|c|c|}
-	\hline
-	Miejsce & Uchwyt & Ciało\\
-	\hline
-	Nagłówek & Q\_DECLARE\_PRIVATE & Q\_DECLARE\_PUBLIC\\
-	\hline
-	Metoda & Q\_D & Q\_Q\\
-	\hline
-	\end{tabular}
+\centering
+\caption{Makrodefinicje}
+\label{tab:makra}
+\begin{tabular}{|c|c|c|}
+\hline
+Miejsce & Uchwyt & Ciało\\
+\hline
+Nagłówek & Q\_DECLARE\_PRIVATE & Q\_DECLARE\_PUBLIC\\
+\hline
+Metoda & Q\_D & Q\_Q\\
+\hline
+\end{tabular}
 \end{table}
 
 \begin{thebibliography}{}
