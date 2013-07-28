@@ -52,8 +52,7 @@ Niekiedy ciało ma potrzebę odwołania się do swego uchwytu, np. w~celu wyemit
 \subsection{Optymalizacja}
 Można by poprzestać na poprzednim punkcie, jednak twórcy Qt zauważyli możliwość udoskonalenia opisanego tam rozwiązania.
 Problem jaki postanowiono rozwiązać dotyczył wielopoziomowych hierarchii dziedziczenia. 
-
-Przykładowo dla klasy QListWidget występuje sześć poziomów dziedziczenia. Każda klasa uchwytu ma swoje ciało, co dla każdego obiektu klasy QListWidget oznacza przechowywanie aż siedmiu wskaźników do ciał i~siedmiu do implementacji. Jest to jednak niewielki koszt w~porównaniu do każdorazowej alokacji pamięci dla ciał, których również będzie siedem.
+Dla każdego poziomu należy przechowywać po dwa wskaźniki -- uchwyt przechowuje wskaźnik do ciała, a~ciało do uchwytu. Jest to jednak niewielki koszt w~porównaniu do każdorazowej alokacji pamięci dla ciał.
 Rozwiązanie tego problemu polega na ograniczeniu liczby powiązań pomiędzy uchwytami i~ciałami. Klasy ciał zostały ułożone w hierarchię dziedziczenia, a~wskaźniki do uchwytu oraz ciała przechowują jedynie klasy najwyższego poziomu. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
 
 
