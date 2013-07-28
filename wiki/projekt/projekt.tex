@@ -50,19 +50,18 @@ Koncepcję podziału na uchwyt oraz ciało zobrazowałem w~kontekście mojej bib
 \subsection{Dostęp do uchwytów i ciał}
 Optymalizacja opisana w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
 Wskaźniki do uchwytu i~ciała mają teraz typy klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych wymaga rzutowania w~dół. 
-Problem ten rozwiązano za pomocą czterech makrodefinicji opisanych w~tabelce~\ref{tab:makra}.
-
+Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwa należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tabelce~\ref{tab:makra}.
 
 \begin{table}[h]\footnotesize
   	\caption{Makrodefinicje}
 	\label{tab:makra}
 	\begin{tabular}{|c|c|c|}
 	\hline
-	Miejsce wykorzystania & Uchwyt & Ciało\\
+	Miejsce & Uchwyt & Ciało\\
 	\hline
 	Nagłówek & Q\_DECLARE\_PRIVATE & Q\_DECLARE\_PUBLIC\\
 	\hline
-	Początek metody & Q\_D & Q\_Q\\
+	Metoda & Q\_D & Q\_Q\\
 	\hline
 	\end{tabular}
 \end{table}
