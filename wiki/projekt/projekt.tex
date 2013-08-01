@@ -39,16 +39,42 @@ Warstwy niska i~wysoka są odrysowywane zgodnie z~algorytmem malarza. Służą d
 
 Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem steruje strategia danego wykresu. W~ogólnym przypadku programiści nie powinni dodawać własnych elementów do tej warstwy.
 
+\subsection{Lokalny system współrzędnych}
+Wykresy będą posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ułatwi to realizację takich wymagań jak: skalowanie wykresu czy interaktywność. 
+
+\begin{figure}
+\centering
+\caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
+\includegraphics[scale=0.6]{uklad_wspolrzednych.png}
+\end{figure}
+
+Ponadto każdy wykres będzie posiadał prostokąt określający jego zakres. Pozwoli to na optymalizację polegającą na pominięciu renderowania elementów spoza tego prostokąta.
+
+\subsection{Diagramy klas}
+Ogólna koncepcja na strukturę wykresu została przedstawiona na diagramie~\ref{rys:klasy:top_level}.
+
+Klasy pochodne od QocAbstractChart są miejscem łączącym wszystkie inne elementy. To na nich będą ustawiane parametry odnoszące się do całości wykresu, np. włączenie antyaliasingu.
+
+QocSeries odpowiada za dane dostarczane do wykresu. Jest lekkim odpowiednikiem modelu z~architektury Model-Widok.
+
+QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego za odpowiednie układanie elementów wykresu, głównie z~warstwy środkowej -- \textit{ChartLayer}, i~ich odrysowywanie. Jest to szczególnie przydatny komponent dla wykresów, które mogą być budowane na różne sposoby, np. wykres słupkowy.
+
+
+\begin{figure}
+\centering
+\caption{Diagram top level}\label{rys:klasy:top_level}
+\includegraphics[scale=0.4]{klasy-top_level.png}
+\end{figure}
+
 
 \section{2.3.1 Wyeksponowanie klas C++ w QML}
 \subsection{Adaptery}
 Chcąc uniknąć przesadnego rozbudowania interfejsów klas przy jednoczesnym zapewnieniu wysokiego poziomu ich parametryzowalności, podjąłem decyzję o~stworzeniu adapterów dla następujących klas:
 \begin{itemize}  
 \item{QBrush,}
-\item{QPen,}
-\item{QFont.}
+\item{QPen.}
 \end{itemize}
-Adaptery te będą dziedziczyć po \textit{QObject}, dzięki czemu staną się możliwe do wyeksportowania do QML. 
+Adaptery będą dziedziczyć po \textit{QObject}, dzięki czemu staną się możliwe do wyeksportowania do QML. Lista adapterów może ulec zmianie.
 
 \subsection{Eksport do QML}
 Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.
@@ -62,6 +88,17 @@ int qmlRegisterType(const char *uri, int versionMajor,
 Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.\newline
 
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
+
+
+\section{2.4 Interaktywność}
+Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
+\begin{itemize}
+\item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
+\item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
+\end{itemize}
+
+\section{2.4 Skalowanie}
+Każdy z~widoków, do których zostanie podpięty wykres, ma obowiązek powiadomienia wykresu o zmianie swojego położenia lub rozmiaru. Jest to niezbędne w~celu poprawnej implementacji automatycznego skalowania wykresu oraz mapowania współrzędnych globalne -- lokalne.
 
 
 \section{7.2 Wymienność biblioteki}
