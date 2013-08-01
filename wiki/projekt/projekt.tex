@@ -22,7 +22,35 @@
 \section{Wstęp}
 W tym dokumencie opisuję rozwiązania części z~wymagań stawianych mojej bibliotece.
 
+\section{2.1 Uniwersalny silnik}
+\subsection{Podział na warstwy}
+Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu będzie się składało z~odrysowania zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
+Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
+
+\begin{figure}
+\centering
+\caption{Warstwy wykresu}\label{rys:warstwy}
+\includegraphics[scale=0.6]{warstwy.png}
+\end{figure}
+
+Warstwy tła oraz pierwszego planu służą jedynie odrysowywaniu wzorów przekazanych za pomocą pędzla. Pozostałe warstwy są bardziej złożone i~zawierają liczne elementy.
+
+Warstwy niska i~wysoka są odrysowywane zgodnie z~algorytmem malarza. Służą dodawaniu przez programistów własnych elementów do wykresów istniejących klas.
+
+Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem steruje strategia danego wykresu. W~ogólnym przypadku programiści nie powinni dodawać własnych elementów do tej warstwy.
+
+
 \section{2.3.1 Wyeksponowanie klas C++ w QML}
+\subsection{Adaptery}
+Chcąc uniknąć przesadnego rozbudowania interfejsów klas przy jednoczesnym zapewnieniu wysokiego poziomu ich parametryzowalności, podjąłem decyzję o~stworzeniu adapterów dla następujących klas:
+\begin{itemize}  
+\item{QBrush,}
+\item{QPen,}
+\item{QFont.}
+\end{itemize}
+Adaptery te będą dziedziczyć po \textit{QObject}, dzięki czemu staną się możliwe do wyeksportowania do QML. 
+
+\subsection{Eksport do QML}
 Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.
 
 Większość klas powinna być gotowa do wyeksportowania ich do QML za pomocą standardowej procedury, np. poprzez wywołanie funkcji szablonowej
