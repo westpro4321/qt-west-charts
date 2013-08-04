@@ -1,0 +1,70 @@
+\chapter*{Wstęp}
+Qt jest prężnie rozwijającą się technologią dostępną na coraz większej liczbie platform.
+
+
+\chapter{Wprowadzenie}
+\section{Qt}
+Qt jest zbiorem bibliotek języka C++, które najczęściej są rozpowszechniane jako biblioteki dynamiczne. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{\url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{img/qt-rule.png}
+\caption{Motto Qt}
+\end{figure}
+
+\subsection{Narzędzia}
+Najważniejszymi narzędziami, które umożliwiają tudzież ułatwiają pracę z~Qt są:
+\begin{itemize}
+\item moc (Meta Object Compiler) -- specjalny program, który można porównać do preprocesora. Na podstawie naszego kodu generuje on dodatkowe pliki źródłowe potrzebne Qt, bedące niewidocznymi dla programisty.
+\item uic (User Interface Compiler) -- kompilator plików *.ui, które zawierają informację o~układzie interfejsu użytkowniak.
+\item qmake -- program, który na podstawie pliku projektu tworzy plik Makefile. Ułatwia w~znaczny sposób zarządzanie procesem budowania.
+\item Qt Creator -- zintergrowane środowisko programistyczne, przeznaczone głównie dla języków C++ i~JavaScript.
+\item Qt Designer -- program umożliwiający łatwe tworzenie interfejsów użytkownika. Generuje on wspomniane juz pliki *.ui.
+\end{itemize}
+
+
+\section{QObject}
+C++ nie wymusza dziedziczenia po określonej klasie, jak ma to miejsce chociażby w~Javie, gdzie zawsze na szczycie drzewa dziedziczenia znajduje się klasa \textit{Object}. Korzystając z tej niszy, Qt wprowadza swoją klasę -- \textit{QObject}. Dzięki wielodziedziczeniu, nie musimy rezygnować z dotychczasowej hierarchii dziedziczenia, aby otrzymać wiele ciekawych możliwości płynących z~wykorzystania \textit{QObject}.
+Niektóre z~nich to:
+\begin{itemize}
+\item Relacja rodzic--dziecko, która jest nawiązywana w chwili tworzenia obiektów. Umożliwia ona wyszukiwanie dzieci danego obiektu po ich klasie, bądź nazwie. Ponadto ułatwia zarządzanie pamięcią, poprzez automatyczne usuwanie obiektów -- dzieci w chwili usunięcia rodzica. Przykład: usunięcie okna zawierającego wiele elementów spowoduje posprzątanie ze sterty wszystkich przycisków, etykiet czy obrazków.
+\item \textit{qobject\_cast} -- dynamiczne rzutowanie, stosowane zazwyczaj do rzutowania w dół hierarchii dziedziczenia. Jest ono znacznie szybsze od \textit{dynamic\_cast}, gdyż nie korzysta z mechanizmu RTTI (Run Time Type Information). Jedynym oczywistym mankamentem jest fakt, że rzutowanie to działa jedynie dla klas dziedziczących po \textit{QObject}.
+\item Zdarzenia -- niskopoziomowy mechanizm. Qt opakowuje standardowe zdarzenia w obiekty swoich klas i~dostarcza je do odpowiednich obiektów. Przed dostarczeniem zdarzenia do adresata, można je przefiltrować, podejrzeć lub wręcz zmienić.
+\item Sygnały i~sloty -- wysokopoziomowy mechanizm komunikacji będący implementacją wzorca \textit{Obserwator}.
+Jest to bardzo wygodny sposób na luźne wiązanie obiektów, które mogą ze sobą współpracować, nie wiedząc nawzajem o swoim istnieniu.
+\item Właściwości -- sposób na parametryzowanie obiektów. Istnieją zarówno właściwości statyczne, dodawane w czasie kompilacji, wspólne dla wszystkich obiektów danej klasy, np. wysokośc czy kolor, jak i~dynamiczne, przypisywane pojedynczym obiektom już w czasie wykonania programu.
+\end{itemize}
+
+\section{Qt Quick}
+Qt~Quick~\footnote{\url{http://qt.digia.com/Product/qt-quick}} jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
+Na Qt~Quick składają się:
+\begin{itemize}
+\item QML -- deklaratywny język,
+\item JavaScript -- imperatywny język,
+\item Środowisko uruchomieniowe zintegrowane z Qt,
+\item Designer,
+\item API C++ umożliwiające integrację z aplikacjami Qt.
+\end{itemize}
+
+W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View\url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\footnote{Scene Graph\url{http://en.wikipedia.org/wiki/Scene\_graph}}. Ponadto w celach optymalizacyjnych zrezygnowano z~własnego silnika języka JavaScript i skorzystano z gotowego rozwiązania -- \textit{Google~V8}.
+
+\subsection{Podstawy QML}
+QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowy systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\footnote{Qt Build Suit \url{http://qt-project.org/wiki/qbs}}, językiem opisu projektu jest właśnie QML.  
+Elementy QML są układane w~drzewiastą strukturę, ułatwiającą zarządzanie nimi. Podobnie jak obiekty w~klasycznym Qt, elementy posiadają szereg właściwości, np. id lub szerokość. W~QML wartość nie jest przypisywana właściwości, a~jest z nią wiązana, dzięki czemu właściwość ta jest stale aktualizowana.
+
+\subsection{Przykładowy kod QML}
+
+\begin{verbatim}
+Item {
+width: 400; height: 200
+   Rectangle {
+   id: rect
+   x: 100; y: 50;
+   width: height * 2; height: 100
+   color: "lightblue"
+    }
+}
+\end{verbatim}
+
+Jak widać, główny element jest typu \textit{Item}, o wymiarach 400x200. Posiada on dziecko będące prostokątem o szerokości będącej podwojeniem jego wysokości. Co ciekawe, w chwili zmiany wysokości w czasie działania programu, jego szerokość zostanie przeliczona na nowo. Kolejną ciekawą właściwością prostokąta jest jego id, dzięki któremu inne elementy mogą odwoływać się do naszego prostokąta.
+

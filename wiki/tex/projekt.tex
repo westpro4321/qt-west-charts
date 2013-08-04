@@ -1,24 +1,4 @@
-\documentclass[11pt,twoside,a4paper,final]{llncs}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[MeX]{polski}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{hyperref}
-\usepackage{eurosym}
-\usepackage{listings}
-\bibliographystyle{splncs}
-
-\begin{document}
-
-\date{2 sierpnia 2013}
-\title{Wstępny projekt}
-
-\author{Łukasz Szewczyk}
-\institute{Politechnika Warszawska, Wydział Elektroniki i Technik Informacyjnych}
-\maketitle
-
-
+\chapter{Projekt}
 \section{Wstęp}
 W tym dokumencie opisuję rozwiązania części z~wymagań stawianych mojej bibliotece.
 
@@ -30,7 +10,7 @@ Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 \begin{figure}
 \centering
 \caption{Warstwy wykresu}\label{rys:warstwy}
-\includegraphics[scale=0.6]{warstwy.png}
+\includegraphics[scale=0.6]{img/warstwy.png}
 \end{figure}
 
 Warstwy tła oraz pierwszego planu służą jedynie odrysowywaniu wzorów przekazanych za pomocą pędzla. Pozostałe warstwy są bardziej złożone i~zawierają liczne elementy.
@@ -45,7 +25,7 @@ Wykresy będą posiadać lokalny, kartezjański układ współrzędnych rzeczywi
 \begin{figure}
 \centering
 \caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
-\includegraphics[scale=0.6]{uklad_wspolrzednych.png}
+\includegraphics[scale=0.6]{img/uklad_wspolrzednych.png}
 \end{figure}
 
 Ponadto każdy wykres będzie posiadał prostokąt określający jego zakres. Pozwoli to na optymalizację polegającą na pominięciu renderowania elementów spoza tego prostokąta.
@@ -63,7 +43,7 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 \begin{figure}
 \centering
 \caption{Diagram top level}\label{rys:klasy:top_level}
-\includegraphics[scale=0.4]{klasy-top_level.png}
+\includegraphics[scale=0.4]{img/klasy-top_level.png}
 \end{figure}
 
 
@@ -124,7 +104,7 @@ Koncepcję podziału na uchwyt oraz ciało zobrazowałem w~kontekście mojej bib
 \begin{figure}
 \centering
 \caption{Przykładowa hierarchia klas}\label{rys:dpointer}
-\includegraphics[scale=0.6]{dpointer.png}
+\includegraphics[scale=0.6]{img/dpointer.png}
 \end{figure}
 
 \subsection{Dostęp do uchwytów i ciał}
@@ -153,4 +133,3 @@ Metoda & Q\_D & Q\_Q\\
 
 
 \end{thebibliography}
-\end{document}
