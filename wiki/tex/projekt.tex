@@ -86,7 +86,7 @@ Każdy z~widoków, do których zostanie podpięty wykres, ma obowiązek powiadom
 Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy kiedy to możliwe, zachowywana była kompatybilność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll.
 
 \subsection{QObject}
-Klasa QObject jest, jak pisze Scott Meyers w~swojej książce~\cite{meyers}, uchwytem lub kopertą, zawierającą wskaźnik do faktycznej implementacji. Z~kolei klasa implementacji jest nazywana odpowiednio ciałem bądź listem. Taki podział zmniejsza zależności pomiędzy plikami i~znacząco skraca czas kompilacji po zmianach w~kodzie.
+Klasa QObject jest, jak pisze Scott Meyers w~swojej książce~\cite[150-158]{50Ways}, uchwytem lub kopertą, zawierającą wskaźnik do faktycznej implementacji. Z~kolei klasa implementacji jest nazywana odpowiednio ciałem bądź listem. Taki podział zmniejsza zależności pomiędzy plikami i~znacząco skraca czas kompilacji po zmianach w~kodzie.
 Niekiedy ciało ma potrzebę odwołania się do swego uchwytu, np. w~celu wyemitowania sygnału, dlatego musi posiadać do niego wskaźnik. W~Qt przyjęto następującą koncepcję nazewniczą:
 \begin{itemize}
 \item{uchwyt ma standardową nazwę, zgodną ze swoim przeznaczeniem,}
@@ -126,10 +126,3 @@ Metoda & Q\_D & Q\_Q\\
 \hline
 \end{tabular}
 \end{table}
-
-\begin{thebibliography}{}
-\bibitem[1]{meyers}
-,,50 efektywnych sposobów na udoskonalenie Twoich programów'', Scott Meyers, strona 154, 2004, wydawnictwo Helion, ISBN: 83-7361-345-5
-
-
-\end{thebibliography}

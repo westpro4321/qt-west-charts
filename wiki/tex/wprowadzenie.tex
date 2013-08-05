@@ -1,7 +1,7 @@
 \chapter*{Wstęp}
 Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań. Ważnym tematem jest również dostosowanie sposobu prezentacji do odbiorcy.
  
-Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok-Delegat. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
+Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
 
 Wykresy są graficzną formą prezentacji danych, która jest równie popularna co tabelki. Jest to forma może mniej precyzyjna, ale dużo bardzo przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto jej graficzna oraz możliwe animacje sprawiają, że jest ona bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
 
@@ -11,7 +11,7 @@ Na początku tej pracy omawiam dostępne biblioteki do tworzenia wykresów w~Qt.
 
 \chapter{Wprowadzenie}
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które najczęściej są rozpowszechniane jako biblioteki dynamiczne. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{\url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
+Qt jest zbiorem bibliotek języka C++, które najczęściej są rozpowszechniane jako biblioteki dynamiczne. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{Digia \url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
 
 \begin{figure}
 \centering
@@ -43,7 +43,7 @@ Jest to bardzo wygodny sposób na luźne wiązanie obiektów, które mogą ze so
 \end{itemize}
 
 \section{Qt Quick}
-Qt~Quick~\footnote{\url{http://qt.digia.com/Product/qt-quick}} jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
+Qt~Quick~\footnote{Qt Quick \url{http://qt.digia.com/Product/qt-quick}} jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
 Na Qt~Quick składają się:
 \begin{itemize}
 \item QML -- deklaratywny język,
@@ -53,7 +53,7 @@ Na Qt~Quick składają się:
 \item API C++ umożliwiające integrację z aplikacjami Qt.
 \end{itemize}
 
-W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View\url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\footnote{Scene Graph\url{http://en.wikipedia.org/wiki/Scene\_graph}}. Ponadto w celach optymalizacyjnych zrezygnowano z~własnego silnika języka JavaScript i skorzystano z gotowego rozwiązania -- \textit{Google~V8}.
+W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View  \url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\footnote{Scene Graph\url{http://en.wikipedia.org/wiki/Scene\_graph}}. Ponadto w celach optymalizacyjnych zrezygnowano z~własnego silnika języka JavaScript i skorzystano z gotowego rozwiązania -- \textit{Google~V8}.
 
 \subsection{QML}
 QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowy systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\footnote{Qt Build Suit \url{http://qt-project.org/wiki/qbs}}, językiem opisu projektu jest właśnie QML.\newline
@@ -84,6 +84,6 @@ Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \te
 \begin{figure}
 \centering
 \caption{Przykład wykorzystania QML}\label{rys:qml}
-\includegraphics[scale=0.8]{img/qml.png}
+\includegraphics{img/qml.png}
 \end{figure}
 

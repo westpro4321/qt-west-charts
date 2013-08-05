@@ -35,7 +35,7 @@ Już na etapie projektowania należy zadbać, aby tworzone struktury były łatw
 Tworzenie interfejsów do QML nie jest celem tego projektu, jednak ich implementacja powinna być możliwie łatwa dla programistów decydujących się na korzystanie z~mojej biblioteki.
 
 \subsubsection{Uwzględnienie dostępnych mechanizmów}
-W Qt~Quick prezentacja danych została podzielona na widok, model oraz delegaty. Tworzona biblioteka powinna wpisywać się w ten wzorzec. Cenną własnością będzie możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. poprzez pobieranie danych z~obiektu klasy ListModel~\cite{list-model}. Warto wprowadzić również możliwość zmiany delegata służącego do renderowania danego elementu wykresu.
+W Qt~Quick prezentacja danych została podzielona na widok, model oraz delegaty. Tworzona biblioteka powinna wpisywać się w ten wzorzec. Cenną własnością będzie możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. poprzez pobieranie danych z~obiektu klasy ListModel~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtquick2-listmodel.html}}. Warto wprowadzić również możliwość zmiany delegata służącego do renderowania danego elementu wykresu.
 
 \subsection{Interaktywność}
 Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację interakcji. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} ułatwiają wykonywanie pewnych operacji, np. porównanie położenia kursora względem elementów graficznych.
@@ -103,7 +103,7 @@ Powinna istnieć możliwość wyświetlania kilku wykresów, również różnych
 Wykres kołowy służy do prezentacji danych z~jednej serii. Każda z~próbek jest prezentowana za pomocą wycinka kołowego o~kącie środkowym proporcjonalnym do prezentowanej wartości, przez co muszą to być wartości rzeczywiste dodatnie. Wartości wszystkich próbek serii sumują się do stu procent, a~suma kątów wewnętrznych wycinków wynosi 360 stopni. Wszystkie wycinki z~danej serii mają wspólny środek oraz jednakowy promień.
 
 \subsection{Wysuwanie wycinka}
-Dowolny z~wycinków powinno się dać wysunąć o~zadany dodatni ułamek jego promienia. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt~\cite{animation}
+Dowolny z~wycinków powinno się dać wysunąć o~zadany dodatni ułamek jego promienia. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt~\footnote{Animacje w Qt \url{http://qt-project.org/doc/qt-5.1/qtcore/animation-overview.html}}
 
 \subsection{Obracanie wykresu}
 Powinna być możliwość obracania wykresu wokół jego środka. Kąt obrotu powinien być dowolną całkowitą wartością, o~jednostce wynoszącej 1/16-tą stopnia -- jest to standardowa w~Qt jednostka. Proces ten powinien być możliwy do animacji.
@@ -129,7 +129,7 @@ Programista powinien mieć możliwość podjęcia wyboru w~kwestii łączenia pu
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
 
 \subsection{Motywy}
-Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\cite{qstyle}. Mechanizm ten powinien umożliwiać tworzenie wykresów o~spójnej kolorystyce oraz czcionkach. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
+Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\footnote{QStyle \url{http://qt-project.org/doc/qt-5.0/qtwidgets/qstyle.html}}. Mechanizm ten powinien umożliwiać tworzenie wykresów o~spójnej kolorystyce oraz czcionkach. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
 
 \subsection{Budowanie wykresu}
 Powinno być możliwe animowanie procesu budowania wykresu. Podczas tego procesu kolejne elementy wykresu będą stawały się widoczne, a~elementy odpowiedzialne za prezentację danych powinny stopniowo przyjmować swoje wartości, począwszy od zera.
@@ -156,7 +156,7 @@ Jednak nie są to wszystkie wymagania stawiane projektowanej bibliotece. Aby two
 \item{właściwości jako sposób na parametryzowanie obiektów,}
 \item{preferowanie przyjmowania wskaźników zamiast referencji do funkcji modyfikujących argumenty,}
 \item{asynchroniczna komunikacja między obiektami rozwiązana za pomocą sygnałów i~slotów,}
-\item{nazewnictwo, sposób zwracania wartości z~funkcji i~wiele innych opisanych w~załączonym artykule~\cite{qt-api}.}
+\item{nazewnictwo, sposób zwracania wartości z~funkcji i~wiele innych opisanych w~załączonym dokumencie~\cite{APIDesign}.}
 \end{itemize}
 
 \subsection{Wymienność biblioteki}
@@ -181,11 +181,11 @@ Zarówno dodawanie nowych jak i~usuwanie już istniejących elementów bibliotek
 \begin{thebibliography}{}
 
 \bibitem[1]{list-model}
-ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtquick2-listmodel.html}
+
 \bibitem[2]{animation}
-Animacje w Qt \url{http://qt-project.org/doc/qt-5.1/qtcore/animation-overview.html}
+
 \bibitem[3]{qstyle}
-QStyle \url{http://qt-project.org/doc/qt-5.0/qtwidgets/qstyle.html}
+
 \bibitem[4]{qt-api}
 API w stylu Qt \url{http://qt-project.org/wiki/API-Design-Principles}
 

@@ -1,7 +1,7 @@
 \chapter{Testy}
 \section{Wstęp}
 Aby osiągnąć wysokiej jakości kod, należy przeprowadzać jego testy. Jest to szczególnie ważne przy tworzeniu bibliotek, gdyż wszelkie błędy w~nich zawarte wpływają negatywnie na programy klientów.
-Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\cite{qttest}. Biblioteka ta udostępnia narzędzia umożliwiające tworzenie, m.in. testów jednostkowych, testów sterowanych danymi oraz testów wydajnościowych. Jako, że do testowania mojej biblioteki wykorzystam właśnie tę platformę, poniżej opisuję pokrótce jej możliwości. Następnie opisuję sposób i~zakres testów, które zostaną przeprowadzone na mojej bibliotece.
+Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\footnote{Testy w Qt \url{http://qt-project.org/doc/qt-5.1/qttestlib/qtest-overview.html}}. Biblioteka ta udostępnia narzędzia umożliwiające tworzenie, m.in. testów jednostkowych, testów sterowanych danymi oraz testów wydajnościowych. Jako, że do testowania mojej biblioteki wykorzystam właśnie tę platformę, poniżej opisuję pokrótce jej możliwości. Następnie opisuję sposób i~zakres testów, które zostaną przeprowadzone na mojej bibliotece.
 
 \section{QtTestLib}
 Stworzenie aplikacji testowej w~QtTestLib składa się z~kilku kroków. Pierwszym z~nich jest stworzenie klasy będącej swego rodzaju zbiorem testów jednostkowych. Następnie trzeba zaimplementować same testy jednostkowe, oraz zasilić je danymi, które umożliwią weryfikację poprawności działania testowanego oprogramowania. Kolejnym, opcjonalnym, krokiem jest napisanie testów wydajnościowych. Ostatnim etapem jest stworzenie funkcji \textit{main()}, zbudowanie oraz uruchomienie testów.
@@ -25,7 +25,7 @@ Aby stworzyć test sterowany danymi, należy dodać do klasy testowej dwa sloty:
 void someTest();
 void someTest_data();
 \end{lstlisting}
-Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczenie danych do owego testu. Takie odseparowanie logiki od danych ułatwia dodawanie nowych danych, gdyż nie powoduje zmian w~kodzie logiki testu. Technika ta bardziej szczegółowo została omówiona w~artykule~\cite{datadriven}.
+Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczenie danych do owego testu. Takie odseparowanie logiki od danych ułatwia dodawanie nowych danych, gdyż nie powoduje zmian w~kodzie logiki testu. Technika ta bardziej szczegółowo została omówiona w~artykule~\footnote{Testy sterowane danymi \url{http://qt-project.org/doc/qt-4.8/qtestlib-tutorial2.html}}.
 
 \subsection{Testy wydajnościowe}
 Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test wydajności:
@@ -69,13 +69,3 @@ Tę część rozdziału będę mógł stworzyć dopiero w~końcowym etapie fazy 
 \subsection{Testy wydajnościowe}
 \subsection{Testy regresji}
 \subsection{Wyniki i wnioski}
-
-\begin{thebibliography}{}
-
-\bibitem[1]{qttest}
-Testy w Qt \url{http://qt-project.org/doc/qt-5.1/qttestlib/qtest-overview.html}
-\bibitem[2]{datadriven}
-Testy sterowane danymi \url{http://qt-project.org/doc/qt-4.8/qtestlib-tutorial2.html}
-
-
-\end{thebibliography}
