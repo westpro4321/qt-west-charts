@@ -1,8 +1,7 @@
 \chapter{Projekt}
-\section{Wstęp}
-W tym dokumencie opisuję rozwiązania części z~wymagań stawianych mojej bibliotece.
+Rozdział ten zawiera szkice rozwiązań dla wymagań z~poprzednich rozdziałów.
 
-\section{2.1 Uniwersalny silnik}
+\section{Uniwersalny silnik}
 \subsection{Podział na warstwy}
 Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu będzie się składało z~odrysowania zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
 Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
@@ -10,7 +9,7 @@ Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 \begin{figure}
 \centering
 \caption{Warstwy wykresu}\label{rys:warstwy}
-\includegraphics[scale=0.6]{img/warstwy.png}
+\includegraphics{img/warstwy.png}
 \end{figure}
 
 Warstwy tła oraz pierwszego planu służą jedynie odrysowywaniu wzorów przekazanych za pomocą pędzla. Pozostałe warstwy są bardziej złożone i~zawierają liczne elementy.
@@ -19,13 +18,17 @@ Warstwy niska i~wysoka są odrysowywane zgodnie z~algorytmem malarza. Służą d
 
 Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem steruje strategia danego wykresu. W~ogólnym przypadku programiści nie powinni dodawać własnych elementów do tej warstwy.
 
+\subsubsection{Wskazówki implementacyjne}
+Metoda odpowiedzialna za odrysowywanie wykresu powinna być \textit{Metodą Szablonową}~\cite[264-268]{Patterns}, czyli niewirtualną, publiczną metodą klasy bazowej, wywołującą kolejne metody odpowiedzialne za odrysowanie pojedynczych warstw. Metody te powinny z~kolei być wirtualne i~chronione.
+Metody odpowiedzialne za tło i~pierwszy plan powinny udostępniać domyślną implementację, natomiast pozostałe powinny być czysto wirtualne.
+
 \subsection{Lokalny system współrzędnych}
 Wykresy będą posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ułatwi to realizację takich wymagań jak: skalowanie wykresu czy interaktywność. 
 
 \begin{figure}
 \centering
 \caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
-\includegraphics[scale=0.6]{img/uklad_wspolrzednych.png}
+\includegraphics{img/uklad_wspolrzednych.png}
 \end{figure}
 
 Ponadto każdy wykres będzie posiadał prostokąt określający jego zakres. Pozwoli to na optymalizację polegającą na pominięciu renderowania elementów spoza tego prostokąta.
@@ -43,11 +46,11 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 \begin{figure}
 \centering
 \caption{Diagram top level}\label{rys:klasy:top_level}
-\includegraphics[scale=0.4]{img/klasy-top_level.png}
+\includegraphics[scale=0.5]{img/klasy-top_level.png}
 \end{figure}
 
 
-\section{2.3.1 Wyeksponowanie klas C++ w QML}
+\section{Wyeksponowanie klas C++ w QML}
 \subsection{Adaptery}
 Chcąc uniknąć przesadnego rozbudowania interfejsów klas przy jednoczesnym zapewnieniu wysokiego poziomu ich parametryzowalności, podjąłem decyzję o~stworzeniu adapterów dla następujących klas:
 \begin{itemize}  
@@ -70,47 +73,41 @@ Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu,
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
 
 
-\section{2.4 Interaktywność}
+\section{Interaktywność}
 Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
 \begin{itemize}
 \item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
 \item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
 \end{itemize}
 
-\section{2.4 Skalowanie}
+\section{Skalowanie}
 Każdy z~widoków, do których zostanie podpięty wykres, ma obowiązek powiadomienia wykresu o zmianie swojego położenia lub rozmiaru. Jest to niezbędne w~celu poprawnej implementacji automatycznego skalowania wykresu oraz mapowania współrzędnych globalne -- lokalne.
 
 
-\section{7.2 Wymienność biblioteki}
-\subsection{Wersje Qt}
-Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy kiedy to możliwe, zachowywana była kompatybilność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll.
+\section{Zależności między plikami}
+Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji międzi plikami został poruszony przez Scotta Meyersa~\cite[150-158]{50Ways}.
 
 \subsection{QObject}
-Klasa QObject jest, jak pisze Scott Meyers w~swojej książce~\cite[150-158]{50Ways}, uchwytem lub kopertą, zawierającą wskaźnik do faktycznej implementacji. Z~kolei klasa implementacji jest nazywana odpowiednio ciałem bądź listem. Taki podział zmniejsza zależności pomiędzy plikami i~znacząco skraca czas kompilacji po zmianach w~kodzie.
-Niekiedy ciało ma potrzebę odwołania się do swego uchwytu, np. w~celu wyemitowania sygnału, dlatego musi posiadać do niego wskaźnik. W~Qt przyjęto następującą koncepcję nazewniczą:
-\begin{itemize}
-\item{uchwyt ma standardową nazwę, zgodną ze swoim przeznaczeniem,}
-\item{ciało ma nazwę składającą się z~nazwy swojego uchwytu oraz sufiksu ,,Private''.}
-\end{itemize}
+Klasa QObject została zaprojektowana jako \textit{Most}~\cite[181-190]{Patterns}, zmodyfikowany o~posiadany przez ciało wskaźnik do uchwytu. Podział na uchwyt i~ciało zmniejsza zależności pomiędzy plikami bibliotek Qt i~znacząco skraca czas kompilacji po zmianach w~kodzie. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
+Koncepcję \textit{Mostu} zobrazowałem w~kontekście mojej biblioteki na rys.~\ref{rys:dpointer}.\newline
 
-\subsection{Optymalizacja}
-Można by poprzestać na poprzednim punkcie, jednak twórcy Qt zauważyli możliwość udoskonalenia opisanego tam rozwiązania.
-Problem jaki postanowiono rozwiązać dotyczył wielopoziomowych hierarchii dziedziczenia. 
-Dla każdego poziomu należy przechowywać po dwa wskaźniki -- uchwyt przechowuje wskaźnik do ciała, a~ciało do uchwytu. Jest to jednak niewielki koszt w~porównaniu do każdorazowej alokacji pamięci dla ciał.
-Rozwiązanie tego problemu polega na ograniczeniu liczby powiązań pomiędzy uchwytami i~ciałami. Klasy ciał zostały ułożone w hierarchię dziedziczenia, a~wskaźniki do uchwytu oraz ciała przechowują jedynie klasy najwyższego poziomu. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
-
-
-Koncepcję podziału na uchwyt oraz ciało zobrazowałem w~kontekście mojej biblioteki na rys.~\ref{rys:dpointer}.
 \begin{figure}
 \centering
 \caption{Przykładowa hierarchia klas}\label{rys:dpointer}
-\includegraphics[scale=0.6]{img/dpointer.png}
+\includegraphics[scale=0.8]{img/dpointer.png}
 \end{figure}
 
+W~Qt przyjęto następującą koncepcję nazewniczą:
+\begin{itemize}
+\item{uchwyt ma standardową nazwę, zgodną ze swoim przeznaczeniem,}
+\item{ciało ma nazwę składającą się z~nazwy odpowiadającego mu uchwytu oraz sufiksu ,,Private''.}
+\end{itemize}
+
+
 \subsection{Dostęp do uchwytów i ciał}
-Optymalizacja opisana w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
-Wskaźniki do uchwytu i~ciała mają teraz typy klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych wymaga rzutowania w~dół. 
-Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwa należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tabelce~\ref{tab:makra}.
+Podejście opisane w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
+Wskaźniki do uchwytu i~ciała są typów klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych niewystępujących w~klasach bazowych wymaga rzutowania w~dół. 
+Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tabelce~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}
 
 \begin{table}[h]\footnotesize
 \centering
