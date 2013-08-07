@@ -55,9 +55,9 @@ Na Qt~Quick składają się:
 W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View  \url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\footnote{Scene Graph\url{http://en.wikipedia.org/wiki/Scene\_graph}}. Ponadto w celach optymalizacyjnych zrezygnowano z~własnego silnika języka JavaScript i skorzystano z gotowego rozwiązania -- \textit{Google~V8}.
 
 \subsection{QML}
-QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowy systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\footnote{Qt Build Suit \url{http://qt-project.org/wiki/qbs}}, językiem opisu projektu jest właśnie QML.\newline
+QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowym systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\footnote{Qt Build Suit \url{http://qt-project.org/wiki/qbs}} językiem opisu projektu jest właśnie QML.
 
-Relacja rodzic-dziecko elementów QML została zorganizowana w~drzewiastą strukturę, ułatwiającą zarządzanie elementami. Podobnie jak obiekty w~klasycznym Qt, elementy posiadają szereg właściwości, np. id lub szerokość. W~QML wartość nie jest przypisywana właściwości, a~jest z nią wiązana, dzięki czemu właściwość ta może być stale aktualizowana.\newline
+Relacja rodzic-dziecko elementów QML została zorganizowana w~drzewiastą strukturę, ułatwiającą zarządzanie elementami. Podobnie jak obiekty w~klasycznym Qt, elementy posiadają szereg właściwości, np. id lub szerokość. W~QML wartość nie jest przypisywana właściwości, a~jest z nią wiązana, dzięki czemu właściwość ta może być stale aktualizowana.
 
 Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez integrację z modułami napisanymi w~C++.
 
