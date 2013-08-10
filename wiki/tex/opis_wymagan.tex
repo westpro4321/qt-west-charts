@@ -37,14 +37,17 @@ QML & QQuickItem -- klasy bazujące na SceneGraph\\
 \end{tabular}
 \end{table}
 
-%Głównym celem projektowanej biblioteki jest udostępnienie programistom uniwersalnego silnika umożliwiającego tworzenie interaktywnych wykresów. Ma to być rozwiązanie generyczne, działające zarówno dla klasycznego Qt jak i~Qt~Quick~2. Po przeanalizowaniu dostępnych rozwiązań w~rozdziale poświęconym przeglądowi dziedziny, łatwo zauważyć, że twórcy przedstawionych tam bibliotek przyjęli jeden z dwóch modeli:
-%\begin{itemize}
-%\item{udostępnienie gotowych widgetów, zawierających wykresy,}
-%\item{udostępnienie logiki wykresu, gotowej do zaprezentowania na jednym ze~specjalnie przygotowanych widoków.}
-%\end{itemize}
-%Pierwsze podejście, oferujące gotowe kontrolki, jest bardzo mało uniwersalne oraz niemal wyklucza wykorzystanie w~Qt~Quick.
-%Mimo iż w~drugim podejściu odseparowano logikę od widoku, nadal jest to rozwiązanie ograniczone ze względu na niewielką liczbę kompatybilnych widoków.
-%W~tym momencie pojawia się pomysł na stworzeniu silnika generującego pewne abstrakcje, które mogą zostać wyrenderowane na dowolnej powierzchni, np. na kontrolce, w~dokumencie tekstowym czy w~widoku QML. Wydaje się, że jest to podejście na tyle świeże i~uniwersalne, że może się okazać najlepszym.
+\subsection{Interaktywność}
+Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację interakcji. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} ułatwiają wykonywanie pewnych operacji, np. porównanie położenia kursora względem elementów graficznych.
+
+\subsection{Źródła danych}
+Typowym źródłem danych dla dowolnego wykresu jest seria danych, czyli swego rodzaju kontener na próbki.
+Stąd potrzeba stworzenia struktur danych reprezentujących serie oraz próbki.
+
+Ponadto wykresy mają być alternatywą dla widoków z~architektury Model-Widok. Przewiduję, że typowym przypadkiem użycia będzie prezentowanie tych samych danych za pomocą wykresów oraz tabelek. Z~tego powodu wszystkie wykresy muszą przyjmować jako źródło danych obiekty klas dziedziczących po \textit{QAbstractItemModel}.
+
+Szczególnymi przypadkami modeli są te wykorzystywane w~QML. Ważne jest, aby podłączenie obiektów klas \textit{ListModel} i~\textit{XmlListModel} do wykresu było intuicyjne dla programistów QML.
+
 
 \subsection{Przenośność}
 Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na poziomie kodu źródłowego między najważniejszymi wspieranymi przez Qt platformami.
@@ -66,8 +69,7 @@ Tworzenie interfejsów do QML nie jest celem tego projektu, jednak ich implement
 \subsubsection{Uwzględnienie dostępnych mechanizmów}
 W Qt~Quick prezentacja danych została podzielona na widok, model oraz delegaty. Tworzona biblioteka powinna wpisywać się w ten wzorzec. Cenną własnością będzie możliwość współpracy biblioteki z~już istniejącymi komponentami Qt~Quick, np. poprzez pobieranie danych z~obiektu klasy ListModel~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtquick2-listmodel.html}}. Warto wprowadzić również możliwość zmiany delegata służącego do renderowania danego elementu wykresu.
 
-\subsection{Interaktywność}
-Projekt musi zakładać pełną interaktywność tworzonych wykresów. Celem projektu nie jest jednak jej implementacja, a~dostarczenie elementów składowych wykresów, które umożliwią realizację interakcji. Najlepszym rozwiązaniem będzie tutaj wzorowanie się na GraphicsView, gdzie funkcje takie jak \textit{boundingRect()} czy \textit{shape()} ułatwiają wykonywanie pewnych operacji, np. porównanie położenia kursora względem elementów graficznych.
+
 
 
 \subsection{Elementy składowe wykresów}

@@ -32,6 +32,16 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
 
+\section{Źródła danych}
+Z~wymagań funkcjonalnych wynika, że wykresy muszą współpracować z~dwoma typami źródeł danych:
+\begin{itemize}
+\item{serie danych}
+\item{modele z architektury Model-Widok}
+
+W~szczególności ważna jest współpraca z~popularnym w~Qt~Quick modelem -- \textit{QQmlListModel}.
+
+Aby ułatwić ułatwić programistom rozpoczęcie współpracy z~moją biblioteką, zdecydowałem się zastosować statyczny polimorfizm przy projektowaniu serii danych.
+
 \section{Diagramy klas}
 
 \subsection{Top level}
