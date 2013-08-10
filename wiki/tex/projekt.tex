@@ -33,14 +33,7 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
 
 \section{Źródła danych}
-Z~wymagań funkcjonalnych wynika, że wykresy muszą współpracować z~dwoma typami źródeł danych:
-\begin{itemize}
-\item{serie danych}
-\item{modele z architektury Model-Widok}
 
-W~szczególności ważna jest współpraca z~popularnym w~Qt~Quick modelem -- \textit{QQmlListModel}.
-
-Aby ułatwić ułatwić programistom rozpoczęcie współpracy z~moją biblioteką, zdecydowałem się zastosować statyczny polimorfizm przy projektowaniu serii danych.
 
 \section{Diagramy klas}
 
@@ -72,7 +65,7 @@ template<typename T>
 int qmlRegisterType(const char *uri, int versionMajor, 
 		    int versionMinor, const char *qmlName)
 \end{lstlisting}
-Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.\newline
+Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.
 
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
 
