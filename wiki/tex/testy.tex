@@ -1,6 +1,6 @@
 \chapter{Testy}
 Aby osiągnąć wysokiej jakości kod, należy przeprowadzać jego testy. Jest to szczególnie ważne przy tworzeniu bibliotek, gdyż wszelkie błędy w~nich zawarte wpływają negatywnie na programy klientów.
-Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\footnote{Testy w Qt \url{http://qt-project.org/doc/qt-5.1/qttestlib/qtest-overview.html}}. Biblioteka ta udostępnia narzędzia umożliwiające tworzenie, m.in. testów jednostkowych, testów sterowanych danymi oraz testów wydajnościowych. Jako, że do testowania mojej biblioteki wykorzystam właśnie tę platformę, poniżej opisuję pokrótce jej możliwości. Następnie opisuję sposób i~zakres testów, które zostaną przeprowadzone na mojej bibliotece.
+Biblioteką odpowiedzialną za testy w~Qt jest QtTestLib~\footnote{Testy w Qt \url{http://qt-project.org/doc/qt-5.1/qttestlib/qtest-overview.html}}. Biblioteka ta udostępnia narzędzia umożliwiające tworzenie, m.in. testów jednostkowych, testów sterowanych danymi oraz testów wydajnościowych. Jako, że do testowania mojej biblioteki wykorzystam właśnie tę platformę, poniżej opisuję pokrótce jej możliwości. Następnie opisuję sposób i~przypadki testowe, które zostaną sprawdzone na mojej bibliotece.
 
 \section{QtTestLib}
 Stworzenie aplikacji testowej w~QtTestLib składa się z~kilku kroków. Pierwszym z~nich jest stworzenie klasy będącej swego rodzaju zbiorem testów jednostkowych. Następnie trzeba zaimplementować same testy jednostkowe, oraz zasilić je danymi, które umożliwią weryfikację poprawności działania testowanego oprogramowania. Kolejnym, opcjonalnym, krokiem jest napisanie testów wydajnościowych. Ostatnim etapem jest stworzenie funkcji \textit{main()}, zbudowanie oraz uruchomienie testów.
@@ -61,10 +61,16 @@ make
 
 Następnie należy uruchomić stworzony plik wykonywalny. Jako rezultat jego działania otrzymamy plik z~logami, które należy przeanalizować.
 
-\section{Testy w mojej pracy inżynierskiej}
-Tę część rozdziału będę mógł stworzyć dopiero w~końcowym etapie fazy projektowania.
+\section{Przypadki testowe}
 
-\subsection{Testy jednostkowe}
-\subsection{Testy wydajnościowe}
-\subsection{Testy regresji}
-\subsection{Wyniki i wnioski}
+\subsection{Operacje na serii danych}
+Test będzie polegał na dodawaniu, usuwaniu i~modyfikowaniu danych w~serii. Po każdej operacji zawartość serii będzie porównywana z~oczekiwaną zawartością.
+
+\subsection{Dostarczanie zdarzeń}
+Planuję przesyłać do wykresu zdarzenia, które powinny powodować zaznaczenie, bądź odznaczenie elementu wykresu. Przesłane w~zdarzeniu współrzędne powinny jednoznacznie wskazać, który z~elementów powinien zostać zaznaczony. Należy przetestować również wysyłanie zdarzeń nie trafiających w~żaden element. 
+
+\subsection{Modyfikacja modelu z poziomu wykresu}
+W~tym teście preparowane będą zdarzenia imitujące proces mający na celu zmianę danych zawartych w~modelu poprzez modyfikację elementów wykresu.
+
+
+

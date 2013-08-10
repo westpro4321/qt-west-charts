@@ -34,6 +34,11 @@ Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ wspó
 
 \section{Źródła danych}
 
+\begin{figure}
+\centering
+\caption{Wykres -- Model}\label{rys:wykres:model}
+\includegraphics[scale=0.8]{img/wykres-model.png}
+\end{figure}
 
 \section{Diagramy klas}
 
@@ -75,6 +80,8 @@ Zakładam, że w~niektórych przypadkach interfejsy dostępne z~poziomu QML mog�
 Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykorzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
 
 \section{Interaktywność}
+TODO:
+
 Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
 \begin{itemize}
 \item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
@@ -82,17 +89,17 @@ Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na
 \end{itemize}
 
 \section{Współpraca wykresów z widokami }
-Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem przepływ informacji między widokiem a dowolnym wykresem z~mojej biblioteki.
+Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.
 
 Widok ma obowiązek przesyłać do wykresu wszelkie zdarzenia, które są dla niego przeznaczone oraz informować wykres o~zmianach swojej geometrii. Ponadto przy odrysowywaniu widok musi wywoływać metodę \textit{draw()} wykresu.
 
 Wykres nie powinien posiadać informacji z~widokiem jakiej klasy współpracuje. Można to osiągnać za pomocą mechanizmu sygnałów i~slotów, który pozwala na luźne wiązanie elementów. Odpowiednie sygnały  powinny być emitowane przez wykres zawsze wtedy, gdy wymaga on ponownego odrysowania.
-Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą być skolejkowane i~obsłużone w~najbliższej wolnej chwili.
+Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą zostać skolejkowane, sklejone i~obsłużone jako jedno zgłoszenie w~najbliższej wolnej chwili.
 
 
 \begin{figure}
 \centering
-\caption{Widok -- wykres}\label{rys:widok:wykres}
+\caption{Widok -- Wykres}\label{rys:widok:wykres}
 \includegraphics[scale=0.8]{img/widok-wykres.png}
 \end{figure}
 
@@ -119,10 +126,12 @@ Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odryso
 %\end{itemize}
 
 \section{Zależności między plikami}
-Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji międzi plikami został poruszony przez Scotta Meyersa~\cite[150-158]{50Ways}.
+Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji między plikami został poruszony przez Scotta Meyersa~\cite[150-158]{50Ways}.
 
 \subsection{QObject}
-Klasa QObject została zaprojektowana jako \textit{Most}~\cite[181-190]{Patterns}, zmodyfikowany o~posiadany przez ciało wskaźnik do uchwytu. Podział na uchwyt i~ciało zmniejsza zależności pomiędzy plikami bibliotek Qt i~znacząco skraca czas kompilacji po zmianach w~kodzie. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
+Klasa QObject została zaprojektowana jako \textit{Most}~\cite[181-190]{Patterns}.
+%, zmodyfikowany o~posiadany przez ciało wskaźnik do uchwytu. 
+Podział na uchwyt i~ciało zmniejsza zależności pomiędzy plikami bibliotek Qt i~znacząco skraca czas kompilacji po zmianach w~kodzie. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
 Koncepcję \textit{Mostu} zobrazowałem w~kontekście mojej biblioteki na rys.~\ref{rys:dpointer}.\newline
 
 \begin{figure}
