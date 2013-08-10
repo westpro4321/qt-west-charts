@@ -1,9 +1,9 @@
 \chapter*{Wstęp}
-Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań. Ważnym tematem jest również dostosowanie sposobu prezentacji do odbiorcy.
+Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań.
  
 Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
 
-Wykresy są graficzną formą prezentacji danych, która jest równie popularna co tabelki. Jest to forma może mniej precyzyjna, ale dużo bardzo przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto jej obrazkowa natura oraz możliwe animacje sprawiają, że jest ona bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
+Wykresy są graficzną formą prezentacji danych, która jest niemal tak popularna jak tabelki. Jest to forma może mniej precyzyjna, ale dużo bardzo przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto jej obrazkowa natura oraz możliwe animacje sprawiają, że jest ona bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
 Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak, jak wynika z~rozdziału \textit{Przegląd dziedziny}, nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source.
 
 Na początku tej pracy omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to projekt architektury całej biblioteki, wykonany z~pomocą diagramów UML. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni rozdział zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
@@ -85,4 +85,7 @@ Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \te
 \caption{Przykład wykorzystania QML}\label{rys:qml}
 \includegraphics{img/qml.png}
 \end{figure}
+
+\subsection{Własne elementy}
+Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Ze względu na wydajność, takie podejście sprawdza się jedynie dla stosunkowo prostych elementów. Te bardziej złożone powinny być pisane w~C++, a następnie eksponowane w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt.
 

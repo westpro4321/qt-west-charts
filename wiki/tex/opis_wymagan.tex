@@ -1,5 +1,4 @@
 \chapter{Opis wymagań}
-\section{Wstęp}
 Istotą tego rozdziału jest opisanie wszystkich wymagań stawianych tworzonej bibliotece. 
 Rozdział ten składa się z~dwóch głównych części: opisu wymagań funkcjonalnych i~opisu wymagań pozafunkcjonalnych.\newline
 Opis wymagań funkcjonalnych rozpoczynają wymagania stawiane całej bibliotece oraz wymagania odnoszące się do wszystkich tworzonych za jej pomocą wykresów. Następnie zostały przedstawione specyficzne wymagania dotyczące konkretnych typów wykresów.\newline
@@ -8,14 +7,44 @@ Opis wymagań pozafunkcjonalnych został dokonany w~kontekście całej bibliotek
 \section{Wspólne wymagania funkcjonalne}
 %\subsection{Wspólne}
 \subsection{Uniwersalny silnik}
-Głównym celem projektowanej biblioteki jest udostępnienie programistom uniwersalnego silnika umożliwiającego tworzenie interaktywnych wykresów. Ma to być rozwiązanie generyczne, działające zarówno dla klasycznego Qt jak i~Qt~Quick~2. Po przeanalizowaniu dostępnych rozwiązań w~rozdziale poświęconym przeglądowi dziedziny, łatwo zauważyć, że twórcy przedstawionych tam bibliotek przyjęli jeden z dwóch modeli:
+Podstawowym celem projektowanej biblioteki jest udostępnienie programistom uniwersalnego silnika umożliwiającego tworzenie interaktywnych wykresów. Ma to być rozwiązanie generyczne, działające zarówno dla klasycznego Qt jak i~Qt~Quick~2. Tworzony silnik powinien umożliwiać wyświetlenie wykresów w~następujących miejscach:
 \begin{itemize}
-\item{udostępnienie gotowych widgetów, zawierających wykresy,}
-\item{udostępnienie logiki wykresu, gotowej do zaprezentowania na jednym ze~specjalnie przygotowanych widoków.}
+\item{widgety,}
+\item{architektura Graphics View,}
+\item{dokumenty tekstowe,}
+\item{QML.}
 \end{itemize}
-Pierwsze podejście, oferujące gotowe kontrolki, jest bardzo mało uniwersalne oraz niemal wyklucza wykorzystanie w~Qt~Quick.
-Mimo iż w~drugim podejściu odseparowano logikę od widoku, nadal jest to rozwiązanie ograniczone ze względu na niewielką liczbę kompatybilnych widoków.
-W~tym momencie pojawia się pomysł na stworzeniu silnika generującego pewne abstrakcje, które mogą zostać wyrenderowane na dowolnej powierzchni, np. na kontrolce, w~dokumencie tekstowym czy w~widoku QML. Wydaje się, że jest to podejście na tyle świeże i~uniwersalne, że może się okazać najlepszym.
+
+W~tabelce~\ref{tab:widoki} zostały podane stosowne dla każdego z~przypadków wykorzystania widoki.
+
+\begin{table}[h]\footnotesize
+\centering
+\caption{Kompatybilne widoki}
+\label{tab:widoki}
+\begin{tabular}{|c|c|}
+\hline
+Miejsce & Klasa bazowa widoku\\
+\hline
+Widget & QWidget\\
+\hline
+Graphics View & QGraphicsObject\\
+\hline
+Dokument tekstowy & QTextFrame\\
+\hline
+QML & QQuickItem -- klasy bazujące na SceneGraph\\
+ & QQuickPaintedItem -- klasy bazujące na QPainter\\
+\hline
+\end{tabular}
+\end{table}
+
+%Głównym celem projektowanej biblioteki jest udostępnienie programistom uniwersalnego silnika umożliwiającego tworzenie interaktywnych wykresów. Ma to być rozwiązanie generyczne, działające zarówno dla klasycznego Qt jak i~Qt~Quick~2. Po przeanalizowaniu dostępnych rozwiązań w~rozdziale poświęconym przeglądowi dziedziny, łatwo zauważyć, że twórcy przedstawionych tam bibliotek przyjęli jeden z dwóch modeli:
+%\begin{itemize}
+%\item{udostępnienie gotowych widgetów, zawierających wykresy,}
+%\item{udostępnienie logiki wykresu, gotowej do zaprezentowania na jednym ze~specjalnie przygotowanych widoków.}
+%\end{itemize}
+%Pierwsze podejście, oferujące gotowe kontrolki, jest bardzo mało uniwersalne oraz niemal wyklucza wykorzystanie w~Qt~Quick.
+%Mimo iż w~drugim podejściu odseparowano logikę od widoku, nadal jest to rozwiązanie ograniczone ze względu na niewielką liczbę kompatybilnych widoków.
+%W~tym momencie pojawia się pomysł na stworzeniu silnika generującego pewne abstrakcje, które mogą zostać wyrenderowane na dowolnej powierzchni, np. na kontrolce, w~dokumencie tekstowym czy w~widoku QML. Wydaje się, że jest to podejście na tyle świeże i~uniwersalne, że może się okazać najlepszym.
 
 \subsection{Przenośność}
 Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na poziomie kodu źródłowego między najważniejszymi wspieranymi przez Qt platformami.

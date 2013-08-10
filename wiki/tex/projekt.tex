@@ -1,8 +1,7 @@
 \chapter{Projekt}
 Rozdział ten zawiera szkice rozwiązań dla wymagań z~poprzednich rozdziałów.
 
-\section{Uniwersalny silnik}
-\subsection{Podział na warstwy}
+\section{Podział na warstwy}
 Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu będzie się składało z~odrysowania zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
 Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 
@@ -22,8 +21,8 @@ Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem st
 Metoda odpowiedzialna za odrysowywanie wykresu powinna być \textit{Metodą Szablonową}~\cite[264-268]{Patterns}, czyli niewirtualną, publiczną metodą klasy bazowej, wywołującą kolejne metody odpowiedzialne za odrysowanie pojedynczych warstw. Metody te powinny z~kolei być wirtualne i~chronione.
 Metody odpowiedzialne za tło i~pierwszy plan powinny udostępniać domyślną implementację, natomiast pozostałe powinny być czysto wirtualne.
 
-\subsection{Lokalny system współrzędnych}
-Wykresy będą posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ułatwi to realizację takich wymagań jak: skalowanie wykresu czy interaktywność. 
+\section{Lokalny układ współrzędnych}
+Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ponadto granice wykresu będą wyznaczane przez specjalny prostokąt. Takie podejście umożliwi układanie elementów względem lokalnego, a~nie globalnego układu współrzędnych, oraz ustalanie, które z~elementów są widoczne i~należy je odrysować. Dodatkowo ułatwiona będzie realizacja takich wymagań jak: skalowanie wykresu czy interaktywność. 
 
 \begin{figure}
 \centering
@@ -31,9 +30,11 @@ Wykresy będą posiadać lokalny, kartezjański układ współrzędnych rzeczywi
 \includegraphics{img/uklad_wspolrzednych.png}
 \end{figure}
 
-Ponadto każdy wykres będzie posiadał prostokąt określający jego zakres. Pozwoli to na optymalizację polegającą na pominięciu renderowania elementów spoza tego prostokąta.
+Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
 
-\subsection{Diagramy klas}
+\section{Diagramy klas}
+
+\subsection{Top level}
 Ogólna koncepcja na strukturę wykresu została przedstawiona na diagramie~\ref{rys:klasy:top_level}.
 
 Klasy pochodne od QocAbstractChart są miejscem łączącym wszystkie inne elementy. To na nich będą ustawiane parametry odnoszące się do całości wykresu, np. włączenie antyaliasingu.
@@ -65,10 +66,10 @@ Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu,
 
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
 
-\subsection{Uproszczone interfejsy}
+\subsection{Uproszczony interfejs}
 Zakładam, że w~niektórych przypadkach interfejsy dostępne z~poziomu QML mogą, a~nawet powinny być uboższe od swoich odpowiedników w~C++. Najlepszym przykładem będzie ramka wokół dowolnego elementu graficznego, będącego składową wykresu. Z~poziomu C++ powinna istnieć możliwość ustawienia pióra używanego do jej odrysowania. Klasa pióra, czyli \textit{QPen}, nie dziedziczy po \textit{QObject}, więc nie może być dostępna w~QML.
 
-Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykrzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
+Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykorzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
 
 \section{Interaktywność}
 Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
@@ -77,30 +78,42 @@ Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na
 \item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
 \end{itemize}
 
-\section{Skalowanie}
-Każdy z~widoków, do których zostanie podpięty wykres, ma obowiązek powiadomienia wykresu o zmianie swojego położenia lub rozmiaru. Jest to niezbędne w~celu poprawnej implementacji automatycznego skalowania wykresu oraz mapowania współrzędnych globalne -- lokalne.
+\section{Współpraca wykresów z widokami }
+Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem przepływ informacji między widokiem a dowolnym wykresem z~mojej biblioteki.
 
-\subsubsection{Wskazówki implementacyjne}
-Klasa bazowa wykresów powinna posiadać właściwość typu prostokąt, opisującą geometrię widoku podłączonego do danego wykresu. Zmiana tej właściwości powinna się odbywać poprzez odpowiedni slot, przyjmujący jako argument nowy prostokąt.
+Widok ma obowiązek przesyłać do wykresu wszelkie zdarzenia, które są dla niego przeznaczone oraz informować wykres o~zmianach swojej geometrii. Ponadto przy odrysowywaniu widok musi wywoływać metodę \textit{draw()} wykresu.
 
-W~zależności od klasy, z~której wywodzi się widok podłączony do wykresu, slot powiadamiający wykres o~zmianie geometrii widoku powinien być wywoływany następujących metodach widoku:
-\begin{itemize}
-\item{QWidget}
-	\begin{itemize}
-	\item{moveEvent()}
-	\item{resizeEvent()}
-	\end{itemize}
-\item{QGraphicsItem}
-	\begin{itemize}
-	\item{prepareGeometryChange()}
-	\end{itemize}
-\item{QTextFrame}
+Wykres nie powinien posiadać informacji z~widokiem jakiej klasy współpracuje. Można to osiągnać za pomocą mechanizmu sygnałów i~slotów, który pozwala na luźne wiązanie elementów. Odpowiednie sygnały  powinny być emitowane przez wykres zawsze wtedy, gdy wymaga on ponownego odrysowania.
+Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą być skolejkowane i~obsłużone w~najbliższej wolnej chwili.
 
-\item{QQuickPaintedItem}
-	\begin{itemize}
-	\item{geometryChanged()}
-	\end{itemize}
-\end{itemize}
+
+\begin{figure}
+\centering
+\caption{Widok -- wykres}\label{rys:widok:wykres}
+\includegraphics[scale=0.8]{img/widok-wykres.png}
+\end{figure}
+
+%\subsubsection{Wskazówki implementacyjne}
+%Klasa bazowa wykresów powinna posiadać właściwość typu prostokąt, opisującą geometrię widoku podłączonego do danego wykresu. Zmiana tej właściwości powinna się odbywać poprzez odpowiedni slot, przyjmujący jako argument nowy prostokąt.
+
+%W~zależności od klasy, z~której wywodzi się widok podłączony do wykresu, slot powiadamiający wykres o~zmianie geometrii widoku powinien być wywoływany następujących metodach widoku:
+%\begin{itemize}
+%\item{QWidget}
+%	\begin{itemize}
+%	\item{moveEvent()}
+%	\item{resizeEvent()}
+%	\end{itemize}
+%\item{QGraphicsObject}
+%	\begin{itemize}
+%	\item{prepareGeometryChange()}
+%	\end{itemize}
+%\item{QTextFrame}
+
+%\item{QQuickPaintedItem}
+%	\begin{itemize}
+%	\item{geometryChanged()}
+%	\end{itemize}
+%\end{itemize}
 
 \section{Zależności między plikami}
 Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji międzi plikami został poruszony przez Scotta Meyersa~\cite[150-158]{50Ways}.
