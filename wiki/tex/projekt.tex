@@ -33,6 +33,13 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
 
 \section{Źródła danych}
+Na rysunku~\ref{rys:wykres:model} przedstawiłem kluczowe elementy protokołu wymiany danych pomiędzy wykresem, a~dowolnym źródłem danych. 
+
+Wykres może jedynie odczytywać i~modyfikować dane zawarte w~modelu. Robi to poprzez wywołanie odpowiednich metod.
+
+Model komunikuje się z~wykresem za pomocą zbioru sygnałów.
+
+TODO: diagramy UML i~opis tego jak dokładnie ma działać ta magia
 
 \begin{figure}
 \centering
@@ -80,13 +87,20 @@ Zakładam, że w~niektórych przypadkach interfejsy dostępne z~poziomu QML mog�
 Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykorzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
 
 \section{Interaktywność}
-TODO:
-
 Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
 \begin{itemize}
 \item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
 \item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
 \end{itemize}
+
+\subsection{Zmiana wartości w modelu}
+Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany zawartości modelu poprzez modyfikację elementów widoku. Przerywane strzałki zawierające opis symbolizują wywołanie sygnału.
+
+\begin{figure}
+\centering
+\caption{Diagram sekwencji}\label{rys:seq:inter}
+\includegraphics[scale=0.6]{img/seq_inter.png}
+\end{figure}
 
 \section{Współpraca wykresów z widokami }
 Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.

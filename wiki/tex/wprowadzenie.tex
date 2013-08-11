@@ -1,16 +1,16 @@
 \chapter*{Wstęp}
-Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań.
+Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań. Wbrew pozorom nie ma zbyt wielu efektywnych form prezentacji danych.
  
-Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
+Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych i~szczegółowych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
 
-Wykresy są graficzną formą prezentacji danych, która jest niemal tak popularna jak tabelki. Jest to forma może mniej precyzyjna, ale dużo bardzo przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto jej obrazkowa natura oraz możliwe animacje sprawiają, że jest ona bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
+Wykresy są graficzną formą prezentacji danych, o~popularności porównywalnej do tabelek. Jest to forma może mniej precyzyjna, ale dużo bardziej przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto ich obrazkowa natura oraz możliwe animacje sprawiają, że jest to forma bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
 Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak, jak wynika z~rozdziału \textit{Przegląd dziedziny}, nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source.
 
 Na początku tej pracy omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to projekt architektury całej biblioteki, wykonany z~pomocą diagramów UML. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni rozdział zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
 
 \chapter{Wprowadzenie}
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które najczęściej są rozpowszechniane jako biblioteki dynamiczne. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{Digia \url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
+Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{Digia \url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
 
 \begin{figure}
 \centering
@@ -24,7 +24,7 @@ Najważniejszymi narzędziami, które umożliwiają tudzież ułatwiają pracę 
 \item moc (Meta Object Compiler) -- specjalny program, który można porównać do preprocesora. Na podstawie naszego kodu generuje on dodatkowe pliki źródłowe potrzebne Qt, bedące niewidocznymi dla programisty.
 \item uic (User Interface Compiler) -- kompilator plików *.ui, które zawierają informację o~układzie interfejsu użytkowniak.
 \item qmake -- program, który na podstawie pliku projektu tworzy plik Makefile. Ułatwia w~znaczny sposób zarządzanie procesem budowania.
-\item Qt Creator -- zintergrowane środowisko programistyczne, przeznaczone głównie dla języków C++ i~JavaScript.
+\item Qt Creator -- zintergrowane środowisko programistyczne, przeznaczone głównie dla języków C++, QML i~JavaScript.
 \item Qt Designer -- program umożliwiający łatwe tworzenie interfejsów użytkownika. Generuje on wspomniane juz pliki *.ui.
 \end{itemize}
 
