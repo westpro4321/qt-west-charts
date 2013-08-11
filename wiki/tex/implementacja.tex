@@ -31,5 +31,46 @@ Kubuntu to pochodna Ubuntu, korzystająca z~KDE~\footnote{KDE \url{http://pl.wik
 
 Kubuntu jest udostępniane z~bogatym zbiorem aplikacji biurowych, multimedialnych oraz wielu innych. Najpopularniejsze aplikacje, które są dostarczane wraz z~systemem Kubuntu to LibreOffice i~GIMP. 
 
-\section{Tworzenie biblioteki}
+\section{Tworzenie biblioteki współdzielonej}
+Biblioteka współdzielona to rodzaj biblioteki dynamicznej, czyli biblioteki łączonej z~programem dopiero w~trakcie jego uruchamiania. Przy pierwszym uruchomieniu programu korzystającego z~danej biblioteki współdzielonej, biblioteka ta zostaje załadowana w~całości do pamięci. Od tej pory wszystkie programy, będą mogły korzystać z~tej biblioteki bez ponownego jej ładowania. W~systemach Unixowych biblioteki dynamiczne mają rozszerzenie .so, a~w~systemach Windows .dll.
+
+Qt udostępnia nam stosunkowo prosty sposób na tworzenie bibliotek dynamicznych.
+
+\subsection{Symbole}
+Wszelkie funkcje, zmienne i klasy zawarte w~bibliotece, które są przeznaczone do użytku dla klientów biblioteki są nazywane publicznymi symbolami i~muszą zostać wyeksportowane, czyli upublicznione podczas kompilacji biblioteki. Zazwyczaj domyślne zachowanie kompilatorów to ukrywanie wszystkich symboli. Aby stały się one dostępne dla klientów biblioteki, trzeba to otwarcie zasygnalizować podczas kompilacji. Natomiast na niektórych platformach osobnych instrukcji wymaga ukrycie symboli.
+
+\subsection{Eksport -- Import}
+Rozwiązaniem obu problemów są dwa makra dostarczane przez Qt, które muszą zostać dodane do deklaracji symboli:
+\begin{itemize}
+\item{Q\_DECL\_EXPORT -- przy kompilacji dynamicznej biblioteki}
+\item{Q\_DECL\_IMPORT -- przy kompilacji klienta korzystającego z~biblioteki}
+\end{itemize}
+
+\subsection{Uniwersalne makro}
+Teraz trzeba się upewnić, że odpowiednie makro zostanie wykorzystane w~odpowiednim momencie. Typowym rozwiązaniem jest dodanie specjalnego pliku nagłówkowego, np. \textit{foolib\_global.h}. Plik ten musi zawierać kod preprocesora realizujący następującą sztuczkę:
+\begin{verbatim}
+#include <QtCore/QtGlobal>
+
+#if defined(FOOLIB_LIBRARY)
+#  define FOOLIB_API Q_DECL_EXPORT
+#else
+#  define FOOLIB_API Q_DECL_IMPORT
+#endif
+\end{verbatim}
+
+Jak widać, w~zależności od tego czy istnieje makro \textit{FOOLIB\_LIBRARY}, makro \textit{FOOLIB\_API} posłuży do eksportowania albo importowania symboli biblioteki \textit{FooLib}. Makro \textit{FOOLIB\_LIBRARY} zostanie zdefiniowane tylko i~wyłącznie w~pliku projektu biblioteki \textit{FooLib}. Tylko wtedy będziemy mieli pewność, że nasza biblioteka będzie poprawnie linkowana. W~pliku .pro należy dodać następującą instrukcję:
+
+\begin{verbatim}
+DEFINES +=  FOOLIB_LIBRARY
+\end{verbatim}
+
+\subsection{Wykorzystanie makra}
+We wszystkich plikach nagłówkowych biblioteki, deklaracje symboli muszą zostać uzupełnione o~nasze makro:
+
+\begin{verbatim}
+#include "foolib_global.h"
+
+FOOLIB_API void foo();
+class FOOLIB_API Foo...
+\end{verbatim}
 
