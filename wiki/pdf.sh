@@ -20,4 +20,4 @@ pdflatex -file-line-error-style tex/main.tex
 # pdfelatex -file-line-error-style -output-directory=tmp -aux-directory=tmp -include-directory=tex tex/main.tex
 pdflatex -file-line-error-style tex/main.tex
 # i interaktywny pdf gotowy
-mv main.pdf lszewczyk_qt.pdf
+mv main.pdf lszewczyk_charts.pdf
