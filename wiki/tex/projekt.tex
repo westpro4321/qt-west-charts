@@ -95,11 +95,11 @@ Zakładam, że w~niektórych przypadkach interfejsy dostępne z~poziomu QML mog�
 Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykorzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
 
 \section{Interaktywność}
-Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
-\begin{itemize}
-\item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
-\item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
-\end{itemize}
+%Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
+%\begin{itemize}
+%\item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
+%\item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
+%\end{itemize}
 
 \subsection{Zmiana wartości w modelu}
 Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany zawartości modelu poprzez modyfikację elementów widoku. Przerywane strzałki zawierające opis symbolizują wywołanie sygnału.
