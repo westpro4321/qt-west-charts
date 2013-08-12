@@ -8,7 +8,7 @@ Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 \begin{figure}
 \centering
 \caption{Warstwy wykresu}\label{rys:warstwy}
-\includegraphics{img/warstwy.png}
+\includegraphics{img/warstwy.pdf}
 \end{figure}
 
 Warstwy tła oraz pierwszego planu służą jedynie odrysowywaniu wzorów przekazanych za pomocą pędzla. Pozostałe warstwy są bardziej złożone i~zawierają liczne elementy.
@@ -17,7 +17,7 @@ Warstwy niska i~wysoka są odrysowywane zgodnie z~algorytmem malarza. Służą d
 
 Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem steruje strategia danego wykresu. W~ogólnym przypadku programiści nie powinni dodawać własnych elementów do tej warstwy.
 
-\subsubsection{Wskazówki implementacyjne}
+%\subsection{Metoda szablonowa}
 Metoda odpowiedzialna za odrysowywanie wykresu powinna być \textit{Metodą Szablonową}~\cite[264-268]{Patterns}, czyli niewirtualną, publiczną metodą klasy bazowej, wywołującą kolejne metody odpowiedzialne za odrysowanie pojedynczych warstw. Metody te powinny z~kolei być wirtualne i~chronione.
 Metody odpowiedzialne za tło i~pierwszy plan powinny udostępniać domyślną implementację, natomiast pozostałe powinny być czysto wirtualne.
 
@@ -27,25 +27,10 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 \begin{figure}
 \centering
 \caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
-\includegraphics{img/uklad_wspolrzednych.png}
+\includegraphics{img/uklad_wspolrzednych.pdf}
 \end{figure}
 
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
-
-\section{Źródła danych}
-Na rysunku~\ref{rys:wykres:model} przedstawiłem kluczowe elementy protokołu wymiany danych pomiędzy wykresem, a~dowolnym źródłem danych. 
-
-Wykres może jedynie odczytywać i~modyfikować dane zawarte w~modelu. Robi to poprzez wywołanie odpowiednich metod.
-
-Model komunikuje się z~wykresem za pomocą zbioru sygnałów.
-
-TODO: diagramy UML i~opis tego jak dokładnie ma działać ta magia
-
-\begin{figure}
-\centering
-\caption{Wykres -- Model}\label{rys:wykres:model}
-\includegraphics[scale=0.8]{img/wykres-model.png}
-\end{figure}
 
 \section{Diagramy klas}
 
@@ -62,8 +47,31 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 \begin{figure}
 \centering
 \caption{Diagram top level}\label{rys:klasy:top_level}
-\includegraphics[scale=0.5]{img/klasy-top_level.png}
+\includegraphics[scale=0.7]{img/klasy-top_level.pdf}
 \end{figure}
+
+\section{Źródła danych}
+
+Jako że źródłem danych dla wykresu może być seria danych, zbiór serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta będzie \textit{Adapterem obiektowym}~\cite[141-151]{Patterns} -- będzie agregowała źródła danych dostarczane jako obiekty \textit{QVariant}~\footnote{QVariant \url{http://qt-project.org/doc/qt-5.0/qtcore/qvariant.html}}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
+
+Za pomocą adaptera stworzę pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów będzie przyjmować identyfikator serii, dzięki czemu będzie można wyspecyfikować  której serii dotyczy dana operacja. 
+
+Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, które również będą niosły informację o~id serii. W~przypadku zbioru serii, wystarczy uzupełnić ich sygnały o~id serii oraz przepropagować na zewnątrz adaptera. Chcę to osiągnąć za pomocą obiektu klasy pochodnej od \textit{QSignalMapper}~\footnote{QSignalMapper \url{http://qt-project.org/doc/qt-5.0/qtcore/qsignalmapper.html}}. W~przypadku klas modeli, również będę musiał wykonać podobne mapowanie, podczas którego trzeba będzie sięgnąć do modelu po id serii. Przykładowy protokół komunikacji wykresu z~adapterem przedstawiłem na rysunku~\ref{rys:wykres:model}.
+
+\begin{figure}
+\centering
+\caption{Adapter}\label{rys:adapter:model}
+\includegraphics[scale=0.8]{img/adapter-model.pdf}
+\end{figure}
+
+\begin{figure}
+\centering
+\caption{Komunikacja Wykres -- Adapter}\label{rys:wykres:model}
+\includegraphics[scale=0.8]{img/wykres-model.pdf}
+\end{figure}
+
+\subsection{ListModel i XmlListModel}
+TODO:
 
 
 \section{Qt Quick}
@@ -72,11 +80,11 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.
 
 Większość klas powinna być gotowa do wyeksportowania ich do QML za pomocą standardowej procedury, np. poprzez wywołanie funkcji szablonowej
-\begin{lstlisting}
+\begin{verbatim}
 template<typename T>
 int qmlRegisterType(const char *uri, int versionMajor, 
 		    int versionMinor, const char *qmlName)
-\end{lstlisting}
+\end{verbatim}
 Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.
 
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
@@ -99,7 +107,7 @@ Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany 
 \begin{figure}
 \centering
 \caption{Diagram sekwencji}\label{rys:seq:inter}
-\includegraphics[scale=0.6]{img/seq_inter.png}
+\includegraphics[scale=0.6]{img/seq_inter.pdf}
 \end{figure}
 
 \section{Współpraca wykresów z widokami }
@@ -114,7 +122,7 @@ Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odryso
 \begin{figure}
 \centering
 \caption{Widok -- Wykres}\label{rys:widok:wykres}
-\includegraphics[scale=0.8]{img/widok-wykres.png}
+\includegraphics[scale=0.75]{img/widok-wykres.pdf}
 \end{figure}
 
 %\subsubsection{Wskazówki implementacyjne}
@@ -151,7 +159,7 @@ Koncepcję \textit{Mostu} zobrazowałem w~kontekście mojej biblioteki na rys.~\
 \begin{figure}
 \centering
 \caption{Przykładowa hierarchia klas}\label{rys:dpointer}
-\includegraphics[scale=0.8]{img/dpointer.png}
+\includegraphics[scale=0.8]{img/dpointer.pdf}
 \end{figure}
 
 W~Qt przyjęto następującą koncepcję nazewniczą:
