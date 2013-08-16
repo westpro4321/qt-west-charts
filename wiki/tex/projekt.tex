@@ -70,8 +70,44 @@ Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, 
 \includegraphics[scale=0.8]{img/wykres-model.pdf}
 \end{figure}
 
-\subsection{ListModel i XmlListModel}
-TODO:
+\subsection{Role}
+Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to wartość enumeryczna, która służy wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę.
+
+Dzięki rolom uzyskam sytuację, w~której wykres chcąc pobrać dane z~modelu, przekaże do adaptera rolę. Adapter zajmie się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny albo właściwość obiektu.
+
+\begin{verbatim}
+enum Role{
+SeriesIndexRole,
+XRole,
+YRole,
+TitleRole,
+ColorRole,
+CustomRole
+}
+\end{verbatim}
+
+\subsection{QAbstractItemModel}
+Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że dla elementu o~danym indeksie i~roli wartość jest, np. tytułem zapisanym w~łańcuchu znaków. Takiego komfortu jednak nie będzie przy współpracy z~dowolnym innym modelem. Nie mogę wymagać od użytkownika, aby interesujące mnie dane trzymał w~kolumnach o~ustalonych przeze mnie indeksach. Rozwiązaniem tej sytuacji mogłoby być stworzenie specjalnego proxy modelu~\footnote{Proxy modele \url{http://qt-project.org/doc/qt-5.0/qtcore/qabstractproxymodel.html}}, jednak preferuję inny sposób.
+
+Moje rozwiązanie polega na mapowaniu numerów ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
+
+\begin{verbatim}
+QocAbstractChart::setRoleMapping(Qoc::Role role, int customValue);
+\end{verbatim}
+
+Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu. Metoda ta będzie pomocna również przy współpracy z~modelami QML.
+
+
+\subsection{QML}
+ListModel i XmlListModel to pochodne QAbstractItemModel, które należy potraktować osobno. Wprowadzają one bardziej obiektowe podejście, dzięki czemu ich zawartość jest łatwo dostępna z~QML.
+
+Dane z~tych modeli są dostępne również poprzez system właściwości. Aby dostać się do wartości właściwości wystarczy jedynie znać jej nazwę. Dzięki temu, wymuszając na użytkownikach określone nazwy właściwości, jestem w~stanie pobierać dane z~ich modeli. W~skrajnym przypadku, gdy programista korzystający z~mojej biblioteki nie będzie mógł dostarczyć danych w~oczekiwanym przeze mnie formacie, udostępniam mu przeładowaną metodę z~poprzedniego podpunktu:
+
+\begin{verbatim}
+QocAbstractChart::setRoleMapping(Qoc::Role role, const QString &name);
+\end{verbatim}
+
+W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości. Po wywołaniu metody, nowa nazwa właściwości będzie wykorzystywana do komunikacji z~modelem.
 
 
 \section{Qt Quick}
