@@ -1,29 +1,24 @@
 \chapter*{Wstęp}
-Często głównym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań. Wbrew pozorom nie ma zbyt wielu efektywnych form prezentacji danych.
+Częstym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań.
  
-Podstawową formą prezentacji danych w~informatyce i~nie tylko są tabelki. Jest to forma umożliwiające wyświetlanie danych bardzo precyzyjnych i~szczegółowych. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
+Jedną z~podstawowych form prezentacji danych w~informatyce i~nie tylko jest tabela, która umożliwia wyświetlanie danych z~dużą precyzją. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
 
-Wykresy są graficzną formą prezentacji danych, o~popularności porównywalnej do tabelek. Jest to forma może mniej precyzyjna, ale dużo bardziej przystępna dla ludzkiej percepcji. Wykresy ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto ich obrazkowa natura oraz możliwe animacje sprawiają, że jest to forma bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
-Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak, jak wynika z~rozdziału \textit{Przegląd dziedziny}, nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source.
+Inną formą prezentacji danych są wykresy, których popularność jest porównywalna do tabel. Jest to forma dużo bardziej przystępna dla ludzkiej percepcji. Ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto ich obrazkowa natura oraz możliwe animacje sprawiają, że jest to forma bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
+Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source, co wykażę w~rozdziale \textit{Przegląd dziedziny}.
 
-Na początku tej pracy omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to projekt architektury całej biblioteki, wykonany z~pomocą diagramów UML. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni rozdział zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
+W~rozdziale 2 omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to inżynierski projekt architektury całej biblioteki. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni  zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
 
 \chapter{Wprowadzenie}
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Źródła Qt są dostępne na stronie właściciela -- firmy Digia~\footnote{Digia \url{http://qt.digia.com}}. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
+Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.7]{img/qt-rule.png}
-\caption{Motto Qt}
-\end{figure}
 
 \subsection{Narzędzia}
 Najważniejszymi narzędziami, które umożliwiają tudzież ułatwiają pracę z~Qt są:
 \begin{itemize}
-\item moc (Meta Object Compiler) -- specjalny program, który można porównać do preprocesora. Na podstawie naszego kodu generuje on dodatkowe pliki źródłowe potrzebne Qt, bedące niewidocznymi dla programisty.
-\item uic (User Interface Compiler) -- kompilator plików *.ui, które zawierają informację o~układzie interfejsu użytkowniak.
-\item qmake -- program, który na podstawie pliku projektu tworzy plik Makefile. Ułatwia w~znaczny sposób zarządzanie procesem budowania.
+\item moc (Meta Object Compiler) -- specjalny program, który można porównać do preprocesora. Na podstawie naszego kodu generuje on dodatkowe pliki źródłowe potrzebne Qt, niewidoczne dla programisty.
+\item uic (User Interface Compiler) -- kompilator plików *.ui, które zawierają informację o~układzie interfejsu użytkownika.
+\item qmake -- program ułatwiający zarządzanie procesem budowania projektu.
 \item Qt Creator -- zintergrowane środowisko programistyczne, przeznaczone głównie dla języków C++, QML i~JavaScript.
 \item Qt Designer -- program umożliwiający łatwe tworzenie interfejsów użytkownika. Generuje on wspomniane juz pliki *.ui.
 \end{itemize}
@@ -34,9 +29,9 @@ C++ nie wymusza dziedziczenia po określonej klasie, jak ma to miejsce chociażb
 Niektóre z~nich to:
 \begin{itemize}
 \item Relacja rodzic--dziecko, która jest nawiązywana w chwili tworzenia obiektów. Umożliwia ona wyszukiwanie dzieci danego obiektu po ich klasie, bądź nazwie. Ponadto ułatwia zarządzanie pamięcią, poprzez automatyczne usuwanie obiektów -- dzieci w chwili usunięcia rodzica. Przykład: usunięcie okna zawierającego wiele elementów spowoduje posprzątanie ze sterty wszystkich przycisków, etykiet czy obrazków.
-\item \textit{qobject\_cast} -- dynamiczne rzutowanie, stosowane zazwyczaj do rzutowania w dół hierarchii dziedziczenia. Jest ono znacznie szybsze od \textit{dynamic\_cast}, gdyż nie korzysta z mechanizmu RTTI (Run Time Type Information). Jedynym oczywistym mankamentem jest fakt, że rzutowanie to działa jedynie dla klas dziedziczących po \textit{QObject}.
+\item \textit{qobject\_cast} -- dynamiczne rzutowanie, stosowane do rzutowania w dół hierarchii dziedziczenia. Jest ono znacznie szybsze od \textit{dynamic\_cast}, gdyż nie korzysta z mechanizmu RTTI (Run Time Type Information). Jedynym oczywistym mankamentem jest fakt, że rzutowanie to działa jedynie dla klas dziedziczących po \textit{QObject}.
 \item Zdarzenia -- niskopoziomowy mechanizm komunikacji. Qt opakowuje standardowe zdarzenia w obiekty swoich klas i~dostarcza je do odpowiednich obiektów. Przed dostarczeniem zdarzenia do adresata można je przefiltrować, podejrzeć lub wręcz zmienić.
-\item Sygnały i~sloty -- wysokopoziomowy mechanizm komunikacji będący implementacją wzorca \textit{Obserwator}~\cite[269-279]{Patterns}.
+\item Sygnały i~sloty -- wysokopoziomowy mechanizm komunikacji będący implementacją wzorca \textit{Obserwator}~\cite{Patterns}.
 Jest to bardzo wygodny sposób na luźne wiązanie obiektów, które mogą ze sobą współpracować, nie wiedząc nawzajem o swoim istnieniu.
 \item Właściwości -- sposób na parametryzowanie obiektów. Istnieją zarówno właściwości statyczne, dodawane w czasie kompilacji, wspólne dla wszystkich obiektów danej klasy, np. wysokośc czy kolor, jak i~dynamiczne, przypisywane pojedynczym obiektom już w czasie wykonania programu.
 \end{itemize}
@@ -63,18 +58,20 @@ Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez 
 
 \subsection{Przykładowy kod QML}
 
-\begin{verbatim}
+\begin{lstlisting}
 Item {
-width: 400; height: 200
-   Rectangle {
-   id: rect
-   x: 100; y: 50;
-   width: height / 2; height: parent.height
-   anchors.centerIn: parent
-   color: "lightblue"
-   }
+	width: 400
+	height: 200
+
+	Rectangle {
+		id: rect
+		x: 100; y: 50;
+		width: height / 2; height: parent.height
+		anchors.centerIn: parent
+		color: "lightblue"
+	}
 }
-\end{verbatim}
+\end{lstlisting}
 
 Wykonanie powyższego kod spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element interfejsu jest typu \textit{Item} i~ma wymiary 400x200 pikseli. Posiada on dziecko będące prostokątem o~tej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
 
@@ -82,8 +79,8 @@ Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \te
 
 \begin{figure}
 \centering
-\caption{Przykład wykorzystania QML}\label{rys:qml}
 \includegraphics{img/qml.png}
+\caption{Przykład wykorzystania QML}\label{rys:qml}
 \end{figure}
 
 \subsection{Własne elementy}

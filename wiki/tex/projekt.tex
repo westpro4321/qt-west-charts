@@ -7,8 +7,8 @@ Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 
 \begin{figure}
 \centering
-\caption{Warstwy wykresu}\label{rys:warstwy}
 \includegraphics{img/warstwy.pdf}
+\caption{Warstwy wykresu}\label{rys:warstwy}
 \end{figure}
 
 Warstwy tła oraz pierwszego planu służą jedynie odrysowywaniu wzorów przekazanych za pomocą pędzla. Pozostałe warstwy są bardziej złożone i~zawierają liczne elementy.
@@ -26,8 +26,8 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 
 \begin{figure}
 \centering
-\caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
 \includegraphics{img/uklad_wspolrzednych.pdf}
+\caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
 \end{figure}
 
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
@@ -46,13 +46,13 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 
 \begin{figure}
 \centering
-\caption{Diagram top level}\label{rys:klasy:top_level}
 \includegraphics[scale=0.7]{img/klasy-top_level.pdf}
+\caption{Diagram top level}\label{rys:klasy:top_level}
 \end{figure}
 
 \section{Źródła danych}
 
-Jako że źródłem danych dla wykresu może być seria danych, zbiór serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta będzie \textit{Adapterem obiektowym}~\cite[141-151]{Patterns} -- będzie agregowała źródła danych dostarczane jako obiekty \textit{QVariant}~\footnote{QVariant \url{http://qt-project.org/doc/qt-5.0/qtcore/qvariant.html}}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
+Jako że źródłem danych dla wykresu może być seria danych, zbiór serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta będzie \textit{Adapterem obiektowym}~\cite{Patterns} -- będzie agregowała źródła danych dostarczane jako obiekty \textit{QVariant}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
 
 Za pomocą adaptera stworzę pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów będzie przyjmować identyfikator serii, dzięki czemu będzie można wyspecyfikować  której serii dotyczy dana operacja. 
 
@@ -60,14 +60,14 @@ Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, 
 
 \begin{figure}
 \centering
-\caption{Adapter}\label{rys:adapter:model}
 \includegraphics[scale=0.8]{img/adapter-model.pdf}
+\caption{Adapter}\label{rys:adapter:model}
 \end{figure}
 
 \begin{figure}
 \centering
-\caption{Komunikacja Wykres -- Adapter}\label{rys:wykres:model}
 \includegraphics[scale=0.8]{img/wykres-model.pdf}
+\caption{Komunikacja Wykres -- Adapter}\label{rys:wykres:model}
 \end{figure}
 
 \subsection{Role}
@@ -75,25 +75,25 @@ Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej 
 
 Dzięki rolom uzyskam sytuację, w~której wykres chcąc pobrać dane z~modelu, przekaże do adaptera rolę. Adapter zajmie się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny albo właściwość obiektu.
 
-\begin{verbatim}
+\begin{lstlisting}
 enum Role{
-SeriesIndexRole,
-XRole,
-YRole,
-TitleRole,
-ColorRole,
-CustomRole
+	SeriesIndexRole,
+	XRole,
+	YRole,
+	TitleRole,
+	ColorRole,
+	CustomRole
 }
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{QAbstractItemModel}
 Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że dla elementu o~danym indeksie i~roli wartość jest, np. tytułem zapisanym w~łańcuchu znaków. Takiego komfortu jednak nie będzie przy współpracy z~dowolnym innym modelem. Nie mogę wymagać od użytkownika, aby interesujące mnie dane trzymał w~kolumnach o~ustalonych przeze mnie indeksach. Rozwiązaniem tej sytuacji mogłoby być stworzenie specjalnego proxy modelu~\footnote{Proxy modele \url{http://qt-project.org/doc/qt-5.0/qtcore/qabstractproxymodel.html}}, jednak preferuję inny sposób.
 
 Moje rozwiązanie polega na mapowaniu numerów ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
 
-\begin{verbatim}
+\begin{lstlisting}
 QocAbstractChart::setRoleMapping(Qoc::Role role, int customValue);
-\end{verbatim}
+\end{lstlisting}
 
 Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu. Metoda ta będzie pomocna również przy współpracy z~modelami QML.
 
@@ -103,9 +103,9 @@ ListModel i XmlListModel to pochodne QAbstractItemModel, które należy potrakto
 
 Dane z~tych modeli są dostępne również poprzez system właściwości. Aby dostać się do wartości właściwości wystarczy jedynie znać jej nazwę. Dzięki temu, wymuszając na użytkownikach określone nazwy właściwości, jestem w~stanie pobierać dane z~ich modeli. W~skrajnym przypadku, gdy programista korzystający z~mojej biblioteki nie będzie mógł dostarczyć danych w~oczekiwanym przeze mnie formacie, udostępniam mu przeładowaną metodę z~poprzedniego podpunktu:
 
-\begin{verbatim}
+\begin{lstlisting}
 QocAbstractChart::setRoleMapping(Qoc::Role role, const QString &name);
-\end{verbatim}
+\end{lstlisting}
 
 W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości. Po wywołaniu metody, nowa nazwa właściwości będzie wykorzystywana do komunikacji z~modelem.
 
@@ -142,8 +142,8 @@ Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany 
 
 \begin{figure}
 \centering
-\caption{Diagram sekwencji}\label{rys:seq:inter}
 \includegraphics[scale=0.6]{img/seq_inter.pdf}
+\caption{Diagram sekwencji}\label{rys:seq:inter}
 \end{figure}
 
 \section{Współpraca wykresów z widokami }
@@ -157,8 +157,8 @@ Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odryso
 
 \begin{figure}
 \centering
-\caption{Widok -- Wykres}\label{rys:widok:wykres}
 \includegraphics[scale=0.75]{img/widok-wykres.pdf}
+\caption{Widok -- Wykres}\label{rys:widok:wykres}
 \end{figure}
 
 %\subsubsection{Wskazówki implementacyjne}
@@ -184,18 +184,18 @@ Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odryso
 %\end{itemize}
 
 \section{Zależności między plikami}
-Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji między plikami został poruszony przez Scotta Meyersa~\cite[150-158]{50Ways}.
+Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji między plikami został poruszony przez Scotta Meyersa~\cite{50Ways}.
 
 \subsection{QObject}
-Klasa QObject została zaprojektowana jako \textit{Most}~\cite[181-190]{Patterns}.
+Klasa QObject została zaprojektowana jako \textit{Most}~\cite{Patterns}.
 %, zmodyfikowany o~posiadany przez ciało wskaźnik do uchwytu. 
 Podział na uchwyt i~ciało zmniejsza zależności pomiędzy plikami bibliotek Qt i~znacząco skraca czas kompilacji po zmianach w~kodzie. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
 Koncepcję \textit{Mostu} zobrazowałem w~kontekście mojej biblioteki na rys.~\ref{rys:dpointer}.\newline
 
 \begin{figure}
 \centering
-\caption{Przykładowa hierarchia klas}\label{rys:dpointer}
 \includegraphics[scale=0.8]{img/dpointer.pdf}
+\caption{Przykładowa hierarchia klas}\label{rys:dpointer}
 \end{figure}
 
 W~Qt przyjęto następującą koncepcję nazewniczą:
@@ -208,7 +208,7 @@ W~Qt przyjęto następującą koncepcję nazewniczą:
 \subsection{Dostęp do uchwytów i ciał}
 Podejście opisane w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
 Wskaźniki do uchwytu i~ciała są typów klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych niewystępujących w~klasach bazowych wymaga rzutowania w~dół. 
-Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tabelce~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}
+Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tablicy~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}
 
 \begin{table}[h]\footnotesize
 \centering

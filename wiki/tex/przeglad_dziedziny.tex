@@ -1,7 +1,5 @@
-
-
 \chapter{Przegląd dziedziny}
-Rozdział ten zawiera opis kilku wybranych bibliotek służących do tworzenia wykresów. Zostały tu opisane biblioteki przeznaczone dla Qt i~C++, podzielone na rozwiązania komercyjne oraz darmowe. Dla każdej biblioteki zostały podane jej zalety i~wady. Następnie przedstawiam wykaz typów wykresów dostępnych we wszystkich opisanych produktach. Kolejne dwa paragrafy to zestawienie elementów wspólnych i~unikalnych. Ostatni fragment to podsumowanie zawierające wnioski płynące z~tego przeglądu.
+Rozdział ten zawiera opis kilku wybranych bibliotek służących do tworzenia wykresów. Opisałem tu  biblioteki przeznaczone dla Qt i~C++, podzielone na rozwiązania komercyjne oraz darmowe. Dla każdej biblioteki podałem jej zalety i~wady. Następnie przedstawiam wykaz typów wykresów dostępnych we wszystkich opisanych produktach. Kolejne dwa paragrafy to zestawienie elementów wspólnych i~unikalnych. Ostatni fragment to podsumowanie zawierające wnioski płynące z~tego przeglądu.
 
 \section{Rozwiązania komercyjne}
 \subsection{Qt Commercial Charts}
@@ -32,11 +30,10 @@ Jak sam producent zaznacza, silne uzależnienie biblioteki od GraphicsView spraw
 
 
 \subsection{KD Charts}
-Jest to biblioteka stworzona przez firmę KDAB~\footnote{KDAB \url{http://kdab.com}}, specjalizującą się w~tworzeniu oprogramowanie w~Qt oraz prowadzeniu szkoleń dla programistów Qt. KD Charts w~odróżnieniu od poprzedniej biblioteki nie korzysta z~GraphicsView, a~z~mechanizmów niższego poziomu. Rysowanie odbywa się tu za pomocą systemu Arthur~\footnote{Arthur \url{http://qt-project.org/doc/qt-4.8/qt4-arthur.html}}, a do pisania wykorzystano silnik Scribe~\footnote{Scribe \url{http://qt-project.org/doc/qt-4.8/qt4-scribe.html}}.
+Jest to biblioteka stworzona przez firmę KDAB~\footnote{KDAB \url{http://kdab.com}}. KD Charts w~odróżnieniu od poprzedniej biblioteki nie korzysta z~GraphicsView, a~z~mechanizmów niższego poziomu. Rysowanie odbywa się tu za pomocą systemu Arthur, a~do pisania wykorzystano silnik Scribe.
 Dzięki wykorzystaniu technologii niższego poziomu, programistom KDAB udało się uzyskać lepszą wydajność, szczególnie ważną przy oferowanych przez nich wykresach czasu rzeczywistego.\newline
 
-KD Charts separuje dane od warstwy prezentacji wykorzystując modele znane z~popularnego w~Qt wzorca Model-Widok~\footnote{Model-Widok \url{http://qt-project.org/doc/qt-5.0/qtwidgets/model-view-programming.html}}. Może to być nieco uciążliwe dla początkujących programistów Qt, gdyż jest to obszerny system, a sprawne korzystanie z~niego wymaga doświadczenia.
-Za prezentację danych odpowiada uniwersalna klasa dziedzicząca po QWidget.\newline
+KD Charts separuje dane od warstwy prezentacji wykorzystując modele znane z~popularnego w~Qt wzorca Model-Widok. Za prezentację danych odpowiada uniwersalna klasa dziedzicząca po QWidget.\newline
 
 \textbf{Zalety:}
 \begin{itemize}
@@ -49,28 +46,26 @@ Za prezentację danych odpowiada uniwersalna klasa dziedzicząca po QWidget.\new
 
 \textbf{Wady:}
 \begin{itemize}
-\item{wysoka cena (jedno stanowisko -- 700 \euro),}
+\item{wysoka cena,}
 \item{wymuszenie korzystania z~modeli albo niskopoziomowych kontenerów do przechowywanie danych,}
 \item{biblioteka napisana w~stylu Qt4, trudnym do wykorzystania w~QtQuick~2,}
 \item{brak wsparcia dla QML.}
 \end{itemize}
 
 \subsection{QtitanChart}
-Jest to biblioteka stworzona przez firmę Developer Machines~\footnote{Developer Machines \url{http://www.devmachines.com}}, udostępniająca dosyć duży duży zbiór wykresów. Twórcy biblioteki nie udostępniają pełnych źródeł swojej biblioteki, a~jedynie jej pliki nagłówkowe i~biblioteki dynamiczne, co znacznie utrudnia zrozumienie jej wewnętrznego działania. Ta wiedzia nie jest jednak potrzebna, gdyż aby tworzyć za jej pomocą wykresy, można się posługiwać komponentami wysokiego poziomu.\newline
-
-Podobnie jak w Commercial Charts, logika wykresów jest zawarta w~seriach odpowiedniego typu.\newline
+Jest to biblioteka stworzona przez firmę Developer Machines, udostępniająca dosyć duży zbiór wykresów. Twórcy biblioteki nie udostępniają pełnych źródeł swojej biblioteki, a~jedynie jej pliki nagłówkowe i~biblioteki dynamiczne, co znacznie utrudnia zrozumienie jej wewnętrznego działania. Ta wiedza nie jest jednak potrzebna, gdyż aby tworzyć za jej pomocą wykresy, można się posługiwać komponentami wysokiego poziomu.\newline
 
 \textbf{Zalety:}
 \begin{itemize}
 \item{szeroki wybór wykresów,}
 \item{możliwość wyeksportowania wykresu do pliku graficznego,}
 \item{możliwość wyświetlania wykresów różnych typów w~jednym układzie współrzędnych,}
-\item{motywy.}\newline
+\item{system motywów, umożliwiający tworzenie wykresów o~jednolitej kolorystyce.}\newline
 \end{itemize}
 
 \textbf{Wady:}
 \begin{itemize}
-\item{wysoka cena (jedno stanowisko i~jedna platforma -- 519 \$),}
+\item{wysoka cena,}
 \item{brak wsparcia dla QML.}
 \end{itemize}
 
@@ -82,8 +77,8 @@ Qt Widgets for Technical Applications to otwarta biblioteka umożliwiająca twor
 Qwt zawiera szerokie API służące do przeprowadzania różnorakich operacji na wykresach, m.in. skalowania i zaznaczania. Problematyczną kwestią jest wygląd wykresów, z~jednej strony są one adekwatne dla zastosowań technicznych, z~drugiej zaś sprawia on, że nie sposób użyć tych wykresów w~aplikacji innego typu, ze względu na ich brzydotę. Najlepszym przykładem niech będzie wykres załączony na rys. \ref{rys:wykres:sinus}, wyglądający niczym oscylogram.
 \begin{figure}
 \centering
-\caption{Przykładowy wykres Qwt}\label{rys:wykres:sinus}
 \includegraphics[scale=0.4]{img/sinus.png}
+\caption{Przykładowy wykres Qwt}\label{rys:wykres:sinus}
 \end{figure}
 
 \textbf{Zalety:}
@@ -91,7 +86,7 @@ Qwt zawiera szerokie API służące do przeprowadzania różnorakich operacji na
 \item{rozbudowane API,}
 \item{wsparcie społeczności,}
 \item{wysoka wydajność,}
-\item{skala logarytmiczna.}\newline
+\item{osie ze skalą logarytmiczną.}\newline
 \end{itemize}
 
 \textbf{Wady:}
@@ -112,7 +107,9 @@ Jak widać GobChartWidget jest nieco dziwną hybrydą, której z~pewnością nie
 
 \textbf{Zalety:}
 \begin{itemize}
-\item{darmowa.}\newline
+\item{darmowa,}
+\item{najpopularniejsze wykresy,}
+\item{współpraca z systemem Model-Widok}\newline
 \end{itemize}
 
 \textbf{Wady:}
@@ -126,6 +123,11 @@ Jak widać GobChartWidget jest nieco dziwną hybrydą, której z~pewnością nie
 
 
 \section{Dostępne typy wykresów}
+Podstawowym kryterium oceny użyteczności tego typu biblioteki jest zbiór wykresów, które udostępnia. Tablica~\ref{tab:wykresy} prezentuje dostępność typów wykresów w~opisanych bibliotekach.
+\begin{table}[h]\footnotesize
+\centering
+\caption{Zestawienie dostępnych wykresów}
+\label{tab:wykresy}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 &  Qt Charts & KD Chart & Qtitan & Qwt & GobChart\\
@@ -148,12 +150,12 @@ Warstwowy & T & T & T & N & N\\
 \hline
 XY (punktowy) & T & N & T & T & N\\
 \hline
-
 \end{tabular}
+\end{table}
 
 
 \section{Elementy wspólne}
-Analizując powyższe biblioteki dochodzimy do wniosku, że można wykroić z nich część wspólną, stanowiącą podstawową funkcjonalność niezbędną dla biblioteki tego typu. Te elementy to:
+Analizując powyższe biblioteki dochodzę do wniosku, że można wykroić z nich część wspólną, stanowiącą podstawową funkcjonalność niezbędną dla biblioteki tego typu. Te elementy to:
 \begin{itemize}
 \item{podstawowe wykresy, takie jak liniowy, słupkowy i kołowy,}
 \item{osie, siatka i legenda,}
@@ -177,8 +179,8 @@ Prawie wszystkie biblioteki zawierają wartościowe elementy niepowtarzalne lub 
 \end{itemize}
 
 \section{Podsumowanie}
-Jak widać istnieją już na rynku wartościowe biblioteki pozwalające na tworzenie wykresów biurowych, są to jednak rozwiązania komercyjne. Projekty open-source są albo niskiej jakości albo mają nieco inne cele. Istnieje więc potrzeba stworzenia wysokiej jakości darmowego produktu, który zyskałby taką popularność jak Qwt. Potrzeba ta jest jeszcze większa dla Qt~Quick, gdzie nie ma żadnych darmowych bibliotek pozwalających na tworzenie wykresów.
+Na rynku istnieją już wartościowe biblioteki pozwalające na tworzenie wykresów biurowych, są to jednak rozwiązania komercyjne. Projekty open-source są albo niskiej jakości albo nadają się do innych (technicznych) zastosowań. Istnieje więc potrzeba stworzenia wysokiej jakości darmowego produktu, który zyskałby taką popularność jak Qwt. Potrzeba ta jest jeszcze większa dla Qt~Quick, gdzie nie ma żadnych darmowych bibliotek pozwalających na tworzenie wykresów.
 
-Warto również zauważyć, że twórcy żadnej z~opisanych bibliotek nie zdecydowali się na pełne odizolowanie silnika biblioteki od widoków. Przewiduję, że dzięki takiemu podejściu osiągnę możliwość wyświetlania wykresów w dowolnym miejscu -- wewnątrz widgetu, w~aplikacji napisanej w~QML czy w~dokumencie tekstowym. Byłoby to pierwsze takie rozwiązanie na rynku.
+Warto również zauważyć, że twórcy żadnej z~opisanych bibliotek nie zdecydowali się na pełne odizolowanie silnika biblioteki od widoków. Dzięki takiemu podejściu osiągnąłem możliwość wyświetlania wykresów w dowolnym miejscu -- wewnątrz widgetu, w~aplikacji napisanej w~QML czy w~dokumencie tekstowym. Jest to pierwsze takie rozwiązanie na rynku.
 
 

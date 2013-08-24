@@ -33,11 +33,11 @@ Podstawowym celem projektowanej biblioteki jest udostępnienie programistom uniw
 \item{QML.}
 \end{itemize}
 
-W~tabelce~\ref{tab:widoki} zostały podane stosowne dla każdego z~przypadków wykorzystania widoki.
+W~tablicy~\ref{tab:widoki} zostały podane stosowne dla każdego z~przypadków wykorzystania widoki.
 
 \begin{table}[h]\footnotesize
 \centering
-\caption{Kompatybilne widoki}
+\caption{Widoki kompatybilne z~moją biblioteką}
 \label{tab:widoki}
 \begin{tabular}{|c|c|}
 \hline
@@ -57,8 +57,7 @@ QML & QQuickItem -- klasy bazujące na SceneGraph\\
 
 
 \section{Źródła danych}
-Typowym źródłem danych dla dowolnego wykresu jest seria danych, czyli swego rodzaju kontener na próbki.
-Każde źródło danych, którym ma być zasilany wykres, musi udostępniać próbki danych o~następującej strukturze:
+Typowym źródłem danych jest seria, czyli swego rodzaju pojemnik na próbki. Każde źródło danych, którym ma być zasilany wykres, musi udostępniać próbki danych o~następującej strukturze:
 
 \begin{itemize}
 \item{jedna liczba ze specyficznego dla danego wykresu zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych,}
@@ -67,17 +66,18 @@ Każde źródło danych, którym ma być zasilany wykres, musi udostępniać pr�
 \item{kolor}
 \end{itemize}
 
-Ponadto wymagany jest tytuł i~kolor dla każdej z~serii.
-
 Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny. 
 
+Ponadto wymagany jest tytuł i~kolor dla każdej z~serii.
+
+
 \subsection{Serie danych}
-Istnieje potrzeba stworzenia prostego i~lekkiego modelu danych reprezentującego serie, które z~kolei zawierają próbki. Niezbędne są operacje dodawania, modyfikowania i~usuwania próbek z~serii. 
+Istnieje potrzeba stworzenia prostego i~lekkiego modelu danych reprezentującego serie, które z~kolei zawierają próbki. Niezbędne są operacje dodawania, modyfikowania i~usuwania danych z~serii. 
 
 Aby ułatwić programistom Qt zapoznanie się ze sposobem działania mojej biblioteki, powinienem skorzystać tutaj ze statycznego polimorfizmu. Interfejs serii danych powinien przypominać interfejs modelu z~architektury Model-Widok.
 
 \subsection{Model--Widok}
-Wykresy mają być alternatywą dla widoków z~architektury Model-Widok. Przewiduję, że typowym przypadkiem użycia będzie prezentowanie tych samych danych za pomocą wykresów oraz tabelek. Z~tego powodu wszystkie wykresy muszą przyjmować jako źródło danych obiekty klas dziedziczących po \textit{QAbstractItemModel}.
+Wykresy mają być alternatywą dla widoków z~architektury Model-Widok. Uważam, że typowym przypadkiem użycia będzie prezentowanie tych samych danych za pomocą wykresów oraz tabelek. Z~tego powodu wszystkie wykresy muszą przyjmować jako źródło danych obiekty klas dziedziczących po \textit{QAbstractItemModel}.
 
 \subsection{Modele w QML}
 Szczególnymi przypadkami modeli są te wykorzystywane w~QML. Ważne jest, aby podłączenie elementów \textit{ListModel}~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtqml-models2-listmodel.html}} i~\textit{XmlListModel}~\footnote{XmlListModel \url{http://qt-project.org/doc/qt-5.0/qtquick/qml-qtquick-xmllistmodel2-xmllistmodel.html}} do wykresu było intuicyjne dla programistów QML i~ograniczało się do jednej operacji:
@@ -86,7 +86,7 @@ model: xmlModel
 \end{verbatim}
 
 \section{Interaktywność}
-Jak wynika z~tytułu mojej pracy inżynierskiej, jej celem jest stworzenie biblioteki ,,do operowania na wykresach''. Właśnie owe operowanie na wykresach jest tematem tego punktu. Wszystkie wykresy muszą obsługiwać interaktywne operacje, a~część z~nich powinna zostać zaimplementowana. Pozostałe powinny być możliwe do realizacji.
+Celem tej pracy jest stworzenie biblioteki ,,do operowania na wykresach''. Wszystkie wykresy muszą obsługiwać interaktywne operacje, a~część z~nich powinna zostać zaimplementowana. Pozostałe powinny być możliwe do realizacji.
 
 \subsection{Zaznaczanie}
 Musi istnieć możliwość zaznaczania elementów reprezentujących dane. Powinna istnieć możliwość zaznaczania zarówno elementów reprezentujących pojedyncze próbki, np. wycinek kołowy, jak i~tych tych odpowiadających całym seriom danych, np. grupa słupków. Zaznaczanie powinno być możliwe poprzez kliknięcie przyciskiem myszy lub dotknięcie ekranu dotykowego.
@@ -101,7 +101,8 @@ Architektura biblioteki powinna umożliwiać programistom realizację innych int
 
 
 \section{Qt~Quick}
-Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosowanie, którym ma być m.in. tworzenie wykresów w~QML. W~tym momencie trzeba poruszyć kwestie związane z~integracją biblioteki z~Qt~Quick.
+Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosowanie, którym ma być m.in. tworzenie wykresów w~QML. 
+
 \subsection{Wyeksponowanie klas C++ w QML}
 Już na etapie projektowania należy zadbać, aby tworzone struktury były łatwe do wyeksponowania w~QML. 
 Tworzenie interfejsów do QML nie jest celem tego projektu, jednak ich implementacja powinna być możliwie łatwa dla programistów decydujących się na korzystanie z~mojej biblioteki.
@@ -128,10 +129,10 @@ Wyświetalnie każdego z~elementów wykresu powinno być sterowane przez program
 Każdy z~wykresów posiada specyficzny dla niego element służący do prezentacji danych z~próbki, którego rozmiar lub położenie w~układzie współrzędnych odzwierciedla wartość próbki. Każdy z~elementów może mieć swój podpis. Powinna istnieć możliwość ustawienia tym elementom dwóch piór i~dwóch pędzli -- dla trybu normalnego i~zaznaczenia. Programista powinien mieć możliwość podmiany, dla danego wykresu, klasy takiego elementu na własną, przy czym odpowiedzialność za poprawne odrysowanie się wykresu spada wtedy na programistę.
 
 \subsection{Tytuł wykresu i podpisy elementów}
-Dla wszelkich napisów będących składowymi wykresu musi być możliwość ustawienia ich treści, fontu oraz koloru.
+Dla wszelkich napisów będących składowymi wykresu musi być możliwość ustawienia ich treści, czcionki oraz koloru.
 
 \subsection{Legenda}
-Dla wykresów obsługujących wiele serii danych legenda powinna prezentować kolory oraz tytuły tych serii. Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o~kolorze i~tytule każdej z~próbek. Legenda powinna przyjmować jedną z~dwóch orientacji: horyzontalną lub wertykalną. Powinna istnieć możliwość zmiany elementu prezentującego kolor za pomocą mechanizmu delegatów.
+Dla wykresów obsługujących wiele serii danych legenda powinna prezentować kolory oraz tytuły tych serii. Natomiast dla wykresów jednoseryjnych prezentowana powinna być informacja o~kolorze i~tytule każdej z~próbek. Legenda powinna przyjmować jedno z~dwóch położeń -- poziome lub pionowe. Powinna istnieć możliwość zmiany elementu prezentującego kolor za pomocą mechanizmu delegatów.
 
 \subsection{Dodatkowe elementy}
 Programiści powinni mieć możliwość tworzenia własnych elementów i~dodawania ich do wykresów już istniejących klas. Aby to osiągnąć powinni jedynie zaimplementować odpowiednie interfejsy.
@@ -172,10 +173,12 @@ Powinna istnieć możliwość wyświetlania kilku wykresów, również różnych
 Wykres kołowy służy do prezentacji danych z~jednej serii. Każda z~próbek jest prezentowana za pomocą wycinka kołowego o~kącie środkowym proporcjonalnym do prezentowanej wartości, przez co muszą to być wartości rzeczywiste dodatnie. Wartości wszystkich próbek serii sumują się do stu procent, a~suma kątów wewnętrznych wycinków wynosi 360 stopni. Wszystkie wycinki z~danej serii mają wspólny środek oraz jednakowy promień.
 
 \subsection{Wysuwanie wycinka}
-Dowolny z~wycinków powinno się dać wysunąć o~zadany dodatni ułamek jego promienia. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt~\footnote{Animacje w Qt \url{http://qt-project.org/doc/qt-5.1/qtcore/animation-overview.html}}
+Dowolny z~wycinków powinno się dać wysunąć o~zadaną część jego promienia. Proces ten powinien być możliwy do animacji z~zastosowaniem standardowych rozwiązań Qt.
 
 \subsection{Obracanie wykresu}
-Powinna być możliwość obracania wykresu wokół jego środka. Kąt obrotu powinien być dowolną całkowitą wartością, o~jednostce wynoszącej 1/16-tą stopnia -- jest to standardowa w~Qt jednostka. Proces ten powinien być możliwy do animacji.
+Powinna być możliwość obracania wykresu wokół jego środka. Kąt obrotu powinien być dowolną całkowitą wartością, o~jednostce wynoszącej 
+%\dfrac{1}{16} 
+-- jest to standardowa w~Qt jednostka. Proces ten powinien być możliwy do animacji.
  
 
 \section{Wykres słupkowy}
@@ -185,7 +188,13 @@ Jest to wykres służący do prezentacji danych z~wielu serii. Elementem odpowie
 Wykres ten może przyjmować jedną z~dwóch orientacji: horyzontalną bądź wertykalną. Wertykalny wykres słupkowy jest czasem nazywany wykresem kolumnowym. 
 
 \subsection{Stos}
-Wykres słupkowy może zostać przedstawiony w~trybie stosowym. Wtedy dla każdej wartości z~dziedziny tworzony jest jeden słupek o~wysokości proporcjonalnej do sumy wartości próbek ze wszystkich serii wykresu. Z~kolei ten słupek jest podzielony na mniejsze cześci o~długościach i~kolorach odpowiednich próbek.  
+Wykres słupkowy może zostać przedstawiony w~trybie stosowym. Wtedy dla każdej wartości z~dziedziny tworzony jest jeden słupek o~wysokości proporcjonalnej do sumy wartości próbek ze wszystkich serii wykresu. Z~kolei ten słupek jest podzielony na mniejsze cześci o~długościach i~kolorach odpowiednich próbek. Na rysunku~\ref{rys:wykres:stos} przedstawiam przykład stosowego wykresu słupkowego.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{img/stacked-bar.png}
+\caption{Stosowy wykres słupkowy}\label{rys:wykres:stos}
+\end{figure}
 
 
 \section{Wykres liniowy}
@@ -198,20 +207,20 @@ Programista powinien mieć możliwość podjęcia wyboru w~kwestii łączenia pu
 Wszystkie opisane tu funkcjonalności są opcjonalne, a~ich realizacja nie jest konieczna do zakończenia prac nad biblioteką.
 
 \subsection{Motywy}
-Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}~\footnote{QStyle \url{http://qt-project.org/doc/qt-5.0/qtwidgets/qstyle.html}}. Mechanizm ten powinien umożliwiać tworzenie wykresów o~spójnej kolorystyce oraz czcionkach. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
+Dodatkiem, który podniósłby atrakcyjność wykresów jest wysokopoziomowy mechanizm motywów, podobny do \textit{QStyle}. Mechanizm ten powinien umożliwiać tworzenie wykresów o~spójnej kolorystyce oraz czcionkach. Zmiana motywu dla danego wykresu powinna sprowadzać się do prostej operacji.
 
 \subsection{Budowanie wykresu}
 Powinno być możliwe animowanie procesu budowania wykresu. Podczas tego procesu kolejne elementy wykresu będą stawały się widoczne, a~elementy odpowiedzialne za prezentację danych powinny stopniowo przyjmować swoje wartości, począwszy od zera.
 
 \subsection{Generowanie plików graficznych}
-Powinno być możliwe generowanie na podstawie istniejących wykresów plików graficznych  w~formatach .PNG i~.SVG.
+Powinno być możliwe generowanie na podstawie istniejących wykresów plików graficznych  w~formatach PNG i~SVG.
 
 \section{Przenośność}
 Biblioteka musi wpisywać się w~politykę Qt brzmiącą: \textit{pisz raz, kompiluj wielokrotnie}. Musi być przenośna na poziomie kodu źródłowego między najważniejszymi wspieranymi przez Qt platformami.
 Minimum to uruchomienie na systemach:
 \begin{itemize}
-\item{Windows NT,}
-\item{Linux (Ubuntu).}
+\item{Windows,}
+\item{Linux.}
 \end{itemize}
 
 
@@ -233,21 +242,21 @@ Jednak nie są to wszystkie wymagania stawiane projektowanej bibliotece. Aby two
 \item{właściwości jako sposób na parametryzowanie obiektów,}
 \item{preferowanie przyjmowania wskaźników zamiast referencji do funkcji modyfikujących argumenty,}
 \item{asynchroniczna komunikacja między obiektami rozwiązana za pomocą sygnałów i~slotów,}
-\item{nazewnictwo, sposób zwracania wartości z~funkcji i~wiele innych opisanych w~załączonym dokumencie~\cite{APIDesign}.}
+\item{nazewnictwo, sposób zwracania wartości z~funkcji i~wiele innych opisanych w~\cite{APIDesign}.}
 \end{itemize}
 
 \subsection{Wymienność biblioteki}
 Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie bibliotek dynamicznych wymiennych pomiędzy wersjami. Wprowadzenie nowej wersji biblioteki z~niezmienionym interfejsem nie powinno wymagać przebudowania całej aplikacji z~niej korzystającej.
 
 \subsection{Nowoczesność i~uniwersalność}
-Biblioteka powinna wykorzystywać możliwie nowe technologie, np. Qt5. Jednak użycie standardu \textit{C++11} nie jest wskazane ze względu na ograniczenie liczby potencjalnych odbiorców. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
+Biblioteka powinna wykorzystywać możliwie nowe technologie, np. Qt5. Biblioteka może korzystać z~\textit{C++11}, jednak nie powinna wymuszać na użytkowniku posiadania kompilatora zgodnego z~tym standardem. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
 
 \subsection{Wydajność}
 Jako, że okoliczności wykorzystania wykresów biurowych są inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
 Z~tego powodu oraz z~chęci uniknięcia antywzorca projektowego przedwczesnej optymalizacji, kwestie wydajności bilioteki jest odsuwana na dalszy plan.
 
 \subsection{Niezawodność}
-Jak już zostało wcześniej stwierdzone, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
+Jak już wykazałem w~poprzednim punkcie, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
 
 %\subsubsection{Wiarygodnosć}
 
