@@ -57,12 +57,12 @@ QML & QQuickItem -- klasy bazujące na SceneGraph\\
 
 
 \section{Źródła danych}
-Typowym źródłem danych jest seria, czyli swego rodzaju pojemnik na próbki. Każde źródło danych, którym ma być zasilany wykres, musi udostępniać próbki danych o~następującej strukturze:
+Typowym źródłem danych jest seria, czyli swego rodzaju pojemnik na próbki. Każde źródło danych, którym ma być zasilany wykres, musi udostępniać zbiór danych o~następującej strukturze:
 
 \begin{itemize}
-\item{jedna liczba ze specyficznego dla danego wykresu zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych,}
+\item{jedna liczba ze specyficznego dla danego przypadku zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych}
 \item{co najmniej jedna wartość z~dziedziny liczb rzeczywistych. Bardziej złożone wykresy mogą mieć kilka takich wartości.}
-\item{tytuł próbki, który będzie wyświetlany na wykresie i~w~legendzie}
+\item{tytuł próbki}
 \item{kolor}
 \end{itemize}
 
@@ -79,11 +79,11 @@ Aby ułatwić programistom Qt zapoznanie się ze sposobem działania mojej bibli
 \subsection{Model--Widok}
 Wykresy mają być alternatywą dla widoków z~architektury Model-Widok. Uważam, że typowym przypadkiem użycia będzie prezentowanie tych samych danych za pomocą wykresów oraz tabelek. Z~tego powodu wszystkie wykresy muszą przyjmować jako źródło danych obiekty klas dziedziczących po \textit{QAbstractItemModel}.
 
-\subsection{Modele w QML}
-Szczególnymi przypadkami modeli są te wykorzystywane w~QML. Ważne jest, aby podłączenie elementów \textit{ListModel}~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtqml-models2-listmodel.html}} i~\textit{XmlListModel}~\footnote{XmlListModel \url{http://qt-project.org/doc/qt-5.0/qtquick/qml-qtquick-xmllistmodel2-xmllistmodel.html}} do wykresu było intuicyjne dla programistów QML i~ograniczało się do jednej operacji:
-\begin{lstlisting}
-model: xmlModel
-\end{lstlisting}
+%\subsection{Modele w QML}
+%Szczególnymi przypadkami modeli są te wykorzystywane w~QML. Ważne jest, aby podłączenie elementów \textit{ListModel}~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtqml-models2-listmodel.html}} i~\textit{XmlListModel}~\footnote{XmlListModel \url{http://qt-project.org/doc/qt-5.0/qtquick/qml-qtquick-xmllistmodel2-xmllistmodel.html}} do wykresu było intuicyjne dla programistów QML i~ograniczało się do jednej operacji:
+%\begin{lstlisting}
+%model: xmlModel
+%\end{lstlisting}
 
 \section{Interaktywność}
 Celem tej pracy jest stworzenie biblioteki ,,do operowania na wykresach''. Wszystkie wykresy muszą obsługiwać interaktywne operacje, a~część z~nich powinna zostać zaimplementowana. Pozostałe powinny być możliwe do realizacji.
@@ -138,8 +138,8 @@ Dla wykresów obsługujących wiele serii danych legenda powinna prezentować ko
 Programiści powinni mieć możliwość tworzenia własnych elementów i~dodawania ich do wykresów już istniejących klas. Aby to osiągnąć powinni jedynie zaimplementować odpowiednie interfejsy.
 
 
-\section{Dostępne operacje na wykresach}
-\subsection{Skalowanie}
+%\section{Dostępne operacje na wykresach}
+\section{Skalowanie}
 Powinno być możliwe skalowanie wykresu. Wykres powinien dostosowywać swój rozmiar do przekazanego mu obszaru przeznaczonego na jego odrysowanie.
 
 
@@ -184,13 +184,25 @@ Powinna być możliwość obracania wykresu wokół jego środka. Kąt obrotu po
 \section{Wykres słupkowy}
 Jest to wykres służący do prezentacji danych z~wielu serii. Elementem odpowiedzialnym za prezentację pojednyczej próbki jest tu słupek. Wszystkie słupki danej serii mają ten sam kolor. W~ogólnym przypadku za pomocą tego wykresu można prezentować wartości z~dziedziny liczb rzeczywistych.
 
-\subsection{Orientacja} 
-Wykres ten może przyjmować jedną z~dwóch orientacji: horyzontalną bądź wertykalną. Wertykalny wykres słupkowy jest czasem nazywany wykresem kolumnowym. 
+\subsection{Układ słupków} 
+Wykres słupkowy może przyjmować układ pionowy bądź poziomy. Wykres z~pionowym układem słupków jest  nazywany wykresem kolumnowym i~został przedstawiony na rysunku~\ref{rys:wykres:pion}. Natomiast przykładowy wykres z~poziomym układem znajduje się na rysunku~\ref{rys:wykres:poziom}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{img/bar-ver.png}
+\caption{Pionowy układ słupków}\label{rys:wykres:pion}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{img/bar-hor.png}
+\caption{Poziomy układ słupków}\label{rys:wykres:poziom}
+\end{figure}
 
 \subsection{Stos}
 Wykres słupkowy może zostać przedstawiony w~trybie stosowym. Wtedy dla każdej wartości z~dziedziny tworzony jest jeden słupek o~wysokości proporcjonalnej do sumy wartości próbek ze wszystkich serii wykresu. Z~kolei ten słupek jest podzielony na mniejsze cześci o~długościach i~kolorach odpowiednich próbek. Na rysunku~\ref{rys:wykres:stos} przedstawiam przykład stosowego wykresu słupkowego.
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{img/stacked-bar.png}
 \caption{Stosowy wykres słupkowy}\label{rys:wykres:stos}
@@ -225,18 +237,22 @@ Minimum to uruchomienie na systemach:
 
 
 \section{Wymagania pozafunkcjonalne}
-\subsection{Wysokiej jakości API}
-API tworzonej przeze mnie bilioteki powinno posiadać jak najwięcej z sześciu cech charakteryzujących dobre interfejsy programistyczne:
-\begin{itemize}
-\item{minimalne,}
-\item{kompletne,}
-\item{intuicyjne,} 
-\item{łatwe do zapamiętania,}
-\item{czysta i~prosta semantyka,}
-\item{czytelny kod.}
-\end{itemize}
+Poniżej zostały przedstawione wymagania pozafunkcjonalne stawiane mojej bibliotece.
 
-Jednak nie są to wszystkie wymagania stawiane projektowanej bibliotece. Aby tworzony przeze mnie kod był czytelny dla innych programistów Qt, musi on wykorzystywać standardowe mechanizmy tej platformy:
+\subsection{API w stylu Qt}
+%API tworzonej przeze mnie bilioteki powinno posiadać jak najwięcej z sześciu cech charakteryzujących %dobre interfejsy programistyczne:
+%\begin{itemize}
+%\item{minimalne,}
+%\item{kompletne,}
+%\item{intuicyjne,} 
+%\item{łatwe do zapamiętania,}
+%\item{czysta i~prosta semantyka,}
+%\item{czytelny kod.}
+%\end{itemize}
+
+%Jednak nie są to wszystkie wymagania stawiane projektowanej bibliotece. 
+
+Aby tworzony przeze mnie kod był czytelny dla innych programistów Qt, musi on wykorzystywać standardowe mechanizmy tej platformy:
 \begin{itemize}
 \item{statyczny polimorfizm, polegający na tworzeniu podobnych interfejsów dla podobnych, ale niespokrewnionych klas, np. kontenerów. Zastępuje wprowadzanie sztucznych klas bazowych.}
 \item{właściwości jako sposób na parametryzowanie obiektów,}

@@ -2,7 +2,7 @@
 Rozdział ten zawiera opis kilku wybranych bibliotek służących do tworzenia wykresów. Opisałem tu  biblioteki przeznaczone dla Qt i~C++, podzielone na rozwiązania komercyjne oraz darmowe. Dla każdej biblioteki podałem jej zalety i~wady. Następnie przedstawiam wykaz typów wykresów dostępnych we wszystkich opisanych produktach. Kolejne dwa paragrafy to zestawienie elementów wspólnych i~unikalnych. Ostatni fragment to podsumowanie zawierające wnioski płynące z~tego przeglądu.
 
 \section{Rozwiązania komercyjne}
-Istnieje kilka komercyjnych bibliotek służących do tworzenia wykresów w~Qt. Zostały one stworzone przez najpoważniejsze studia developerskie tworzące oprogramowanie w~Qt. Bliższe przyjrzenie się tym bibliotekom pomogło mi stworzyć listę wymagań stawianych mojej bibliotece oraz częściowo zasugerowało pewne rozwiązania strukturalne.
+Istnieje kilka komercyjnych bibliotek służących do tworzenia wykresów w~Qt. Zostały one stworzone przez jedne z~najpoważniejszych studiów developerskich tworzących oprogramowanie w~Qt. Bliższe przyjrzenie się tym bibliotekom pomogło mi stworzyć listę wymagań stawianych mojej bibliotece oraz częściowo zasugerowało pewne rozwiązania strukturalne.
  
 \subsection{Qt Commercial Charts}
 Biblioteka ta została stworzona przez aktualnego właściciela Qt, czyli firmę Digia. Oferuje ona programiście szeroki wybór wykresów. Nie wymaga zagłębiania się w~swoją wewnętrzną budowę, a~tworzenie prostych wykresów polega na połączeniu kilku wysokopoziomowych obiektów takich jak seria czy widget widoku.\newline
@@ -11,7 +11,7 @@ Cała biblioteka opiera się na frameworku Graphics View, który wprowadza podzi
 Biblioteka udostępnia dwa uniwersalne widoki. Zależnie od zastosowania można użyć obiektu klasy dziedziczącej z~QGraphicsView bądź z~QGraphicsWidget. Implementacje konkretnych wykresów zarządzają elementami dodawanymi do sceny.\newline
 
 Biblioteka ta, jako jedyna z tutaj opisanych, udostępnia wszystkie swoje wykresy w~języku QML, zarówno dla QtQuick~1~i~2.
-Jak sam producent zaznacza, silne uzależnienie biblioteki od GraphicsView sprawia, że osiąga ona lepsze wyniki wydajnościowe dla QtQuick~1.\newline
+Jak zaznacza sam producent, silne uzależnienie biblioteki od GraphicsView sprawia, że osiąga ona lepsze wyniki wydajnościowe dla Qt~Quick~1 niż Qt~Quick~2.\newline
 
 \textbf{Zalety:}
 \begin{itemize}
@@ -73,13 +73,13 @@ Jest to biblioteka stworzona przez firmę Developer Machines, udostępniająca d
 
 
 \section{Rozwiązania darmowe}
-Warto również przyjrzeć się bibliotekom open--source, choćby po to, aby wiedzieć jakich rozwiązań unikać w~czasie projektowania mojej biblioteki.
+Warto również przyjrzeć się bibliotekom open--source, aby znaleźć ciekawe własności. W~ostateczności analiza działania tych bibliotek może posłużyć jako swego rodzaju przestroga przed pewnymi rozwiązaniami, których powinienem unikać w~czasie projektowania mojej biblioteki.
 
 \subsection{Qwt}
 Qt Widgets for Technical Applications to otwarta biblioteka umożliwiająca tworzenie wykresów oraz innych widgetów technicznych. Biblioteka ta była projektowana z~myślą o zastosowaniach technicznych, w~szczególności w~systemach czasu rzeczywistego, przez co głównym celem było zapewne osiągnięcie wysokiej wydajności przy dynamicznie zmieniających się danych. Cel ten osiągnięto między innymi poprzez wykorzystywanie stosunkowo niskopoziomowych mechanizmów, jak Arthur czy intensywne wykorzystanie szablonów języka C++. Niestety przez to biblioteka nie jest szczególnie przyjazna użytkownikowi. Programista często musi sięgać do niskopoziomowych narzędzia, a stworzenie mniej standardowego rozwiązania może sprawić wiele trudności.\newline
 
 Qwt zawiera szerokie API służące do przeprowadzania różnorakich operacji na wykresach, m.in. skalowania i zaznaczania. Problematyczną kwestią jest wygląd wykresów, z~jednej strony są one adekwatne dla zastosowań technicznych, z~drugiej zaś sprawia on, że nie sposób użyć tych wykresów w~aplikacji innego typu, ze względu na ich brzydotę. Najlepszym przykładem niech będzie wykres załączony na rys. \ref{rys:wykres:sinus}, wyglądający niczym oscylogram.
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{img/sinus.png}
 \caption{Przykładowy wykres Qwt}\label{rys:wykres:sinus}
@@ -127,7 +127,7 @@ Jak widać GobChartWidget jest nieco dziwną hybrydą, której z~pewnością nie
 
 
 \section{Dostępne typy wykresów}
-Podstawowym kryterium oceny użyteczności tego typu biblioteki jest zbiór wykresów, które udostępnia. Tablica~\ref{tab:wykresy} prezentuje dostępność typów wykresów w~opisanych bibliotekach. Podstawową informacją wynikającą z~tego zestawienia jest fakt, że najpopularniejsze są wykresy kołowy, słupkowy oraz liniowy.
+Podstawowym kryterium oceny użyteczności tego typu biblioteki jest wielkość zbioru dostępnych wykresów. Tablica~\ref{tab:wykresy} prezentuje typy wykresów, które można znaleźć w~opisanych bibliotekach. Podstawową informacją wynikającą z~tego zestawienia jest fakt, że najpopularniejsze są wykresy kołowy, słupkowy oraz liniowy.
 \begin{table}[h]\footnotesize
 \centering
 \caption{Zestawienie dostępnych wykresów}
@@ -159,7 +159,7 @@ XY (punktowy) & T & N & T & T & N\\
 
 
 \section{Elementy wspólne}
-Analizując powyższe biblioteki dochodzę do wniosku, że można wykroić z nich część wspólną, stanowiącą podstawową funkcjonalność niezbędną dla biblioteki tego typu. Te elementy to:
+Analizując powyższe biblioteki doszedłem do wniosku, że można wykroić z nich część wspólną, stanowiącą podstawową funkcjonalność niezbędną dla biblioteki tego typu. Te elementy to:
 \begin{itemize}
 \item{podstawowe wykresy, takie jak liniowy, słupkowy i kołowy,}
 \item{osie, siatka i legenda,}
@@ -185,6 +185,6 @@ Prawie wszystkie biblioteki zawierają wartościowe elementy niepowtarzalne lub 
 \section{Podsumowanie}
 Na rynku istnieją już wartościowe biblioteki pozwalające na tworzenie wykresów biurowych, są to jednak rozwiązania komercyjne. Projekty open-source są albo niskiej jakości albo nadają się do innych (technicznych) zastosowań. Istnieje więc potrzeba stworzenia wysokiej jakości darmowego produktu, który zyskałby taką popularność jak Qwt. Potrzeba ta jest jeszcze większa dla Qt~Quick, gdzie nie ma żadnych darmowych bibliotek pozwalających na tworzenie wykresów.
 
-Warto również zauważyć, że twórcy żadnej z~opisanych bibliotek nie zdecydowali się na pełne odizolowanie silnika biblioteki od widoków. Dzięki takiemu podejściu osiągnąłem możliwość wyświetlania wykresów w dowolnym miejscu -- wewnątrz widgetu, w~aplikacji napisanej w~QML czy w~dokumencie tekstowym. Jest to pierwsze takie rozwiązanie na rynku.
+Warto również zauważyć, że twórcy żadnej z~opisanych bibliotek nie zdecydowali się na pełne odizolowanie silnika biblioteki od widoków. Dzięki takiemu podejściu osiągnąłem możliwość wyświetlania wykresów w dowolnym miejscu -- wewnątrz widgetu, w~aplikacji napisanej w~QML czy w~dokumencie tekstowym. Prawdopodobnie jest to pierwsze takie rozwiązanie na rynku.
 
 

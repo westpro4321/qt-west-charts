@@ -5,7 +5,7 @@ Rozdział ten zawiera szkice rozwiązań dla wymagań z~poprzednich rozdziałów
 Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu będzie się składało z~odrysowania zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
 Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics{img/warstwy.pdf}
 \caption{Warstwy wykresu}\label{rys:warstwy}
@@ -24,7 +24,7 @@ Metody odpowiedzialne za tło i~pierwszy plan powinny udostępniać domyślną i
 \section{Lokalny układ współrzędnych}
 Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ponadto granice wykresu będą wyznaczane przez specjalny prostokąt. Takie podejście umożliwi układanie elementów względem lokalnego, a~nie globalnego układu współrzędnych, oraz ustalanie, które z~elementów są widoczne i~należy je odrysować. Dodatkowo ułatwiona będzie realizacja takich wymagań jak: skalowanie wykresu czy interaktywność. 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics{img/uklad_wspolrzednych.pdf}
 \caption{Lokalny układ współrzędnych}\label{rys:uklad:wspolrzednych}
@@ -44,7 +44,7 @@ QocSeries odpowiada za dane dostarczane do wykresu. Jest lekkim odpowiednikiem m
 QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego za odpowiednie układanie elementów wykresu, głównie z~warstwy środkowej -- \textit{ChartLayer}, i~ich odrysowywanie. Jest to szczególnie przydatny komponent dla wykresów, które mogą być budowane na różne sposoby, np. wykres słupkowy.
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{img/klasy-top_level.pdf}
 \caption{Diagram top level}\label{rys:klasy:top_level}
@@ -54,17 +54,17 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 
 Jako że źródłem danych dla wykresu może być seria danych, zbiór serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta będzie \textit{Adapterem obiektowym}~\cite{Patterns} -- będzie agregowała źródła danych dostarczane jako obiekty \textit{QVariant}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
 
-Za pomocą adaptera stworzę pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów będzie przyjmować identyfikator serii, dzięki czemu będzie można wyspecyfikować  której serii dotyczy dana operacja. 
-
-Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, które również będą niosły informację o~id serii. W~przypadku zbioru serii, wystarczy uzupełnić ich sygnały o~id serii oraz przepropagować na zewnątrz adaptera. Chcę to osiągnąć za pomocą obiektu klasy pochodnej od \textit{QSignalMapper}~\footnote{QSignalMapper \url{http://qt-project.org/doc/qt-5.0/qtcore/qsignalmapper.html}}. W~przypadku klas modeli, również będę musiał wykonać podobne mapowanie, podczas którego trzeba będzie sięgnąć do modelu po id serii. Przykładowy protokół komunikacji wykresu z~adapterem przedstawiłem na rysunku~\ref{rys:wykres:model}.
-
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{img/adapter-model.pdf}
 \caption{Adapter}\label{rys:adapter:model}
 \end{figure}
 
-\begin{figure}
+Za pomocą adaptera stworzę pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów będzie przyjmować identyfikator serii, dzięki czemu będzie można wyspecyfikować  której serii dotyczy dana operacja. 
+
+Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, które również będą niosły informację o~id serii. W~przypadku zbioru serii, wystarczy uzupełnić ich sygnały o~id serii oraz przepropagować na zewnątrz adaptera. Chcę to osiągnąć za pomocą obiektu klasy pochodnej od \textit{QSignalMapper}~\footnote{QSignalMapper \url{http://qt-project.org/doc/qt-5.0/qtcore/qsignalmapper.html}}. W~przypadku klas modeli, również będę musiał wykonać podobne mapowanie, podczas którego trzeba będzie sięgnąć do modelu po id serii. Przykładowy protokół komunikacji wykresu z~adapterem przedstawiłem na rysunku~\ref{rys:wykres:model}.
+
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{img/wykres-model.pdf}
 \caption{Komunikacja Wykres -- Adapter}\label{rys:wykres:model}
@@ -140,10 +140,10 @@ Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla ws
 \subsection{Zmiana wartości w modelu}
 Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany zawartości modelu poprzez modyfikację elementów widoku. Przerywane strzałki zawierające opis symbolizują wywołanie sygnału.
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{img/seq_inter.pdf}
-\caption{Diagram sekwencji}\label{rys:seq:inter}
+\caption{Interaktywna zmiana zawartości modelu}\label{rys:seq:inter}
 \end{figure}
 
 \section{Współpraca wykresów z widokami }
@@ -155,7 +155,7 @@ Wykres nie powinien posiadać informacji z~widokiem jakiej klasy współpracuje.
 Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą zostać skolejkowane, sklejone i~obsłużone jako jedno zgłoszenie w~najbliższej wolnej chwili.
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.75]{img/widok-wykres.pdf}
 \caption{Widok -- Wykres}\label{rys:widok:wykres}
@@ -192,7 +192,7 @@ Klasa QObject została zaprojektowana jako \textit{Most}~\cite{Patterns}.
 Podział na uchwyt i~ciało zmniejsza zależności pomiędzy plikami bibliotek Qt i~znacząco skraca czas kompilacji po zmianach w~kodzie. Dodatkowo QObject posiada konstruktor przyjmujący jako argument wskaźnik do ciała, dzięki czemu można je zaalokować tylko raz, w~klasie najniższego poziomu hierarchii dziedziczenia, a~następnie przekazać jako argument konstruktora klasy bazowej. 
 Koncepcję \textit{Mostu} zobrazowałem w~kontekście mojej biblioteki na rys.~\ref{rys:dpointer}.\newline
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{img/dpointer.pdf}
 \caption{Przykładowa hierarchia klas}\label{rys:dpointer}
