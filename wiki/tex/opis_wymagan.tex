@@ -66,7 +66,7 @@ Typowym źródłem danych jest seria, czyli swego rodzaju pojemnik na próbki. K
 \item{kolor}
 \end{itemize}
 
-Zakładam, że serie próbek zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny. 
+Zakładam, że serie zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny. 
 
 Ponadto wymagany jest tytuł i~kolor dla każdej z~serii.
 
@@ -81,9 +81,9 @@ Wykresy mają być alternatywą dla widoków z~architektury Model-Widok. Uważam
 
 \subsection{Modele w QML}
 Szczególnymi przypadkami modeli są te wykorzystywane w~QML. Ważne jest, aby podłączenie elementów \textit{ListModel}~\footnote{ListModel \url{http://qt-project.org/doc/qt-5.1/qtqml/qml-qtqml-models2-listmodel.html}} i~\textit{XmlListModel}~\footnote{XmlListModel \url{http://qt-project.org/doc/qt-5.0/qtquick/qml-qtquick-xmllistmodel2-xmllistmodel.html}} do wykresu było intuicyjne dla programistów QML i~ograniczało się do jednej operacji:
-\begin{verbatim}
+\begin{lstlisting}
 model: xmlModel
-\end{verbatim}
+\end{lstlisting}
 
 \section{Interaktywność}
 Celem tej pracy jest stworzenie biblioteki ,,do operowania na wykresach''. Wszystkie wykresy muszą obsługiwać interaktywne operacje, a~część z~nich powinna zostać zaimplementowana. Pozostałe powinny być możliwe do realizacji.
@@ -95,7 +95,7 @@ Musi istnieć możliwość zaznaczania elementów reprezentujących dane. Powinn
 Powinna istnieć możliwość zmiany zawartości modelu poprzez interakcję z~wykresem. Dla danego elementu reprezentującego próbkę, zmiana jego parametru proporcjonalnego do reprezentowanej wartości powinna skutkować zmianą danych zawartych w~modelu. I~tak skrócenie słupka powinno spowodować zmniejszenie odpowiedniej wartości w~modelu, a~zwięszkenie kąta rozwarcia wycinka kołowego zwiększenie analogicznej wartości.
 
 \subsection{Inne operacje}
-Architektura biblioteki powinna umożliwiać programistom realizację innych interaktywnych operacji, np. Drag\&Drop. Powinno być to możliwe poprzez wykorzystanie systemu zdarzeń Qt.
+Architektura biblioteki powinna umożliwiać programistom realizację innych interaktywnych operacji, np. system \textit{Przeciągnij i~Upuść}. Powinno być to możliwe poprzez wykorzystanie systemu zdarzeń Qt.
 
 %\subsection{API w stylu Qt}
 
@@ -256,7 +256,7 @@ Jako, że okoliczności wykorzystania wykresów biurowych są inne niż wykresó
 Z~tego powodu oraz z~chęci uniknięcia antywzorca projektowego przedwczesnej optymalizacji, kwestie wydajności bilioteki jest odsuwana na dalszy plan.
 
 \subsection{Niezawodność}
-Jak już wykazałem w~poprzednim punkcie, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
+Jak już wspomniałem w~poprzednim punkcie, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
 
 %\subsubsection{Wiarygodnosć}
 

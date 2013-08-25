@@ -1,7 +1,7 @@
 \chapter*{Wstęp}
 Częstym zadaniem tworzonego oprogramowania jest prezentacja pewnych danych. Nawet najlepszy program wykonujący skomplikowane obliczenia jest niewiele wart dla klienta, jeśli nie potrafi w~przystępny sposób zaprezentować efektów swoich działań.
  
-Jedną z~podstawowych form prezentacji danych w~informatyce i~nie tylko jest tabela, która umożliwia wyświetlanie danych z~dużą precyzją. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie kilku rodzajów widoków prezentujących dane z~różnych źródeł.
+Jedną z~podstawowych form prezentacji danych w~informatyce i~nie tylko jest tabela, która umożliwia wyświetlanie danych z~dużą precyzją. Qt posiada już architekturę służącą tworzeniu takich systemów -- Model-Widok. Jest to bardzo popularna platforma umożliwiająca tworzenie skomplikowanych interaktywnych tabelek prezentujących dane z~różnych źródeł, m.in. z~bazy danych.
 
 Inną formą prezentacji danych są wykresy, których popularność jest porównywalna do tabel. Jest to forma dużo bardziej przystępna dla ludzkiej percepcji. Ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto ich obrazkowa natura oraz możliwe animacje sprawiają, że jest to forma bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
 Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source, co wykażę w~rozdziale \textit{Przegląd dziedziny}.
@@ -9,8 +9,10 @@ Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak nadal i
 W~rozdziale 2 omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to inżynierski projekt architektury całej biblioteki. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni  zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
 
 \chapter{Wprowadzenie}
+W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość tej pracy.
+
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Podstawowym celem twórców Qt było stworzenie przenośnych, wygodnych dla programisty oraz wydajnie działających bibliotek. Przenośność pomiędzy najpopularniejszymi platformami, osiągnięto na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
+Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Biblioteki Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}. 
 
 
 \subsection{Narzędzia}
@@ -37,7 +39,7 @@ Jest to bardzo wygodny sposób na luźne wiązanie obiektów, które mogą ze so
 \end{itemize}
 
 \section{Qt Quick}
-Qt~Quick~\footnote{Qt Quick \url{http://qt.digia.com/Product/qt-quick}} jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
+Qt~Quick jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
 Na Qt~Quick składają się:
 \begin{itemize}
 \item QML -- deklaratywny język,
@@ -58,7 +60,7 @@ Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez 
 
 \subsection{Przykładowy kod QML}
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Okienko z niebieskim prostokątem, label=code:qml]
 Item {
 	width: 400
 	height: 200
@@ -84,5 +86,5 @@ Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \te
 \end{figure}
 
 \subsection{Własne elementy}
-Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Ze względu na wydajność, takie podejście sprawdza się jedynie dla stosunkowo prostych elementów. Te bardziej złożone powinny być pisane w~C++, a następnie eksponowane w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt.
+Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Jednak bardzo złożone elementy, np. wykresy, łatwiej jest stworzyć w~C++, a następnie wyeksponować w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt. W~ten sposób zintegrowano z~QML chociażby bibliotekę Box2D.
 
