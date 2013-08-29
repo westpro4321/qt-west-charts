@@ -28,7 +28,7 @@ Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczen
 
 \subsection{Testy wydajnościowe}
 Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test wydajności:
-\begin{lstlisting}
+\begin{lstlisting}[caption=Test wydajności, label=code:test]
 void TestFoo::simpleTest()
 {
 	Foo foo;
@@ -62,6 +62,7 @@ make
 Następnie należy uruchomić stworzony plik wykonywalny. Jako rezultat jego działania otrzymamy plik z~logami, które należy przeanalizować.
 
 \section{Przypadki testowe}
+Poniżej opisuję przypadki testowe przewidziane dla mojej biblioteki. Każdy z~tych testów powinien być uruchamiany podczas testów regresji.
 
 \subsection{Operacje na serii danych}
 Test będzie polegał na dodawaniu, usuwaniu i~modyfikowaniu danych w~serii. Po każdej operacji zawartość serii będzie porównywana z~oczekiwaną zawartością.

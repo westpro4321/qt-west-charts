@@ -9,10 +9,10 @@ Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak nadal i
 W~rozdziale 2 omawiam dostępne biblioteki do tworzenia wykresów w~Qt. Następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to inżynierski projekt architektury całej biblioteki. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni  zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
 
 \chapter{Wprowadzenie}
-W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość tej pracy.
+W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość mojej pracy.
 
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego.  
+Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}~\footnote{\url{http://qt-project.org/wiki/QtWhitepaper}} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego.  
 
 
 \subsection{Narzędzia}
@@ -77,7 +77,7 @@ Item {
 }
 \end{lstlisting}
 
-Wykonanie powyższego kod spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element interfejsu jest typu \textit{Item} i~ma wymiary 400x200 pikseli. Posiada on dziecko będące prostokątem o~tej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
+Wykonanie powyższego kodu spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element posiada dziecko będące prostokątem o~takiej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
 
 Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \textit{parent}. Z~kolei inne elementy mogą się odwoływać do danego elementu za pomocą jego właściwości -- id.
 

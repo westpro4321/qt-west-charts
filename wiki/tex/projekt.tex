@@ -71,11 +71,11 @@ Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, 
 \end{figure}
 
 \subsection{Role}
-Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to wartość enumeryczna, która służy wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę.
+Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to typ wyliczeniowy, który służy do wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę.
 
-Dzięki rolom uzyskam sytuację, w~której wykres chcąc pobrać dane z~modelu, przekaże do adaptera rolę. Adapter zajmie się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny albo właściwość obiektu.
+Dzięki rolom uzyskam stan, w~którym wykres chcąc pobrać dane z~modelu, przekaże do adaptera rolę. Adapter zajmie się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny, rola  albo właściwość obiektu.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Rola -- typ wyliczeniowy, label=code:role]
 enum Role{
 	SeriesIndexRole,
 	XRole,
@@ -89,7 +89,7 @@ enum Role{
 \subsection{QAbstractItemModel}
 Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że dla elementu o~danym indeksie i~roli wartość jest, np. tytułem zapisanym w~łańcuchu znaków. Takiego komfortu jednak nie będzie przy współpracy z~dowolnym innym modelem. Nie mogę wymagać od użytkownika, aby interesujące mnie dane trzymał w~kolumnach o~ustalonych przeze mnie indeksach. Rozwiązaniem tej sytuacji mogłoby być stworzenie specjalnego proxy modelu~\footnote{Proxy modele \url{http://qt-project.org/doc/qt-5.0/qtcore/qabstractproxymodel.html}}, jednak preferuję inny sposób.
 
-Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
+Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. W~przypadku jednowymiarowych modeli dziedziczących po \textit{QAbstractListModel} role wykresu będą mapowane na role tychże modeli. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
 
 \begin{lstlisting}
 QocAbstractChart::setRoleMapping(Qoc::Role role, int customValue);
@@ -99,7 +99,7 @@ Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumn
 
 
 \subsection{QML}
-ListModel i XmlListModel to pochodne QAbstractItemModel, które należy potraktować osobno. Wprowadzają one bardziej obiektowe podejście, dzięki czemu ich zawartość jest łatwo dostępna z~QML.
+ListModel i XmlListModel to pochodne \textit{QAbstractListModel}, które należy potraktować osobno. Wprowadzają one bardziej obiektowe podejście, dzięki czemu ich zawartość jest łatwo dostępna z~QML.
 
 Dane z~tych modeli są dostępne również poprzez system właściwości. Aby dostać się do wartości właściwości wystarczy jedynie znać jej nazwę. Dzięki temu, wymuszając na użytkownikach określone nazwy właściwości, jestem w~stanie pobierać dane z~ich modeli. W~skrajnym przypadku, gdy programista korzystający z~mojej biblioteki nie będzie mógł dostarczyć danych w~oczekiwanym przeze mnie formacie, udostępniam mu przeładowaną metodę z~poprzedniego podpunktu:
 
@@ -126,9 +126,7 @@ Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu,
 Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
 
 \subsection{Uproszczony interfejs}
-Zakładam, że w~niektórych przypadkach interfejsy dostępne z~poziomu QML mogą, a~nawet powinny być uboższe od swoich odpowiedników w~C++. Najlepszym przykładem będzie ramka wokół dowolnego elementu graficznego, będącego składową wykresu. Z~poziomu C++ powinna istnieć możliwość ustawienia pióra używanego do jej odrysowania. Klasa pióra, czyli \textit{QPen}, nie dziedziczy po \textit{QObject}, więc nie może być dostępna w~QML.
-
-Jednym z~rozwiązań tego problemu jest stworzenie specjalnych adapterów dla wszystkich klas nie spokrewnionych z~\textit{QObject}, które wykorzystam w~swojej bibliotece. Wolę jednak przyjąć konwencję stosowaną w~Qt~Quick i~ograniczyć, uprościć interfejsy moich klas dla QML, tak aby możliwe było tam zmienianie tylko najważniejszych parametrów. W~przypadku ramki będą to grubość oraz kolor. Jednocześnie z~poziomu C++ cały czas będzie można zmienić wszystkie parametry pióra odrysowujacego daną ramkę.
+Aby zapobiec nadmiernemu rozrostowi interfejsów klas dostępnych w~QML, zdecydowałem się je uprościć w~porównaniu do tych dostępnych z~poziomu C++. Jest to konwencja szeroko stosowana w~QML. Najlepszym przykładem będzie ramka wokół prostokąta. Z~poziomu C++ istnieje możliwość ustawienia pióra używanego do jej odrysowania. Klasa pióra, czyli \textit{QPen}, nie dziedziczy po \textit{QObject}, więc nie może być dostępna w~QML. W~QML można zmienić jedynie kolor oraz grubość ramki.
 
 \section{Interaktywność}
 %Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
