@@ -77,7 +77,6 @@ Dzięki rolom uzyskam stan, w~którym wykres chcąc pobrać dane z~modelu, przek
 
 \begin{lstlisting}[caption=Rola -- typ wyliczeniowy, label=code:role]
 enum Role{
-	SeriesIndexRole,
 	XRole,
 	YRole,
 	TitleRole,
@@ -85,6 +84,22 @@ enum Role{
 	CustomRole
 }
 \end{lstlisting}
+
+%Każda z~wartości tego~\ref{code:role} typu wyliczeniowego musi posiadać odpowiadający jej łańcuch znaków. Dwukierunkowe mapowanie wartości oraz łańcuchów umożliwi korzystanie z~serii w~QML, w~sposób analogiczny do modeli.
+
+
+\subsection{Seria danych}
+Źródłem danych dla wykresu może być pojedyncza seria lub lista serii. Aby było to możliwe, typy \textit{QocSeries} i~ \textit{QList<QocSeries>} muszą zostać zarejestrowane jako  \textit{QVariant}.
+
+Próbka to w~dużej mierze mapa, w~której kluczem jest rola. Dzięki wsparciu QML dla tego typu map~\footnote{Typ variant\url{http://qt-project.org/doc/qt-5.0/qtqml/qml-variant.html\#storing-arrays-and-objects}} modyfikacja zawartości próbki powinna być tak samo prosta i~intuicyjna w~C++ oraz w~QML. 
+
+Diagram~\ref{rys:seria} zawiera najważniejsze elementy klas odpowiedzialnych za serie oraz próbki w~mojej bibliotece.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{img/seria_danych.pdf}
+\caption{Seria i próbki}\label{rys:seria}
+\end{figure}
 
 \subsection{QAbstractItemModel}
 Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że dla elementu o~danym indeksie i~roli wartość jest, np. tytułem zapisanym w~łańcuchu znaków. Takiego komfortu jednak nie będzie przy współpracy z~dowolnym innym modelem. Nie mogę wymagać od użytkownika, aby interesujące mnie dane trzymał w~kolumnach o~ustalonych przeze mnie indeksach. Rozwiązaniem tej sytuacji mogłoby być stworzenie specjalnego proxy modelu~\footnote{Proxy modele \url{http://qt-project.org/doc/qt-5.0/qtcore/qabstractproxymodel.html}}, jednak preferuję inny sposób.
@@ -95,7 +110,7 @@ Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów
 QocAbstractChart::setRoleMapping(Qoc::Role role, int customValue);
 \end{lstlisting}
 
-Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu. Metoda ta będzie pomocna również przy współpracy z~modelami QML.
+Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu.
 
 
 \subsection{QML}
