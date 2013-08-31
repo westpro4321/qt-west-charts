@@ -67,12 +67,22 @@ Poniżej opisuję przypadki testowe przewidziane dla mojej biblioteki. Każdy z~
 \subsection{Operacje na serii danych}
 Test będzie polegał na dodawaniu, usuwaniu i~modyfikowaniu danych w~serii. Po każdej operacji zawartość serii będzie porównywana z~oczekiwaną zawartością.
 
+\subsection{Poprawność działania adaptera}
+Należy przetestować poprawność działania adaptera pośredniczącego w~komunikacji między wykresem, a modelem. Należy sprawdzić poprawność działanie nastęþujących operacji:
+\begin{itemize}
+\item{dodawanie danych}
+\item{modyfikacja danych}
+\item{usuwanie danych}
+\item{sortowanie}
+\end{itemize}
+
 \subsection{Dostarczanie zdarzeń}
 Planuję przesyłać do wykresu zdarzenia, które powinny powodować zaznaczenie, bądź odznaczenie elementu wykresu. Przesłane w~zdarzeniu współrzędne powinny jednoznacznie wskazać, który z~elementów powinien zostać zaznaczony. Należy przetestować również wysyłanie zdarzeń nie trafiających w~żaden element. 
 
 \subsection{Modyfikacja modelu z poziomu wykresu}
 W~tym teście preparowane będą zdarzenia imitujące proces mający na celu zmianę danych zawartych w~modelu poprzez modyfikację elementów wykresu.
 
-\subsection{Kolejne przypadki testowe...}
+\subsection{Osie układu współrzędnego}
+Należy dokonać mapowanie współrzędnych całego wykresu na współrzędne wewnętrznego układu współrzędnych i~odwrotnie. Należy zweryfikować popraność rezultatów.
 
 

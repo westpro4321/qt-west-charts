@@ -159,6 +159,25 @@ Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany 
 \caption{Interaktywna zmiana zawartości modelu}\label{rys:seq:inter}
 \end{figure}
 
+\section{Wykresy w układzie współrzędnych}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.65]{img/os_skala.pdf}
+\caption{Układ współrzędnych}\label{rys:os:skala}
+\end{figure}
+
+\subsection{Układ współrzędnych}
+,,Układ współrzędnych -- funkcja przypisująca każdemu punktowi danej przestrzeni (w szczególności przestrzeni dwuwymiarowej -- płaszczyzny, powierzchni kuli itp.) skończony ciąg (krotkę) liczb rzeczywistych zwanych współrzędnymi punktu.''~\footnote{\url{http://pl.wikipedia.org/wiki/Układ\_współrzędnych}}
+
+W~mojej bibliotece układ współrzędnych poza wyżej opisaną funkcjonalnością odpowiada również za zarządzanie osiami oraz odrysowywanie siatki.
+
+Wydzielenie takie bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
+
+\subsection{Osie i skale} 
+Postanowiłem rozłączyć oś od jej skali. Oś jest odpowiedzialna głównie za odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwi włączenie do biblioteki, np. skali logarytmicznej.
+
+
 \section{Współpraca wykresów z widokami }
 Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.
 
