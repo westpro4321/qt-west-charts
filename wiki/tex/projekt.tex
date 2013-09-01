@@ -144,11 +144,10 @@ Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych inter
 Aby zapobiec nadmiernemu rozrostowi interfejsów klas dostępnych w~QML, zdecydowałem się je uprościć w~porównaniu do tych dostępnych z~poziomu C++. Jest to konwencja szeroko stosowana w~QML. Najlepszym przykładem będzie ramka wokół prostokąta. Z~poziomu C++ istnieje możliwość ustawienia pióra używanego do jej odrysowania. Klasa pióra, czyli \textit{QPen}, nie dziedziczy po \textit{QObject}, więc nie może być dostępna w~QML. W~QML można zmienić jedynie kolor oraz grubość ramki.
 
 \section{Interaktywność}
-%Klasy wykresów muszą udostępniać metody mapujące globalne współrzędne na wartości lokalne i~odwrotnie. Ponadto każdy z~elementów wykresu musi posiadać metody:
-%\begin{itemize}
-%\item{boundingRect(), zwracająca najmniejszy prostokąt opisujący dany element.}
-%\item{shape(), zwracająca kształt elementu zapisany jako \textit{QPainterPath}.}
-%\end{itemize}
+Wszystkie operacje interaktywne zostały rozwiązane za pomocą systemu zdarzeń Qt~\footnote{System zdarzeń Qt \url{http://qt-project.org/doc/qt-5.0/qtcore/eventsandfilters.html}}. Widoki mają obowiązek przekazywać wszelkie przeznaczone dla wykresu zdarzenia, np. pojawienie się kursora myszy nad wykresem czy kliknięcie.
+
+\subsection{Zaznaczanie}
+Aby zrealizować zaznaczanie elementów wykresu z~poziomu GUI, do wykresu musza być przekazywane zdarzenia związane z~kursorem myszy oraz dotykiem. Pojedyncze kliknięcie w~element reprezentujący dane będzie skutkować jego zaznaczeniem. Podwójne kliknięcie takiego elementu spowoduje zaznaczenie wszystkich elementów danej serii. Zaznaczenie powoduje zmianę koloru obramowania wokół danego elementu. Kolor zaznaczenia jest zdefiniowany jako właściwość całego wykresu.
 
 \subsection{Zmiana wartości w modelu}
 Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany zawartości modelu poprzez modyfikację elementów widoku. Przerywane strzałki zawierające opis symbolizują wywołanie sygnału.
@@ -175,8 +174,17 @@ W~mojej bibliotece układ współrzędnych poza wyżej opisaną funkcjonalności
 Wydzielenie takie bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
 
 \subsection{Osie i skale} 
-Postanowiłem rozłączyć oś od jej skali. Oś jest odpowiedzialna głównie za odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwi włączenie do biblioteki, np. skali logarytmicznej.
+Postanowiłem rozłączyć oś od jej skali. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwi włączenie do biblioteki, np. skali logarytmicznej.
 
+\section{Legenda}
+TODO: diagram\newline
+
+Legenda jest elementem służącym do prezentacji dwóch właściwości: koloru oraz tytułu. W~zależności od typu wykresu są to właściwości pojedynczej próbki albo całej serii. 
+
+Dodawanie legendy do wykresu odbywa się za pomocą metody \textit{QocAbstractChart::setLegend()}, która podłącza sygnały płynące ze źródła danych do obiektu klasy \textit{QocSignalMapper}. Zmapowane sygnały są podłączane do odpowiednich slotów legendy. Za pomocą specjalnego typu wyliczeniowego da się sparametryzować czy mapowanie ma zostać dokonane dla pojedynczych próbek czy dla całych serii.
+
+\subsection{Delegat}
+Możliwość zmieny elementu prezentującego w~legendzie kolor rozwiązałem przez dodanie nowej właściwości legendy -- delegata. Musi to być obiekt klasy dziedziczącej po \textit{QObject}. Klasa ta musi posiadać metodę \textit{draw()}, jeśli korzysta z~\textit{QPainter}, albo \textit{updatePaintNode()} dla \textit{SceneGraph}. Podczas odrysowywania legendy będę wywoływałe jedną z~tych metod korzystając z~systemu metadanych Qt. Konkretnie wykorzystam metodę \textit{QMetaObject::invokeMethod()}. Do tworzenia kolejnych instancji delegata wykorzystam metodę \textit{QMetaObject::newInstance()}.  Do tego delegat musi mieć właściwość kolor. Spełnienie tych kilku wymagań sprawi, że programista będzie mógł wyświetlić w~legendzie kwadrat, trójkąt albo kwiatek. Domyślny delegat to kwadrat.
 
 \section{Współpraca wykresów z widokami }
 Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.
