@@ -32,9 +32,8 @@ Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędn
 
 Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ współrzędnych wykresu o~wymiarach 30x20. W~tej sytuacji prostokąt zostanie wyświetlony w~całości, trójkąt tylko częściowo, a~koło wcale nie zostanie wyświetlone.
 
-\section{Diagramy klas}
 
-\subsection{Top level}
+\section{Struktura wykresu}
 Ogólna koncepcja na strukturę wykresu została przedstawiona na diagramie~\ref{rys:klasy:top_level}.
 
 Klasy pochodne od QocAbstractChart są miejscem łączącym wszystkie inne elementy. To na nich będą ustawiane parametry odnoszące się do całości wykresu, np. włączenie antyaliasingu.
@@ -159,32 +158,55 @@ Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany 
 \end{figure}
 
 \section{Wykresy w układzie współrzędnych}
+Większość wykresów jest osadzona w~pewnym układzie współrzędnych. Najpopularniejszym z~nich jest układ współrzędnych kartezjańskich~\ref{rys:uk:kart}, jednak jak wiadomo nie jest to jedyny układ współrzędnych. Moje rozwiązanie przewiduje możliwość tworzenia wykresów w~bardziej egzotycznych układach, np. wykres polarny w~układzie biegunowym~\ref{rys:uk:bieg}.
+
+Mimo iż najpopularniejszą skalą osi, stosowaną przy wykresach biurowych jest skala liniowa, moje rozwiązanie przewiduje możliwość wykorzystania innej skali, np. logarytmicznej, która jest dość często stosowana przy wykresach liniowych. 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.65]{img/os_skala.pdf}
-\caption{Układ współrzędnych}\label{rys:os:skala}
+\includegraphics[scale=0.65]{img/kartezjanski.png}
+\caption{Liniowy wykres w układzie kartezjańskim}\label{rys:uk:kart}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.65]{img/biegunowy.png}
+\caption{Wykres polarny}\label{rys:uk:bieg}
+\end{figure}
+
+Na diagramie~\ref{rys:os:skala} prezentuję hierarchię klas związanych z~układem współrzędnych. Jedyną klasą nie przewidzianą do dziedziczenia jest tu \textit{QocAxis}. Pozostałe elementy tej hierarchi powinny być dostosowywane do własnych potrzeb poprzez dziedziczenie.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{img/os_skala.pdf}
+\caption{Klasy związane z układem współrzędnych}\label{rys:os:skala}
 \end{figure}
 
 \subsection{Układ współrzędnych}
 ,,Układ współrzędnych -- funkcja przypisująca każdemu punktowi danej przestrzeni (w szczególności przestrzeni dwuwymiarowej -- płaszczyzny, powierzchni kuli itp.) skończony ciąg (krotkę) liczb rzeczywistych zwanych współrzędnymi punktu.''~\footnote{\url{http://pl.wikipedia.org/wiki/Układ\_współrzędnych}}
 
-W~mojej bibliotece układ współrzędnych poza wyżej opisaną funkcjonalnością odpowiada również za zarządzanie osiami oraz odrysowywanie siatki.
+Głównym celem istnienia bytu o~nazwie \textit{QocAbstractCoordinateSystem} jest udostępnienie dwóch funkcji. Pierwsza z~nich przyjmuje wektor opisujący położenie punktu w~danej przestrzeni i~zwraca dwie współrzędne -- x~i~y tego punktu na płaszczyźnie wykresu. Druga funkcja działa dokładnie dokładnie odwrotnie. Takie podejście powinno umożliwić dwukierunkowe mapowanie przestrzeni dwuwymiarowych, ale może być niewystarczające dla wykresów 3D. 
+
+Poza wyżej opisaną funkcjonalnością układ współrzędnych odpowiada w~mojej bibliotece również za zarządzanie osiami oraz odrysowywanie siatki.
 
 Wydzielenie takie bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
 
 \subsection{Osie i skale} 
-Postanowiłem rozłączyć oś od jej skali. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwi włączenie do biblioteki, np. skali logarytmicznej.
+Według mnie oś w układzie współrzędnych powinna być możliwie prostą i~niezmienną klasą, dlatego postanowiłem rozłączyć oś od jej skali -- jest to rozwiązanie podobne do zastosowanego w~Qwt~\footnote{Skala w Qwt \url{http://qwt.sourceforge.net/class\_qwt\_scale\_engine.html}}. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwia włączenie do biblioteki, np. skali logarytmicznej.
 
 \section{Legenda}
-TODO: diagram\newline
-
 Legenda jest elementem służącym do prezentacji dwóch właściwości: koloru oraz tytułu. W~zależności od typu wykresu są to właściwości pojedynczej próbki albo całej serii. 
 
-Dodawanie legendy do wykresu odbywa się za pomocą metody \textit{QocAbstractChart::setLegend()}, która podłącza sygnały płynące ze źródła danych do obiektu klasy \textit{QocSignalMapper}. Zmapowane sygnały są podłączane do odpowiednich slotów legendy. Za pomocą specjalnego typu wyliczeniowego da się sparametryzować czy mapowanie ma zostać dokonane dla pojedynczych próbek czy dla całych serii.
+Dodawanie legendy do wykresu odbywa się za pomocą metody \textit{QocAbstractChart::setLegend()}, która podłącza sygnały płynące ze źródła danych do obiektu klasy \textit{QocSignalMapper}. Zmapowane sygnały są podłączane do odpowiednich slotów legendy. Za pomocą specjalnego typu wyliczeniowego da się sparametryzować czy mapowanie ma zostać dokonane dla pojedynczych próbek czy dla całych serii. Cała koncepcja została zobrazowana na diagramie~\ref{rys:diag:legenda}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{img/legenda.pdf}
+\caption{Komunikacja pomiędzy źródłem danych a legendą}\label{rys:diag:legenda}
+\end{figure}
 
 \subsection{Delegat}
-Możliwość zmieny elementu prezentującego w~legendzie kolor rozwiązałem przez dodanie nowej właściwości legendy -- delegata. Musi to być obiekt klasy dziedziczącej po \textit{QObject}. Klasa ta musi posiadać metodę \textit{draw()}, jeśli korzysta z~\textit{QPainter}, albo \textit{updatePaintNode()} dla \textit{SceneGraph}. Podczas odrysowywania legendy będę wywoływałe jedną z~tych metod korzystając z~systemu metadanych Qt. Konkretnie wykorzystam metodę \textit{QMetaObject::invokeMethod()}. Do tworzenia kolejnych instancji delegata wykorzystam metodę \textit{QMetaObject::newInstance()}.  Do tego delegat musi mieć właściwość kolor. Spełnienie tych kilku wymagań sprawi, że programista będzie mógł wyświetlić w~legendzie kwadrat, trójkąt albo kwiatek. Domyślny delegat to kwadrat.
+Możliwość zmieny elementu prezentującego w~legendzie kolor rozwiązałem przez dodanie nowej właściwości legendy -- delegata. Musi to być obiekt klasy dziedziczącej po \textit{QObject}. Klasa ta musi posiadać metodę \textit{draw()}, jeśli korzysta z~\textit{QPainter}, albo \textit{updatePaintNode()} dla \textit{SceneGraph}. Podczas odrysowywania legendy będę wywoływałe jedną z~tych metod korzystając z~systemu metadanych Qt -- wykorzystam metodę \textit{QMetaObject::invokeMethod()}. Do tworzenia kolejnych instancji delegata wykorzystam metodę \textit{QMetaObject::newInstance()}.  Dodatkowo delegat musi mieć właściwość kolor. Spełnienie tych kilku warunków sprawi, że programista będzie mógł wyświetlić w~legendzie kwadrat, trójkąt albo kwiatek. Domyślny delegat to element o~kształcie kwadratu.
 
 \section{Współpraca wykresów z widokami }
 Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.
