@@ -125,6 +125,7 @@ W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości
 
 
 \section{Qt Quick}
+Wykorzystanie mojej biblioteki w~Qt~Quick wymaga pewnego narzutu pracy. Poniżej opisuję mechanizm umożliwiający wykorzystanie moich klas w~QML oraz przyjętą przeze mnie konwencję interfejsów dla QML.
 
 \subsection{Eksport klas C++ do QML}
 Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.

@@ -42,11 +42,11 @@ Jest to bardzo wygodny sposób na luźne wiązanie obiektów, które mogą ze so
 Qt~Quick jest nową technologią tworzenia GUI. Jej przeznaczeniem jest tworzenie lekkich, intuicyjnych oraz płynnie działających interfejsów, głównie na platformach mobilnych. W przeciwieństwie do tradycyjnego Qt, Qt~Quick nie wymaga znajomości C++, co ma dopuścić do pracy nad GUI nie tylko programistów, ale również projektantów -- grafików.
 Na Qt~Quick składają się:
 \begin{itemize}
-\item QML -- deklaratywny język,
-\item JavaScript -- imperatywny język,
-\item Środowisko uruchomieniowe zintegrowane z Qt,
-\item Designer,
-\item API C++ umożliwiające integrację z aplikacjami Qt.
+\item QML -- deklaratywny język służący do opisu wyglądu oraz zachowania GUI,
+\item JavaScript -- imperatywny język służący do implementacji wewnętrznej logiki GUI,
+\item Środowisko uruchomieniowe, pozwalające na uruchamianie aplikacji bez każdorazowej kompilacji,
+\item Designer, program umożliwiający ,,wyklikanie'' interfejsu użytkownika,
+\item API umożliwiające integrację z aplikacjami Qt napisanymi w~C++.
 \end{itemize}
 
 W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View  \url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\cite{Scene:Graph}.

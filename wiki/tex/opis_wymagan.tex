@@ -107,9 +107,8 @@ Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosow
 Już na etapie projektowania należy zadbać, aby tworzone struktury były łatwe do wyeksponowania w~QML. 
 Tworzenie interfejsów do QML nie jest celem tego projektu, jednak ich implementacja powinna być możliwie łatwa dla programistów decydujących się na korzystanie z~mojej biblioteki.
 
-\subsection{Uwzględnienie dostępnych mechanizmów}
-TODO:
-delegaty \&?
+\subsection{Delegaty}
+Szeroko stosowanym w~Qt~Quick mechanizmem są delegaty. Umożliwiają one zdefiniowanie przez programistę sposobu prezentacji danych z~modelu. W~mojej bibliotece korzystanie z~delegatów powinno być możliwe w~legendzie, do prezentacji kolorów, oraz we właściwym wykresie do definiowania własnych elementów prezentujących zawartość modelu, np. słupki.
 
 
 \section{Wspólne elementy składowe}
@@ -235,7 +234,7 @@ Minimum to uruchomienie na systemach:
 
 
 \section{Wymagania pozafunkcjonalne}
-Poniżej zostały przedstawione wymagania pozafunkcjonalne stawiane mojej bibliotece.
+Wymagania funkcjonalne nie są jedynymi kryteriami oceny biblioteki. Równie ważne są wymagania definiujące oczekiwania użytkownika na temat budowy biblioteki oraz wynikające z~niej ograniczenia dotyczące wydajności czy skalowalności. Poniżej poruszam te i~kilka innych kwestii nie związanych bezpośrednio z~funkcjonalnością.
 
 \subsection{API w stylu Qt}
 %API tworzonej przeze mnie bilioteki powinno posiadać jak najwięcej z sześciu cech charakteryzujących %dobre interfejsy programistyczne:
