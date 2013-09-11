@@ -1,15 +1,17 @@
 #ifndef QOC_PIE_SECTOR_H
 #define QOC_PIE_SECTOR_H
 
-#include "qoc_abstract_chart_item.h"
 
 #include <QPointF>
+
+#include "qoc_global.h"
+#include "qoc_abstract_chart_item.h"
 
 extern const int g_fullCircle;
 
 class QocPieChart;
 
-class QocPieSector : public QocAbstractChartItem
+class QOC_API QocPieSector : public QocAbstractChartItem
 {
 	Q_OBJECT
 	Q_PROPERTY(uint offset READ offset WRITE setOffset)

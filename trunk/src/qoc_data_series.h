@@ -1,65 +1,45 @@
 #ifndef QOC_DATA_SERIES_H
 #define QOC_DATA_SERIES_H
 
-#include <QVector>
+#include <QObject>
+#include <QList>
+
+#include "qoc_global.h"
+
+class QocDataItem;
 
 
-template <typename T>
-class QocDataSeries
+class QOC_API QocDataSeries : public QObject
 {
+	Q_OBJECT
+	Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+	Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+
+
 public:
-	QocDataSeries();
+	explicit QocDataSeries(QObject *parent = 0);
+	
+	QString title() const;
+	void setTitle(const QString &);
 
-	void setSamples(const QVector<T> &samples);
-	QVector<T> samples() const;
+	QColor color() const;
+	void setColor(const QColor &);
 
-	virtual size_t size() const;
-	virtual T sample( size_t index ) const;
+signals:
+	void dataChanged();
+	void dataInserted();
+	void dataRemoved();
+	void sorted();
 
-	double sumOfValues();
+	void titleChanged(const QString &);
+	void colorChanged(const QColor &);
 
-protected:
-	QVector<T> m_samples;
-	double m_sum;
+public slots:
+	
+private:
+	QString m_title;
+	QColor m_color;
+	QList<QocDataItem *> m_items;
 };
 
-template <typename T>
-QocDataSeries<T>::QocDataSeries()
-{
-}
-
-template <typename T>
-void QocDataSeries<T>::setSamples(const QVector<T> &samples)
-{
-	m_samples = samples;
-	m_sum = 0;
-	foreach(T t, samples)
-	{
-		m_sum += t.y();
-	}
-}
-
-template <typename T>
-QVector<T> QocDataSeries<T>::samples() const
-{
-	return m_samples;
-}
-
-template <typename T>
-size_t QocDataSeries<T>::size() const
-{
-	return m_samples.size();
-}
-
-template <typename T>
-T QocDataSeries<T>::sample(size_t index) const
-{
-	return m_samples.at(index);
-}
-
-template <typename T>
-double QocDataSeries<T>::sumOfValues()
-{
-	return m_sum;
-}
 #endif // QOC_DATA_SERIES_H
