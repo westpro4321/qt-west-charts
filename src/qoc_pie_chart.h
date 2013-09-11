@@ -9,8 +9,9 @@
 #include <QPointF>
 #include <QFont>
 
+#include "qoc_global.h"
 
-class QocPieChart : public QocAbstractChart, QocDataSeriesOwner<QPointF>
+class QOC_API QocPieChart : public QocAbstractChart, QocDataSeriesOwner<QPointF>
 {
 	Q_OBJECT
 	Q_PROPERTY(int startAngle READ startAngle WRITE setStartAngle)

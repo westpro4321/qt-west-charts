@@ -8,7 +8,9 @@
 #include <QPen>
 #include <QBrush>
 
-class QocAbstractChartItem : public QObject
+#include "qoc_global.h"
+
+class QOC_API QocAbstractChartItem : public QObject
 {
 	Q_OBJECT
 public:

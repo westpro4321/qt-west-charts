@@ -9,8 +9,9 @@
 class QocPieChart;
 class QocAbstractChartItem;
 
+#include "qoc_global.h"
 
-class QocLegend : public QObject
+class QOC_API QocLegend : public QObject
 {
 	Q_OBJECT
 public:
