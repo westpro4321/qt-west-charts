@@ -1,18 +1,15 @@
 \chapter{Implementacja}
-Jako, że w~ramach pracowni dyplomowej wykonałem sam inżynierski projekt biblioteki, rozdział ten zawiera jedynie informacje o~narzędziach, których użyłem przy realizacji projektu oraz opis procesu tworzenia biblioteki współdzielonej za pomocą Qt.
-
-%\section{Narzędzia}
-%Poniżej opisuję narzędzia, które posłużą do stworzenia mojej biblioteki.
+%Jako, że w~ramach pracowni dyplomowej wykonałem sam inżynierski projekt biblioteki, rozdział ten zawiera jedynie informacje o~narzędziach, których użyłem przy realizacji projektu oraz opis procesu tworzenia biblioteki współdzielonej za pomocą Qt.
 
 \section{Wykorzystane narzędzia}
 Do stworzenia tej pracy inżynierskiej wykorzystałem najlepiej znane mi narzędzia. Ze wszystkich opisanych poniżej, tylko Qt~5 było dla mnie pewną nowością. Z~pozostałych korzystam zarówno w~pracy, jak i~na uczelni.
  
-\subsection{Qt 5}
+\subsubsection{Qt 5}
 Najnowsza dostępna wersja Qt to 5.1. Nowa odsłona dostarcza programistom szereg usprawnień oraz modułów, m.in. do obsługi formatu JSON. Jednak głównym punktem Qt~5 jest nowa implementacja Qt~Quick. 
 
 Do implementacji Qt~Quick~2 wykorzystano OpenGL i~SceneGraph, co znacznie poprawiło wydajność tego systemu. Qt~5 rozpoczęło też nowy kierunek rozwoju aplikacji wykorzystujących Qt. Qt~Quick jest promowany jako zalecany sposób tworzenia interfejsów użytkownika. Docelowo aplikacje Qt mają być podzielone na GUI napisane w~QML oraz logikę zaprogramowaną w~C++.
 
-\subsection{Qt Creator}
+\subsubsection{Qt Creator}
 Qt~Creator to zintegrowane środowisko programistyczne przeznaczone głównie dla języków C++, QML oraz JavaScript. Jego edytor tekstowy zawiera takie udogodnienia jak kolorowanie składni czy narzędzia do refaktoryzacji kodu. Qt~Creator zawiera także wtyczkę do tworzenia graficznych interfejsów użytkownika. Korzystanie z~Designera jest proste i~intuicyjne, a~proste GUI można w~dużej mierze ,,wyklikać''.
 
 Do budowania i~debugowania Qt~Creator wykorzystuje domyślne oprogramowanie danej platformy, np. kompilator gcc i~debuger gdb na systemie Linux. Creator posiada graficzny interfejs do debuggera, który w~znaczący sposób upraszcza procesz debugowania.
@@ -27,50 +24,50 @@ Qt~Creator posiada również wtyczki integrujące go z~najpopularniejszymi syste
 \item{Subversion}
 \end{itemize}
 
-\subsection{Subversion}
+\subsubsection{Subversion}
 Subversion to scentralizowany system kontroli wersji będący następcą systemu CVS. Repozytorium SVN założyłem w~serwisie Google Code~\footnote{http://code.google.com/intl/pl/}, pod adresem \url{http://code.google.com/p/qt-west-charts/}.
 
-\subsection{Kubuntu 12.04 LTS}
+\subsubsection{Kubuntu 12.04 LTS}
 Kubuntu to pochodna Ubuntu, korzystająca z~KDE -- graficznego środowiska, zbudowanego w~oparciu o~bibliteki Qt. ,,Kubuntu oznacza \textit{w stronę ludzkości} w języku bemba''~\footnote{Kubuntu \url{http://pl.wikipedia.org/wiki/Kubuntu}} -- jest to cytat, który jednoznacznie wskazuje co jest celem istnienia tej dystrybucji Linuxa.
 
 Kubuntu jest udostępniane z~bogatym zbiorem aplikacji biurowych, multimedialnych oraz wielu innych. Najpopularniejsze aplikacje, które są dostarczane wraz z~systemem Kubuntu to LibreOffice i~GIMP. 
 
-\section{Tworzenie biblioteki współdzielonej}
-Biblioteka współdzielona to rodzaj biblioteki dynamicznej, czyli biblioteki łączonej z~programem dopiero w~trakcie jego uruchamiania. Przy pierwszym uruchomieniu programu korzystającego z~danej biblioteki współdzielonej, biblioteka ta zostaje załadowana w~całości do pamięci. Od tej pory wszystkie programy, będą mogły korzystać z~tej biblioteki bez ponownego jej ładowania. W~systemach Unixowych biblioteki dynamiczne mają rozszerzenie .so, a~w~systemach Windows .dll.
+%\section{Tworzenie biblioteki współdzielonej}
+%Biblioteka współdzielona to rodzaj biblioteki dynamicznej, czyli biblioteki łączonej z~programem dopiero w~trakcie jego uruchamiania. Przy pierwszym uruchomieniu programu korzystającego z~danej biblioteki współdzielonej, biblioteka ta zostaje załadowana w~całości do pamięci. Od tej pory wszystkie programy, będą mogły korzystać z~tej biblioteki bez ponownego jej ładowania. W~systemach Unixowych biblioteki dynamiczne mają rozszerzenie .so, a~w~systemach Windows .dll.
 
-Qt udostępnia nam stosunkowo prosty sposób na tworzenie bibliotek dynamicznych.
+%Qt udostępnia nam stosunkowo prosty sposób na tworzenie bibliotek dynamicznych.
 
-\subsection{Symbole}
-Wszelkie funkcje, zmienne i klasy zawarte w~bibliotece, które są przeznaczone do użytku dla klientów biblioteki są nazywane publicznymi symbolami i~muszą zostać wyeksportowane, czyli upublicznione podczas kompilacji biblioteki. Zazwyczaj domyślne zachowanie kompilatorów to ukrywanie wszystkich symboli. Aby stały się one dostępne dla klientów biblioteki, trzeba to otwarcie zasygnalizować podczas kompilacji. Natomiast na niektórych platformach osobnych instrukcji wymaga ukrycie symboli.
+%\subsection{Symbole}
+%Wszelkie funkcje, zmienne i klasy zawarte w~bibliotece, które są przeznaczone do użytku dla klientów biblioteki są nazywane publicznymi symbolami i~muszą zostać wyeksportowane, czyli upublicznione podczas kompilacji biblioteki. Zazwyczaj domyślne zachowanie kompilatorów to ukrywanie wszystkich symboli. Aby stały się one dostępne dla klientów biblioteki, trzeba to otwarcie zasygnalizować podczas kompilacji. Natomiast na niektórych platformach osobnych instrukcji wymaga ukrycie symboli.
 
-\subsection{Eksport -- Import}
-Rozwiązaniem obu problemów są dwa makra dostarczane przez Qt, które muszą zostać dodane do deklaracji symboli:
-\begin{itemize}
-\item{Q\_DECL\_EXPORT -- przy kompilacji dynamicznej biblioteki}
-\item{Q\_DECL\_IMPORT -- przy kompilacji klienta korzystającego z~biblioteki}
-\end{itemize}
+%\subsection{Eksport -- Import}
+%Rozwiązaniem obu problemów są dwa makra dostarczane przez Qt, które muszą zostać dodane do deklaracji symboli:
+%\begin{itemize}
+%\item{Q\_DECL\_EXPORT -- przy kompilacji dynamicznej biblioteki}
+%\item{Q\_DECL\_IMPORT -- przy kompilacji klienta korzystającego z~biblioteki}
+%\end{itemize}
 
-\subsection{Uniwersalne makro}
-Teraz trzeba się upewnić, że odpowiednie makro zostanie wykorzystane w~odpowiednim momencie. Typowym rozwiązaniem jest dodanie specjalnego pliku nagłówkowego, np. \textit{foolib\_global.h}. Plik ten musi zawierać kod preprocesora realizujący następującą sztuczkę:
-\begin{lstlisting}[caption=Warunkowa kompilacja, label=code:kompilacja:warunkowa]
-#include <QtCore/QtGlobal>
+%\subsection{Uniwersalne makro}
+%Teraz trzeba się upewnić, że odpowiednie makro zostanie wykorzystane w~odpowiednim momencie. Typowym rozwiązaniem jest dodanie specjalnego pliku nagłówkowego, np. \textit{foolib\_global.h}. Plik ten musi zawierać kod preprocesora realizujący następującą sztuczkę:
+%\begin{lstlisting}[caption=Warunkowa kompilacja, label=code:kompilacja:warunkowa]
+%#include <QtCore/QtGlobal>
 
-#if defined(FOOLIB_LIBRARY)
-#  define FOOLIB_API Q_DECL_EXPORT
-#else
-#  define FOOLIB_API Q_DECL_IMPORT
-#endif
-\end{lstlisting}
+%#if defined(FOOLIB_LIBRARY)
+%#  define FOOLIB_API Q_DECL_EXPORT
+%#else
+%#  define FOOLIB_API Q_DECL_IMPORT
+%#endif
+%\end{lstlisting}
 
-Jak widać, w~zależności od tego czy istnieje makro \textit{FOOLIB\_LIBRARY}, makro \textit{FOOLIB\_API} posłuży do eksportowania albo importowania symboli biblioteki \textit{FooLib}. Makro \textit{FOOLIB\_LIBRARY} zostanie zdefiniowane tylko i~wyłącznie w~pliku projektu biblioteki \textit{FooLib}. Tylko wtedy będziemy mieli pewność, że nasza biblioteka będzie poprawnie linkowana. W~pliku .pro należy dodać instrukcję: \textit{DEFINES +=  FOOLIB\_LIBRARY}.
+%Jak widać, w~zależności od tego czy istnieje makro \textit{FOOLIB\_LIBRARY}, makro \textit{FOOLIB\_API} posłuży do eksportowania albo importowania symboli biblioteki \textit{FooLib}. Makro \textit{FOOLIB\_LIBRARY} zostanie zdefiniowane tylko i~wyłącznie w~pliku projektu biblioteki \textit{FooLib}. Tylko wtedy będziemy mieli pewność, że nasza biblioteka będzie poprawnie linkowana. W~pliku .pro należy dodać instrukcję: \textit{DEFINES +=  FOOLIB\_LIBRARY}.
 
-\subsection{Wykorzystanie makra}
-We wszystkich plikach nagłówkowych biblioteki, deklaracje symboli muszą zostać uzupełnione o~nasze makro:
+%\subsection{Wykorzystanie makra}
+%We wszystkich plikach nagłówkowych biblioteki, deklaracje symboli muszą zostać uzupełnione o~nasze makro:
 
-\begin{lstlisting}[caption=Eksport symboli, label=code:eksport:sym]
-#include "foolib_global.h"
+%\begin{lstlisting}[caption=Eksport symboli, label=code:eksport:sym]
+%#include "foolib_global.h"
 
-FOOLIB_API void foo();
-class FOOLIB_API Foo...
-\end{lstlisting}
+%FOOLIB_API void foo();
+%class FOOLIB_API Foo...
+%\end{lstlisting}
 
