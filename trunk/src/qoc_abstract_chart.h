@@ -8,14 +8,18 @@
 #include <QRectF>
 #include <QBrush>
 #include <QPen>
+#include <QVariant>
 
 #include "qoc_global.h"
 
 class QocAbstractChartItem;
+class QocAdaptorModel;
 
 class QOC_API QocAbstractChart : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)
+
 public:
 	explicit QocAbstractChart(QObject *parent = 0);
 	
@@ -34,6 +38,9 @@ public:
 
 	QPen selectionPen() const;
 	void setSelectionPen(const QPen &pen);
+
+	QVariant model() const;
+	void setModel(const QVariant &model);
 
 //	double topMargin();
 //	void setTopMargin(double fraction);
@@ -59,6 +66,7 @@ public:
 
 
 signals:
+	void modelChanged();
 	
 public slots:
 
@@ -88,6 +96,8 @@ protected:
 	
 	QRectF m_viewGeometry;
 	QRectF m_chartRect;
+
+	QocAdaptorModel *m_adaptorModel;
 };
 
 #endif // QOC_ABSTRACT_CHART_H

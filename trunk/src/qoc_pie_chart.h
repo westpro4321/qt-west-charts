@@ -2,7 +2,6 @@
 #define QOC_PIE_CHART_H
 
 #include "qoc_abstract_chart.h"
-#include "qoc_data_series_owner.h"
 #include "qoc_pie_sector.h"
 
 #include <QObject>
@@ -11,18 +10,17 @@
 
 #include "qoc_global.h"
 
-class QOC_API QocPieChart : public QocAbstractChart, QocDataSeriesOwner<QPointF>
+class QOC_API QocPieChart : public QocAbstractChart
 {
 	Q_OBJECT
 	Q_PROPERTY(int startAngle READ startAngle WRITE setStartAngle)
+	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)
 
 public:
 	explicit QocPieChart(QObject *parent = 0);
 	
 	virtual void draw(QPainter *painter, const QRectF &rect = QRectF());
 	virtual QList<QocPieSector *> items();
-	virtual void setSeries(QocDataSeries<QPointF> *ds);
-
 
 	QocPieSector *item(double x);
 	QocPieSector *itemAt(size_t i);

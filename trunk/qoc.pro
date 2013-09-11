@@ -1,10 +1,8 @@
-include( qocconfig.pri )
-
 #QT = core gui widgets
 
-TEMPLATE = subdirs app
+TEMPLATE = subdirs
 CONFIG   += ordered
 
-SUBDIRS = src
+SUBDIRS = src examples
 
 #INSTALLS += QOC_INSTALL_PREFIX
