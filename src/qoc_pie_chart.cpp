@@ -33,30 +33,30 @@ QList<QocPieSector *> QocPieChart::items()
 	return m_items;
 }
 
-void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
-{
-	QocDataSeriesOwner<QPointF>::setSeries(ds);
+//void QocPieChart::setSeries(QocDataSeries<QPointF> *ds)
+//{
+//	QocDataSeriesOwner<QPointF>::setSeries(ds);
 
-	m_items.clear();
-	int startAngle = 0/*m_startAngle*/;
+//	m_items.clear();
+//	int startAngle = 0/*m_startAngle*/;
 
-	foreach(QPointF p, m_series->samples())
-	{
-		QocPieSector *ps = new QocPieSector(QString("Untitled %1").arg(m_items.size()), this);
-		ps->setStartAngle(startAngle);
-		int spanAngle = (-1) * g_fullCircle * p.y() / m_series->sumOfValues();
-		ps->setSpanAngle(spanAngle);
-		startAngle += spanAngle;
-		m_items.append(ps);
-	}
-}
+//	foreach(QPointF p, m_series->samples())
+//	{
+//		QocPieSector *ps = new QocPieSector(QString("Untitled %1").arg(m_items.size()), this);
+//		ps->setStartAngle(startAngle);
+//		int spanAngle = (-1) * g_fullCircle * p.y() / m_series->sumOfValues();
+//		ps->setSpanAngle(spanAngle);
+//		startAngle += spanAngle;
+//		m_items.append(ps);
+//	}
+//}
 
 
 
 
 QocPieSector *QocPieChart::item(double x)
 {
-	for(int i=0; i<m_series->size(); ++i)
+	for(int i=0; i<m_adaptorModel->size(); ++i)
 	{
 		if ( m_series->sample(i).x() == x )
 		{

@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "qoc_pie_chart.h"
-#include "qoc_legend.h"
+#include <qoc_pie_chart.h>
+#include <qoc_legend.h>
 
 namespace Ui {
 class TestWidget;

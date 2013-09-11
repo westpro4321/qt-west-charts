@@ -1,16 +1,17 @@
 #include "qoc_abstract_chart.h"
+#include "qoc_adaptor_model.h"
+
 
 QocAbstractChart::QocAbstractChart(QObject *parent) :
 	QObject(parent),
 	m_antialiased(true),
-	m_backgroundBrush(0),
-	m_selectionPen(new QPen),
 	m_title("Chart Title"),
 	m_titleFont(QFont("Arial", 12, QFont::Normal)),
 	m_titleVisible(true),
-	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop)
+	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop),
+	m_adaptorModel(new QocAdaptorModel(this))
 {
-//	setMargins(0.15, 0.05, 0.1, 0.2);
+	connect(m_adaptorModel, SIGNAL(modelChanged()), this, SIGNAL(modelChanged()));
 }
 
 void QocAbstractChart::draw(QPainter *painter, const QRectF &rect)
@@ -34,7 +35,7 @@ void QocAbstractChart::setAntialiased(bool b)
 
 QBrush QocAbstractChart::background() const
 {
-	return *m_backgroundBrush;
+	return m_backgroundBrush;
 }
 
 void QocAbstractChart::setBackground(const QBrush &brush)
@@ -54,12 +55,22 @@ void QocAbstractChart::setForeground(const QBrush &brush)
 
 QPen QocAbstractChart::selectionPen() const
 {
-	return *m_selectionPen;
+	return m_selectionPen;
 }
 
 void QocAbstractChart::setSelectionPen(const QPen &pen)
 {
 	m_selectionPen = pen;
+}
+
+QVariant QocAbstractChart::model() const
+{
+	return m_adaptorModel->model();
+}
+
+void QocAbstractChart::setModel(const QVariant &model)
+{
+	m_adaptorModel->setModel(model);
 }
 
 //double QocAbstractChart::topMargin()
