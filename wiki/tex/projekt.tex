@@ -90,7 +90,7 @@ enum Role{
 \subsection{Seria danych}
 Źródłem danych dla wykresu może być pojedyncza seria lub lista serii. Aby było to możliwe, typy \textit{QocSeries} i~ \textit{QList<QocSeries>} muszą zostać zarejestrowane jako  \textit{QVariant}.
 
-Próbka to w~dużej mierze mapa, w~której kluczem jest rola. Dzięki wsparciu QML dla tego typu map~\footnote{Typ variant\url{http://qt-project.org/doc/qt-5.0/qtqml/qml-variant.html\#storing-arrays-and-objects}} modyfikacja zawartości próbki powinna być tak samo prosta i~intuicyjna w~C++ oraz w~QML. 
+Próbka to w~dużej mierze mapa, w~której kluczem jest rola. Dzięki wsparciu QML dla tego typu map~\footnote{Typ variant\url{http://qt-project.org/doc/qt-5.0/qtqml/qml-variant.html\#storing-\newline arrays-and-objects}} modyfikacja zawartości próbki powinna być tak samo prosta i~intuicyjna w~C++ oraz w~QML. 
 
 Diagram~\ref{rys:seria} zawiera najważniejsze elementy klas odpowiedzialnych za serie oraz próbki w~mojej bibliotece.
 
@@ -105,9 +105,10 @@ Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że 
 
 Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. W~przypadku jednowymiarowych modeli dziedziczących po \textit{QAbstractListModel} role wykresu będą mapowane na role tychże modeli. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
 
-\begin{lstlisting}
-QocAbstractChart::setRoleMapping(Qoc::Role role, int customValue);
-\end{lstlisting}
+\begin{verbatim}
+QocAbstractChart::
+setRoleMapping(Qoc::Role role, int customValue);
+\end{verbatim}
 
 Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu.
 
@@ -117,9 +118,10 @@ ListModel i XmlListModel to pochodne \textit{QAbstractListModel}, które należy
 
 Dane z~tych modeli są dostępne również poprzez system właściwości. Aby dostać się do wartości właściwości wystarczy jedynie znać jej nazwę. Dzięki temu, wymuszając na użytkownikach określone nazwy właściwości, jestem w~stanie pobierać dane z~ich modeli. W~skrajnym przypadku, gdy programista korzystający z~mojej biblioteki nie będzie mógł dostarczyć danych w~oczekiwanym przeze mnie formacie, udostępniam mu przeładowaną metodę z~poprzedniego podpunktu:
 
-\begin{lstlisting}
-QocAbstractChart::setRoleMapping(Qoc::Role role, const QString &name);
-\end{lstlisting}
+\begin{verbatim}
+QocAbstractChart::
+setRoleMapping(Qoc::Role role, const QString &name);
+\end{verbatim}
 
 W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości. Po wywołaniu metody, nowa nazwa właściwości będzie wykorzystywana do komunikacji z~modelem.
 
