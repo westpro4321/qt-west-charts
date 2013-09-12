@@ -18,7 +18,8 @@ QocAbstractChart::QocAbstractChart(QObject *parent) :
 
 QocAbstractChart::QocAbstractChart(const QSizeF &size, QObject *parent) :
 	QObject(parent),
-	m_chartSize(size)
+	m_chartSize(size),
+	m_adaptorModel(new QocAdaptorModel(this))
 {
 }
 

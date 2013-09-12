@@ -108,3 +108,16 @@ void QocAbstractChartItem::setSelected(bool b)
 {
 	m_selected = b;
 }
+
+QPointF QocAbstractChartItem::position() const
+{
+	return m_pos;
+}
+
+void QocAbstractChartItem::setPosition(const QPointF &p)
+{
+	if ( m_pos != p )
+	{
+		m_pos = p;
+	}
+}

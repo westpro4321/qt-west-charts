@@ -27,6 +27,7 @@ protected:
 	virtual void drawChartLayer(QPainter *painter, const QRectF &rect);
 	virtual void drawHighLayer(QPainter *painter, const QRectF &rect);
 
+	void setupAxes();
 private:
 	uint m_radius;
 	QocAxis *m_vAxis;
