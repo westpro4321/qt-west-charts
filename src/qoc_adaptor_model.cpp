@@ -6,13 +6,14 @@
 #include <QtGlobal>
 
 QocAdaptorModel::QocAdaptorModel(QObject *parent) :
-	QObject(parent)
+	QObject(parent),
+	m_model("")
 {
 }
 
 void QocAdaptorModel::setModel(const QVariant &model)
 {
-	if ( m_model != model )
+	//if ( m_model.isValid() || ! (m_model == model) )
 	{
 		m_model = model;
 		if ( qvariant_cast<QocDataSeries *>(model) )
@@ -45,7 +46,24 @@ QVariant QocAdaptorModel::model() const
 	return m_model;
 }
 
-int QocAdaptorModel::size(int index)
+QVariant QocAdaptorModel::data(int seriesIndex, Qoc::ItemDataRole role)
+{
+	QVariant retVal;
+	if ( ! m_model.isNull() )
+	{
+		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
+		{
+			retVal = model->data(seriesIndex, role);
+		}
+		else
+		{
+			qFatal("Unknown model type");
+		}
+	}
+	return retVal;
+}
+
+int QocAdaptorModel::size(int index) const
 {
 	if ( m_modelType == Series )
 	{
@@ -53,5 +71,22 @@ int QocAdaptorModel::size(int index)
 		return series->size();
 	}
 
+	return 0;
+}
+
+int QocAdaptorModel::seriesCount() const
+{
+	if ( ! m_model.isNull() )
+	{
+		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
+		{
+			return 1;
+		}
+		else
+		{
+			qFatal("Unknown model type");
+			return 0;
+		}
+	}
 	return 0;
 }

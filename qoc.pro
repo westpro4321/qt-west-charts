@@ -5,4 +5,6 @@ CONFIG   += ordered
 
 SUBDIRS = src examples
 
+#OTHER_FILES = src/src.pro
+#SOURCES = src/main.cpp
 #INSTALLS += QOC_INSTALL_PREFIX

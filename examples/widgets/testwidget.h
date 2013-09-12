@@ -22,8 +22,6 @@ protected:
 	virtual void paintEvent(QPaintEvent *event);
 
 public:
-	QocPieChart pieChart;
-	QocLegend legend;
 
 private:
 	Ui::TestWidget *ui;
