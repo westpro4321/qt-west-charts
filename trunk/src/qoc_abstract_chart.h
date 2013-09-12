@@ -19,10 +19,17 @@ class QOC_API QocAbstractChart : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)
-
+	Q_ENUMS(Layer)
 public:
+	enum Layer {
+		LowLayer,
+		ChartLayer,
+		HighLayer
+	};
+
 	explicit QocAbstractChart(QObject *parent = 0);
-	
+	QocAbstractChart(const QSizeF &size, QObject *parent = 0);
+
 	void draw(QPainter *painter, const QRectF &rect = QRectF());
 
 //	virtual QList<QocAbstractChartItem *> items() = 0;
@@ -30,17 +37,17 @@ public:
 	bool isAntialiased();
 	void setAntialiased(bool b);
 
-	QBrush background() const;
-	void setBackground(const QBrush &brush);
+	QBrush backgroundBrush() const;
+	void setBackgroundBrush(const QBrush &brush);
 
-	QBrush foreground() const;
-	void setForeground(const QBrush &brush);
+	QBrush foregroundBrush() const;
+	void setForegroundBrush(const QBrush &brush);
 
 	QPen selectionPen() const;
 	void setSelectionPen(const QPen &pen);
 
 	QVariant model() const;
-	void setModel(const QVariant &model);
+	virtual void setModel(const QVariant &model);
 
 //	double topMargin();
 //	void setTopMargin(double fraction);
@@ -64,6 +71,9 @@ public:
 	QPointF mapFromGlobal(QPointF p);
 	QPointF mapToGlobal(QPointF p);
 
+	void addItem(Layer layer, QocAbstractChartItem *item);
+	void removeItem(Layer layer, QocAbstractChartItem *item);
+	void removeItem(QocAbstractChartItem *item);
 
 signals:
 	void modelChanged();
@@ -95,9 +105,10 @@ protected:
 	int m_titleFlags;
 	
 	QRectF m_viewGeometry;
-	QRectF m_chartRect;
+	QSizeF m_chartSize;
 
 	QocAdaptorModel *m_adaptorModel;
+	QMap<Layer, QList<QocAbstractChartItem *> > m_itemsMap;
 };
 
 #endif // QOC_ABSTRACT_CHART_H

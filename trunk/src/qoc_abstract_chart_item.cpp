@@ -1,10 +1,12 @@
 #include "qoc_abstract_chart_item.h"
+#include "qoc_abstract_chart.h"
 
 #include <QPen>
 #include <QBrush>
 
-QocAbstractChartItem::QocAbstractChartItem(const QString &title, QObject *parent) :
+QocAbstractChartItem::QocAbstractChartItem(QObject *parent) :
 	QObject(parent),
+	m_chart(qobject_cast<QocAbstractChart *>(parent)),
 	m_titleAnchor(TopAnchor),
 	m_titleVisible(true),
 	m_visible(true),
@@ -12,7 +14,6 @@ QocAbstractChartItem::QocAbstractChartItem(const QString &title, QObject *parent
 	m_brush(new QBrush(Qt::red)),
 	m_selected(false)
 {
-	m_title = title;
 }
 
 

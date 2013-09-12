@@ -1,12 +1,19 @@
 QT = core gui widgets
 
-TEMPLATE = app
+#TEMPLATE = app
 
-HEADERS = testwidget.h \
-    mainwindow.h
+#HEADERS = testwidget.h \
+#    mainwindow.h
 
-SOURCES = testwidget.cpp \
-    mainwindow.cpp
+#SOURCES = main.cpp \
+#   testwidget.cpp \
+#   mainwindow.cpp \
 
-FORMS += \
-    mainwindow.ui
+
+#FORMS += \
+#    mainwindow.ui
+
+INCLUDEPATH += ../../src
+DEPENDPATH += ../../src
+
+#HEADERS += ../../src/qoc_data_series.h

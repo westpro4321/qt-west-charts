@@ -14,7 +14,7 @@ TestWidget::TestWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	QocDataSeries<QPointF> *series = new QocDataSeries<QPointF>();
+	QocDataSeries *series = new QocDataSeries();
 
 	QVector<QPointF> vector;
 	vector.append(QPointF(1,11));

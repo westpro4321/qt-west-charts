@@ -10,13 +10,15 @@
 
 #include "qoc_global.h"
 
+class QocAbstractChart;
+
 class QOC_API QocAbstractChartItem : public QObject
 {
 	Q_OBJECT
 public:
 	enum TitleAnchor{ TopAnchor, BottomAnchor, LeftAnchor, RightAnchor };
 
-	QocAbstractChartItem(const QString &title = QString(), QObject *parent = 0);
+	QocAbstractChartItem(QObject *parent = 0);
 
 	virtual void draw(QPainter *painter, const QRectF &rect = QRectF()) = 0;
 
@@ -59,6 +61,7 @@ protected:
 	QPen *m_pen;
 	QBrush *m_brush;
 	bool m_selected;
+	QocAbstractChart *m_chart;
 };
 
 #endif // QOC_ABSTRACT_CHART_ITEM_H

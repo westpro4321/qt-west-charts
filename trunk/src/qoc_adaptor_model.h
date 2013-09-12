@@ -16,7 +16,10 @@ public:
 	void setModel(const QVariant &model);
 	QVariant model() const;
 
-	int size(int index = 0);
+	QVariant data(int seriesIndex, Qoc::ItemDataRole role);
+
+	int size(int seriesIndex = 0) const;
+	int seriesCount() const;
 
 signals:
 	void modelChanged();
