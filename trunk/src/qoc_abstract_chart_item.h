@@ -49,6 +49,9 @@ public:
 	bool isSelected() const;
 	void setSelected(bool b);
 
+	QPointF position() const;
+	void setPosition(const QPointF &p);
+
 
 protected:
 	TitleAnchor m_titleAnchor;
@@ -62,6 +65,7 @@ protected:
 	QBrush *m_brush;
 	bool m_selected;
 	QocAbstractChart *m_chart;
+	QPointF m_pos;
 };
 
 #endif // QOC_ABSTRACT_CHART_ITEM_H

@@ -16,7 +16,9 @@ HEADERS = qoc_global.h \
     qoc_adaptor_model.h \
     qoc_view_widget.h \
     qoc_bar_chart.h \
-    qoc_axis.h
+    qoc_axis.h \
+    qoc_bar_item.h \
+    qoc_abstract_value_item.h
 
 SOURCES += main.cpp \
     qoc_abstract_chart_item.cpp \
@@ -30,7 +32,9 @@ SOURCES += main.cpp \
     qoc_adaptor_model.cpp \
     qoc_view_widget.cpp \
     qoc_bar_chart.cpp \
-    qoc_axis.cpp
+    qoc_axis.cpp \
+    qoc_bar_item.cpp \
+    qoc_abstract_value_item.cpp
 
 DEFINES += QOC_LIBRARY
 
