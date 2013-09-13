@@ -18,7 +18,7 @@ class QocAdaptorModel;
 class QOC_API QocAbstractChart : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)
+	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)	
 	Q_ENUMS(Layer)
 public:
 	enum Layer {

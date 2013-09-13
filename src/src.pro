@@ -18,7 +18,8 @@ HEADERS = qoc_global.h \
     qoc_bar_chart.h \
     qoc_axis.h \
     qoc_bar_item.h \
-    qoc_abstract_value_item.h
+    qoc_abstract_value_item.h \
+    qoc_view_text.h
 
 SOURCES += \
 #    main.cpp \
@@ -35,7 +36,8 @@ SOURCES += \
     qoc_bar_chart.cpp \
     qoc_axis.cpp \
     qoc_bar_item.cpp \
-    qoc_abstract_value_item.cpp
+    qoc_abstract_value_item.cpp \
+    qoc_view_text.cpp
 
 DEFINES += QOC_LIBRARY QT_NO_DEBUG_OUTPUT
 
