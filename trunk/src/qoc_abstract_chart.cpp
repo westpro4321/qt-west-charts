@@ -26,7 +26,8 @@ QocAbstractChart::QocAbstractChart(const QSizeF &size, QObject *parent) :
 
 void QocAbstractChart::draw(QPainter *painter, const QRectF &rect)
 {
-	m_viewGeometry = rect;
+	if ( rect.isValid() )
+		m_viewGeometry = rect;
 
 //	painter->setClipping(true);
 
@@ -247,6 +248,15 @@ qreal QocAbstractChart::yScale() const
 QList<QocAbstractChartItem *> QocAbstractChart::items(QocAbstractChart::Layer l)
 {
 	return m_itemsMap.value(l);
+}
+
+void QocAbstractChart::setViewGeometry(const QRectF &r)
+{
+	if ( m_viewGeometry != r )
+	{
+		m_viewGeometry = r;
+		emit repaint();
+	}
 }
 
 void QocAbstractChart::drawBackground(QPainter *painter, const QRectF &rect)

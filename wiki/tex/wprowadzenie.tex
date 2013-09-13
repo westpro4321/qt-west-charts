@@ -6,14 +6,14 @@ Jedną z~podstawowych form prezentacji danych w~informatyce i~nie tylko jest tab
 Inną formą prezentacji danych są wykresy, których popularność jest porównywalna do tabel. Jest to forma dużo bardziej przystępna dla ludzkiej percepcji. Ułatwiają szybkie porównywanie wielu rekordów oraz wyznaczanie tendencji. Ponadto ich obrazkowa natura oraz możliwe animacje sprawiają, że jest to forma bardzo atrakcyjna dla końcowego użytkownika oprogramowania.
 %Qt posiada już kilka bibliotek służących tworzeniu wykresów, jednak nadal istnieje zapotrzebowanie na wartościowe rozwiązanie open-source, co wykazuję w~rozdziale \textit{Przegląd dziedziny}.
 
-W ostatnich latach da się zauważyć tendencję odchodzenia od tabel na rzecz graficznych form prezentacji danych. Tendencja ta jest szczególnie nasilona w~sektorze urządzeń mobilnych, takich jak telefony klasy smartphone. Dodatkowo rozpowszechnienie się technologii ekranów dotykowych umożliwia realizację interakcji na niedostępnym dotychczas poziomie. Qt od wersji 5.2 ma być dostępne na najpopularniejszych tego typu urządzaniach pracujących pod kontrolą systemów Android oraz iOS. 
+W ostatnich latach da się zauważyć wyraźną tendencję odchodzenia od tabel na rzecz graficznych form prezentacji danych. Tendencja ta jest szczególnie nasilona w~sektorze urządzeń mobilnych, takich jak telefony klasy smartphone. Dodatkowo, rozpowszechnienie się technologii ekranów dotykowych umożliwia realizację interakcji na niedostępnym dotychczas poziomie. Qt od wersji 5.2 ma być dostępne na najpopularniejszych tego typu urządzaniach pracujących pod kontrolą systemów Android oraz iOS. 
 
-Co prawda Qt posiada już kilka bibliotek umożliwiających tworzenie wykresów, jednak brakuje darmowych, gotowych do użycia rozwiązań umożliwiających interaktywną prezentację danych. Dodatkowo nowa technologia tworzenie interfejsów użtkownika -- Qt~Quick cierpi na niedobór zewnętrznych bibliotek. Jest to odpowiedni moment na wprowadzenie na rynek produktu, który ma szansę zyskać dużą popularność, choćby z~powodu braku konkurencji.
+Co prawda Qt posiada już kilka bibliotek umożliwiających tworzenie wykresów, jednak brakuje darmowych, gotowych do użycia rozwiązań umożliwiających interaktywną prezentację danych. Dodatkowo nowa technologia tworzenie interfejsów użtkownika -- Qt~Quick cierpi na niedobór bibliotek dostarczających komponentów wyższego poziomu. Jest to odpowiedni moment na wprowadzenie na rynek produktu, który ma szansę zyskać dużą popularność, choćby z~powodu braku konkurencji.
 
 Moja praca inżynierska składa się z~rozdziałów opisujących kolejne etapy tworzenia biblioteki. W~rozdziale 2 omawiam dostępne biblioteki do tworzenia wykresów w~Qt, następnie przedstawiam opis i~analizę wymagań stawianych mojej bibliotece. Kolejny rozdział to inżynierski projekt architektury całej biblioteki. Następne dwa rozdziały są poświęcone implementacji oraz testom biblioteki. Ostatni  zawiera wnioski dotyczące stworzonej biblioteki oraz możliwości jej dalszego rozwoju. 
 
 \chapter{Wprowadzenie}
-W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość mojej pracy. Następnie opisuję podstawowe założenia i~cele stworzonej biblioteki.
+W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość mojej pracy. Następnie opisuję podstawowe założenia, cele oraz cechy stworzonej biblioteki.
 
 \section{Qt}
 Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}~\footnote{\url{http://qt-project.org/wiki/QtWhitepaper}} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego.  
@@ -66,6 +66,9 @@ Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez 
 
 \subsection{Przykładowy kod QML}
 
+\lstset{
+  captionpos=b,                           % sets the caption-position to top
+ }
 \begin{lstlisting}[caption=Przykład QML, label=code:qml]
 Item {
 	width: 400
@@ -95,11 +98,13 @@ Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \te
 Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Jednak bardzo złożone elementy, np. wykresy, łatwiej jest stworzyć w~C++, a następnie wyeksponować w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt. W~ten sposób zintegrowano z~QML chociażby bibliotekę Box2D.
 
 \section{Qt Office Charts}
-Podstawowym problemem bibliotek już dostępnych na rynku jest wąski zakres zastosowań. Dostarczane przez nie wykresy są zazwyczaj widgetami gotowymi do osadzenia w~GUI. Dla typowych aplikacji może to być rozwiązanie wygodne, jednak ogranicza ono możliwości wykorzystania w~innym kontekście. Osadzenie widgetu w~dokumencie tekstowym lub w~\textit{GraphicsView} jest co najmniej nieefektywne. Stąd pierwszy z~celów stawianych mojej bibliotece -- dostarczenie uniwersalnego silnika, umożliwiającego wyświetlanie wykresów w~dowolnym miejscu aplikacji napisanych w~Qt. Na etapie definiowania wymagań ograniczyłem zbiór widoków, z~którymi moja biblioteka ma być kompatybilna, jednak teoretycznie powinna współpracować z~dowolnym widokiem.
+Podstawowym problemem bibliotek już dostępnych na rynku jest wąski zakres zastosowań. Dostarczane przez nie wykresy są zazwyczaj widgetami gotowymi do osadzenia w~GUI. Dla typowych aplikacji napisanych w~C++ może to być rozwiązanie wygodne, jednak ogranicza ono możliwości wykorzystania w~innym kontekście. Osadzenie widgetu w~dokumencie tekstowym lub w~\textit{GraphicsView} jest co najmniej nieefektywne. Stąd pierwszy z~celów stawianych mojej bibliotece -- dostarczenie uniwersalnego silnika, umożliwiającego wyświetlanie wykresów w~dowolnym miejscu aplikacji napisanych w~Qt. Na etapie definiowania wymagań ograniczyłem zbiór widoków, z~którymi moja biblioteka ma być kompatybilna, jednak teoretycznie powinna współpracować z~dowolnym widokiem.
 
 Jak już wspomniałem we wstępie, Qt~Quick jest stosunkowo nową technologią i~cierpi na typowe schorzenie wieku dziecięcego -- ogarniczony zbiór bibliotek. Aktualnie na rynku istnieje tylko jedna biblioteka wspierająca tworzenie wykresów w~QML i~jest to rozwiązanie komercyjne. Istnieje duże zapotrzebowanie na wartościowe, darmowe rozwiązanie.
 
 Celem Qt~Quick jest tworzenie intuicyjnych i~płynnie działających interfejsów użytkownika. Wykresy tworzone za pomocą mojej biblioteki wpisują się w~tę politykę. Istnieje możliwość animacji wielu właściwości elementów składowych wykresów. Same wykresy są również nastawione na interaktywne operacje, których zbiór jest co prawda ograniczony, jednak łatwy do rozszerzenia za pomocą systemu zdarzeń Qt.
+
+Niektóre z~wymagań, głównie dostępność elementów wykresu z~poziomu QML, wymusiły na mnie specyficzną architekurę tej biblioteki. Intensywne wykorzystywanie mechanizmów dostarczanych przez \textit{QObject} oraz oszczędne korzystanie z~szablonów wpłynęły negatywnie na wydajność rozwiązania. Nie jest to jednak problem, gdyż podstawowym założeniem tego projektu było dostarczenie wykresów biurowych, które ze swej natury mają raczej statyczne źródła danych. Stąd też nazwa biblioteki -- \textit{Qt Office Charts}, która jednoznacznie sugeruje jej przeznaczenie. 
 
 
 
