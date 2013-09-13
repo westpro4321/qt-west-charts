@@ -46,14 +46,14 @@ QVariant QocAdaptorModel::model() const
 	return m_model;
 }
 
-QVariant QocAdaptorModel::data(int seriesIndex, Qoc::ItemDataRole role)
+QVariant QocAdaptorModel::data(int seriesIndex, int itemIndex, Qoc::ItemDataRole role)
 {
 	QVariant retVal;
 	if ( ! m_model.isNull() )
 	{
 		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
 		{
-			retVal = model->data(seriesIndex, role);
+			retVal = model->data(itemIndex, role);
 		}
 		else
 		{

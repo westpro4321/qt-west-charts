@@ -1,9 +1,13 @@
 #include "qoc_view_widget.h"
 #include "qoc_abstract_chart.h"
+#include "qoc_abstract_value_item.h"
 
 #include <QPaintEvent>
 #include <QPainter>
 #include <QDebug>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
+#include <QSequentialAnimationGroup>
 
 QocViewWidget::QocViewWidget(QWidget *parent) :
 	QWidget(parent),
@@ -23,7 +27,40 @@ bool QocViewWidget::event(QEvent *e)
 
 void QocViewWidget::setChart(QocAbstractChart *c)
 {
+	if ( m_chart )
+	{
+		disconnect(m_chart, SIGNAL(repaint()), this, SLOT(update()));
+	}
 	m_chart = c;
+
+	connect(m_chart, SIGNAL(repaint()), this, SLOT(update()));
+}
+
+void QocViewWidget::rebuildChart() const
+{
+	QParallelAnimationGroup *group = new QParallelAnimationGroup();
+//	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
+
+	QList<QocAbstractChartItem *> items = m_chart->items(QocAbstractChart::ChartLayer);
+	foreach(QocAbstractChartItem *item, items)
+	{
+		QocAbstractValueItem *i = qobject_cast<QocAbstractValueItem *>(item);
+		if ( i )
+		{
+			QPropertyAnimation *anim = new QPropertyAnimation(i, "value", group);
+			anim->setStartValue(0);
+			anim->setEndValue(i->value());
+			anim->setDuration(2000);
+//			anim->setDuration(100);
+			group->addAnimation(anim);
+
+//			i->blockSignals(true);
+			i->setValue(0);
+//			i->blockSignals(false);
+		}
+	}
+	//connect(group, SIGNAL(finished()), group, SLOT(deleteLater()));
+	group->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void QocViewWidget::paintEvent(QPaintEvent *event)

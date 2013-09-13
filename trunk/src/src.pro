@@ -36,6 +36,6 @@ SOURCES += main.cpp \
     qoc_bar_item.cpp \
     qoc_abstract_value_item.cpp
 
-DEFINES += QOC_LIBRARY
+DEFINES += QOC_LIBRARY QT_NO_DEBUG_OUTPUT
 
 TARGET = Qoc

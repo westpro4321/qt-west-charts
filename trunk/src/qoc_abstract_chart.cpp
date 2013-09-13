@@ -18,6 +18,7 @@ QocAbstractChart::QocAbstractChart(QObject *parent) :
 
 QocAbstractChart::QocAbstractChart(const QSizeF &size, QObject *parent) :
 	QObject(parent),
+	m_antialiased(true),
 	m_chartSize(size),
 	m_adaptorModel(new QocAdaptorModel(this))
 {
@@ -29,11 +30,16 @@ void QocAbstractChart::draw(QPainter *painter, const QRectF &rect)
 
 //	painter->setClipping(true);
 
+	painter->save();
+
+	painter->setRenderHint(QPainter::Antialiasing, isAntialiased());
 	drawBackground(painter, rect);
 	drawLowLayer(painter, rect);
 	drawChartLayer(painter, rect);
 	drawHighLayer(painter, rect);
 	drawForeground(painter, rect);
+
+	painter->restore();
 }
 
 bool QocAbstractChart::isAntialiased()
@@ -226,6 +232,21 @@ void QocAbstractChart::removeItem(QocAbstractChartItem *item)
 	{
 		m_itemsMap[static_cast<Layer>(i)].removeOne(item);
 	}
+}
+
+qreal QocAbstractChart::xScale() const
+{
+	return m_chartSize.width() ? m_viewGeometry.width()/m_chartSize.width() : 0;
+}
+
+qreal QocAbstractChart::yScale() const
+{
+	return m_chartSize.height() ? m_viewGeometry.height()/m_chartSize.height() : 0;
+}
+
+QList<QocAbstractChartItem *> QocAbstractChart::items(QocAbstractChart::Layer l)
+{
+	return m_itemsMap.value(l);
 }
 
 void QocAbstractChart::drawBackground(QPainter *painter, const QRectF &rect)
