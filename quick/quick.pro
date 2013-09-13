@@ -1,6 +1,6 @@
 TEMPLATE = lib
 CONFIG += qt plugin
-QT += quick qml widgets
+QT += quick
 
 TARGET = QocQuickPlugin
 
@@ -27,3 +27,7 @@ DEPENDPATH += ../src
 LIBS+=  -L../src -lQoc
 
 DEFINES += QOC_QUICK_LIBRARY
+
+DESTDIR = plugins
+
+OTHER_FILES = standalone/qmldir
