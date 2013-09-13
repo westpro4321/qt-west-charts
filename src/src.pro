@@ -1,8 +1,8 @@
 
 QT = core gui widgets
 
-TEMPLATE = app
-#lib
+TEMPLATE = lib
+#
 
 HEADERS = qoc_global.h \
     qoc_abstract_chart_item.h \
@@ -20,7 +20,8 @@ HEADERS = qoc_global.h \
     qoc_bar_item.h \
     qoc_abstract_value_item.h
 
-SOURCES += main.cpp \
+SOURCES += \
+#    main.cpp \
     qoc_abstract_chart_item.cpp \
     qoc_legend.cpp \
 #    qoc_pie_sector.cpp \
