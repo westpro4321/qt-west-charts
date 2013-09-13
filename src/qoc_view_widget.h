@@ -20,6 +20,7 @@ public:
 signals:
 	
 public slots:
+	void rebuildChart() const;
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 private:

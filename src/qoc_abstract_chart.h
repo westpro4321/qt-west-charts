@@ -75,8 +75,15 @@ public:
 	void removeItem(Layer layer, QocAbstractChartItem *item);
 	void removeItem(QocAbstractChartItem *item);
 
+	qreal xScale() const;
+	qreal yScale() const;
+
+	QList<QocAbstractChartItem *> items(Layer l);
+
 signals:
 	void modelChanged();
+	void repaint();
+	void update();
 	
 public slots:
 

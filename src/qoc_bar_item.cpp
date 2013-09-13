@@ -5,7 +5,7 @@
 #include <QPainter>
 
 
-const int _barWidth = 3;
+const int _barWidth = 5;
 
 QocBarItem::QocBarItem(QObject *parent) :
 	QocAbstractValueItem(parent),
@@ -36,14 +36,15 @@ void QocBarItem::draw(QPainter *painter, const QRectF &rect)
 			 m_chart->mapToGlobal(boundingRect().bottomRight()));
 
 	QocBarChart *chart = qobject_cast<QocBarChart *>(m_chart);
-	painter->drawRoundedRect(r, chart->radius(), chart->radius());
+	painter->drawRoundedRect(r, 0, 0);
 
 	painter->restore();
 }
 
 QRectF QocBarItem::boundingRect() const
 {
-	if ( height() >= 0 )
-		return QRectF(m_pos.x(), m_pos.y()+height(), _barWidth, height());
-	return QRectF(m_pos.x(), m_pos.y(), _barWidth, height());
+	//TODO: różne punkty przecięcia i ujemne wartości
+//	if ( height() >= 0 )
+//	return QRectF(m_pos.x(), height(), _barWidth, m_pos.y());
+	return QRectF(m_pos.x(), m_pos.y(), _barWidth, -m_pos.y()+height());
 }

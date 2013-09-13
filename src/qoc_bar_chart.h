@@ -8,15 +8,15 @@ class QocAxis;
 class QOC_API QocBarChart : public QocAbstractChart
 {
 	Q_OBJECT
-	Q_PROPERTY(uint radius READ radius WRITE setRadius NOTIFY radiusChanged)
+	Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
 public:
 	explicit QocBarChart(QObject *parent = 0);
 	QocBarChart(const QSizeF &size, QObject *parent = 0);
 
 	virtual void setModel(const QVariant &model);
 
-	uint radius() const;
-	void setRadius(uint r);
+	qreal radius() const;
+	void setRadius(qreal r);
 signals:
 	void radiusChanged(uint);
 	
@@ -28,8 +28,11 @@ protected:
 	virtual void drawHighLayer(QPainter *painter, const QRectF &rect);
 
 	void setupAxes();
+
+private slots:
+	virtual void onItemValueChanged(qreal val);
 private:
-	uint m_radius;
+	qreal m_radius;
 	QocAxis *m_vAxis;
 	QocAxis *m_hAxis;
 };
