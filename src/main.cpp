@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 
 	QWidget *w = new QWidget;
+	w->setWindowTitle("Bar Chart");
 	w->setMinimumSize(480, 360);
 	w->setLayout(new QHBoxLayout(w));
 
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
 //	QocAdaptorModel *adapt = new QocAdaptorModel();
 //	adapt->setModel(model);
 	bc->setModel(model);
-	bc->setBackgroundBrush(QBrush("lightblue"));
+	bc->setBackgroundBrush(QBrush("lightsteelblue"));
 //	bc->setForegroundBrush(QBrush("yellow", Qt::CrossPattern));
 
 	wgt->setChart(bc);
