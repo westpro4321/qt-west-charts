@@ -1,6 +1,6 @@
 QT = core gui widgets
 
-#TEMPLATE = app
+TEMPLATE = app
 
 #HEADERS = testwidget.h \
 #    mainwindow.h
@@ -16,4 +16,7 @@ QT = core gui widgets
 INCLUDEPATH += ../../src
 DEPENDPATH += ../../src
 
+LIBS+=  -L../../src -lQoc
+
+SOURCES += ../../src/main.cpp
 #HEADERS += ../../src/qoc_data_series.h
