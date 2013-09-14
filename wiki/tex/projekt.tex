@@ -163,7 +163,7 @@ Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany 
 \section{Wykresy w układzie współrzędnych}
 Większość wykresów jest osadzona w~pewnym układzie współrzędnych. Najpopularniejszym z~nich jest układ współrzędnych kartezjańskich~\ref{rys:uk:kart}, jednak jak wiadomo nie jest to jedyny układ współrzędnych. Moje rozwiązanie przewiduje możliwość tworzenia wykresów w~bardziej egzotycznych układach, np. wykres polarny w~układzie biegunowym~\ref{rys:uk:bieg}.
 
-Mimo iż najpopularniejszą skalą osi, stosowaną przy wykresach biurowych jest skala liniowa, moje rozwiązanie przewiduje możliwość wykorzystania innej skali, np. logarytmicznej, która jest dość często stosowana przy wykresach liniowych. 
+Mimo, iż najpopularniejszą skalą osi, stosowaną przy wykresach biurowych jest skala liniowa, moje rozwiązanie przewiduje możliwość wykorzystania innej skali, np. logarytmicznej, która jest dość często stosowana przy wykresach liniowych. 
 
 \begin{figure}[H]
 \centering
@@ -190,9 +190,7 @@ Na diagramie~\ref{rys:os:skala} prezentuję hierarchię klas związanych z~ukła
 
 Głównym celem istnienia bytu o~nazwie \textit{QocAbstractCoordinateSystem} jest udostępnienie dwóch funkcji. Pierwsza z~nich przyjmuje wektor opisujący położenie punktu w~danej przestrzeni i~zwraca dwie współrzędne -- x~i~y tego punktu na płaszczyźnie wykresu. Druga funkcja działa dokładnie dokładnie odwrotnie. Takie podejście powinno umożliwić dwukierunkowe mapowanie przestrzeni dwuwymiarowych, ale może być niewystarczające dla wykresów 3D. 
 
-Poza wyżej opisaną funkcjonalnością układ współrzędnych odpowiada w~mojej bibliotece również za zarządzanie osiami oraz odrysowywanie siatki.
-
-Wydzielenie takie bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
+Poza wyżej opisaną funkcjonalnością układ współrzędnych odpowiada w~mojej bibliotece również za zarządzanie osiami oraz odrysowywanie siatki. Wydzielenie takiego bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
 
 \subsection{Osie i skale} 
 Według mnie oś w układzie współrzędnych powinna być możliwie prostą i~niezmienną klasą, dlatego postanowiłem rozłączyć oś od jej skali -- jest to rozwiązanie podobne do zastosowanego w~Qwt~\footnote{Skala w Qwt \url{http://qwt.sourceforge.net/class\_qwt\_scale\_engine.html}}. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwia włączenie do biblioteki, np. skali logarytmicznej.
@@ -273,7 +271,7 @@ W~Qt przyjęto następującą koncepcję nazewniczą:
 \subsection{Dostęp do uchwytów i ciał}
 Podejście opisane w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
 Wskaźniki do uchwytu i~ciała są typów klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych niewystępujących w~klasach bazowych wymaga rzutowania w~dół. 
-Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tablicy~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}
+Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tablicy~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}.
 
 \begin{table}[h]\footnotesize
 \centering

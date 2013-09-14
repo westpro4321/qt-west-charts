@@ -14,9 +14,9 @@ Za pomocą projektowanej biblioteki programiści będą mieć możliwość tworz
 \subsection{Dostępne wykresy}
 Biblioteka musi udostępniać następujące typy wykresów:
 \begin{itemize}
-\item{kołowy}
-\item{słupkowy}
-\item{liniowy}
+\item{kołowy,}
+\item{słupkowy,}
+\item{liniowy.}
 \end{itemize}
 
 %Specyficzne wymagania dotyczące wykresów każdego z~tych typów zostały podane w~dalszej części rozdziału.
@@ -60,10 +60,10 @@ QML & QQuickItem -- klasy bazujące na SceneGraph\\
 Typowym źródłem danych jest seria, czyli swego rodzaju pojemnik na próbki. Każde źródło danych, którym ma być zasilany wykres, musi udostępniać zbiór danych o~następującej strukturze:
 
 \begin{itemize}
-\item{jedna liczba ze specyficznego dla danego przypadku zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych}
-\item{co najmniej jedna wartość z~dziedziny liczb rzeczywistych. Bardziej złożone wykresy mogą mieć kilka takich wartości.}
-\item{tytuł próbki}
-\item{kolor}
+\item{jedna liczba ze specyficznego dla danego przypadku zbioru wartości, będącego podzbiorem zbioru liczb rzeczywistych,}
+\item{co najmniej jedna wartość z~dziedziny liczb rzeczywistych. Bardziej złożone wykresy mogą mieć kilka takich wartości,}
+\item{tytuł próbki,}
+\item{kolor.}
 \end{itemize}
 
 Zakładam, że serie zawierają maksymalnie jedną próbkę dla danego wektora z~dziedziny. 
@@ -92,7 +92,7 @@ Celem tej pracy jest stworzenie biblioteki ,,do operowania na wykresach''. Wszys
 Musi istnieć możliwość zaznaczania elementów reprezentujących dane. Powinna istnieć możliwość zaznaczania zarówno elementów reprezentujących pojedyncze próbki, np. wycinek kołowy, jak i~tych tych odpowiadających całym seriom danych, np. grupa słupków. Zaznaczanie powinno być możliwe poprzez kliknięcie przyciskiem myszy lub dotknięcie ekranu dotykowego.
 
 \subsection{Modyfikacja zawartości modelu}
-Powinna istnieć możliwość zmiany zawartości modelu poprzez interakcję z~wykresem. Dla danego elementu reprezentującego próbkę, zmiana jego parametru proporcjonalnego do reprezentowanej wartości powinna skutkować zmianą danych zawartych w~modelu. I~tak skrócenie słupka powinno spowodować zmniejszenie odpowiedniej wartości w~modelu, a~zwięszkenie kąta rozwarcia wycinka kołowego zwiększenie analogicznej wartości.
+Powinna istnieć możliwość zmiany zawartości modelu poprzez interakcję z~wykresem. Dla danego elementu reprezentującego próbkę, zmiana jego parametru proporcjonalnego do reprezentowanej wartości powinna skutkować zmianą danych zawartych w~modelu. I~tak, skrócenie słupka powinno spowodować zmniejszenie odpowiedniej wartości w~modelu, a~zwiększenie kąta rozwarcia wycinka kołowego zwiększenie analogicznej wartości.
 
 \subsection{Inne operacje}
 Architektura biblioteki powinna umożliwiać programistom realizację innych interaktywnych operacji, np. system \textit{Przeciągnij i~Upuść}. Powinno być to możliwe poprzez wykorzystanie systemu zdarzeń Qt.
@@ -101,7 +101,7 @@ Architektura biblioteki powinna umożliwiać programistom realizację innych int
 
 
 \section{Qt~Quick}
-Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosowanie, którym ma być m.in. tworzenie wykresów w~QML. 
+Projektując tę bibliotekę muszę wziąć pod uwagę jej późniejsze zastosowanie, którym ma być m.in. tworzenie wykresów w~QML. Projekt powinien zawierać również popularny w~QML mechanizm delegatów.
 
 \subsection{Wyeksponowanie klas C++ w QML}
 Już na etapie projektowania należy zadbać, aby tworzone struktury były łatwe do wyeksponowania w~QML. 
@@ -147,8 +147,8 @@ Powinno być możliwe skalowanie wykresu. Wykres powinien dostosowywać swój ro
 Niektóre wykresy wymagają osadzenia w~układzie współrzędnych. Takie wykresy wymagają dodatkowych elementów:
 
 \begin{itemize}
-\item{osie}
-\item{siatka}
+\item{osie,}
+\item{siatka.}
 \end{itemize}
 
 \subsection{Osie}
@@ -159,7 +159,7 @@ Powinna być możliwość ustawienia pióra służącego do rysowania osi, jej t
 Powinna istnieć możliwość określenia grubości i~koloru linii oraz ziarnistości samej siatki.
 
 \subsection{Układy współrzędnych}
-Mimo iż dziedzinie wykresów najpopularniejszym układem współrzędnych jest układ kartezjański, w~projekcie należy uwzględnić istnienie innych układów współrzędnych takich jak biegunowy czy cylindryczny.
+Mimo, iż dziedzinie wykresów najpopularniejszym układem współrzędnych jest układ kartezjański, w~projekcie należy uwzględnić istnienie innych układów współrzędnych takich jak biegunowy czy cylindryczny.
 
 \subsection{Wspólny układ współrzędnych}
 Powinna istnieć możliwość wyświetlania kilku wykresów, również różnych typów, w~jednym układzie współrzędnych.
@@ -262,14 +262,14 @@ Aby tworzony przeze mnie kod był czytelny dla innych programistów Qt, musi on 
 Biblioteka powinna wykorzystywać mechanizmy pozwalające na tworzenie bibliotek dynamicznych wymiennych pomiędzy wersjami. Wprowadzenie nowej wersji biblioteki z~niezmienionym interfejsem nie powinno wymagać przebudowania całej aplikacji z~niej korzystającej.
 
 \subsection{Nowoczesność i~uniwersalność}
-Biblioteka powinna wykorzystywać możliwie nowe technologie, np. Qt5. Biblioteka może korzystać z~\textit{C++11}, jednak nie powinna wymuszać na użytkowniku posiadania kompilatora zgodnego z~tym standardem. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
+Biblioteka powinna wykorzystywać możliwie nowe technologie, np. Qt5. Biblioteka może korzystać ze standardu \textit{C++11}, jednak nie powinna wymuszać na użytkowniku posiadania kompilatora zgodnego z~tym standardem. Komponenty dostarczane do użytku programistom powinny być możliwie wysokopoziomowe i~uniwersalne w~użyciu.
 
 \subsection{Wydajność}
 Jako, że okoliczności wykorzystania wykresów biurowych są inne niż wykresów technicznych oraz natura ich danych jest dużo bardziej statyczna, optymalizacja nie jest tu kwestią najważniejszą. 
-Z~tego powodu oraz z~chęci uniknięcia antywzorca projektowego przedwczesnej optymalizacji, kwestie wydajności bilioteki jest odsuwana na dalszy plan.
+Z~tego powodu, oraz z~chęci uniknięcia antywzorca projektowego przedwczesnej optymalizacji, kwestia wydajności bilioteki jest odsuwana na dalszy plan.
 
 \subsection{Niezawodność}
-Jak już wspomniałem w~poprzednim punkcie, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Jednakowoż w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
+Jak już wspomniałem w~poprzednim punkcie, natura oraz zastosowania wykresów biurowych różnią się od technicznych, a~co za tym idzie, mają również inne wymagania dotyczące niezawodności. Przewiduje się, że biblioteka będzie przeznaczona do aplikacji finansowych i~biurowych, a nie systemów czasu rzeczywistego. Tym niemniej, w~celu minimalizacji liczby błędów w~kodzie, powinny zostać zastosowane testy regresji. Zachowanie biblioteki w warunkach ekstremalnych, np. ograniczonego dostępu do zasobów, nie jest głównym celem projektu.
 
 %\subsubsection{Wiarygodnosć}
 
