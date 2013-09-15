@@ -18,9 +18,10 @@ public:
 	void setChart(QocAbstractChart *c);
 
 signals:
-	
+	void animationEnded(bool);
 public slots:
 	void rebuildChart() const;
+	void animationFinished();
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 private:

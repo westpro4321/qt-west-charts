@@ -8,6 +8,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
+#include <QPushButton>
 
 QocViewWidget::QocViewWidget(QWidget *parent) :
 	QWidget(parent),
@@ -38,9 +39,16 @@ void QocViewWidget::setChart(QocAbstractChart *c)
 
 void QocViewWidget::rebuildChart() const
 {
+	QPushButton *pb = qobject_cast<QPushButton *>(sender());
 	QParallelAnimationGroup *group = new QParallelAnimationGroup();
 //	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
 
+	if (pb)
+	{
+		pb->setEnabled(false);
+		connect(group, SIGNAL(finished()), this, SLOT(animationFinished()));
+		connect(this, SIGNAL(animationEnded(bool)), pb, SLOT(setEnabled(bool)));
+	}
 	QList<QocAbstractChartItem *> items = m_chart->items(QocAbstractChart::ChartLayer);
 	foreach(QocAbstractChartItem *item, items)
 	{
@@ -61,6 +69,11 @@ void QocViewWidget::rebuildChart() const
 	}
 	//connect(group, SIGNAL(finished()), group, SLOT(deleteLater()));
 	group->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void QocViewWidget::animationFinished()
+{
+	emit animationEnded(true);
 }
 
 void QocViewWidget::paintEvent(QPaintEvent *event)
