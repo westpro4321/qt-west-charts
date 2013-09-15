@@ -27,7 +27,7 @@ signals:
 
 public slots:
 	
-private:
+public:
 	QPointF m_begin;
 	QPointF m_end;
 
