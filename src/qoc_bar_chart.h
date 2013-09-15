@@ -35,6 +35,8 @@ private:
 	qreal m_radius;
 	QocAxis *m_vAxis;
 	QocAxis *m_hAxis;
+
+friend class QocBarItem;
 };
 
 #endif // QOC_BAR_CHART_H

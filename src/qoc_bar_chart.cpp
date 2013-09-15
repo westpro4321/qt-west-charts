@@ -90,7 +90,7 @@ void QocBarChart::setupAxes()
 	m_vAxis->setMaxValue(1000);
 	m_hAxis = new QocAxis(QPointF(20, 130), QPointF(180, 130), this);
 	m_hAxis->setMinValue(0);
-	m_hAxis->setMaxValue(1000);
+	m_hAxis->setMaxValue(100);
 }
 
 void QocBarChart::onItemValueChanged(qreal val)
