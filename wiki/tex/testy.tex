@@ -54,7 +54,7 @@ Tak utworzona funkcja main spowoduje uruchomienie każdego testu jednostkowego, 
 \subsection{Uruchomienie testu}
 Aby zbudować naszą testową aplikację należy wpisać w~konsoli następujące komendy:
 \begin{lstlisting}
-qmake -project "CONFIG += qtestlib"
+qmake -project "QT += testlib"
 qmake
 make
 \end{lstlisting}
@@ -62,7 +62,7 @@ make
 Następnie należy uruchomić stworzony plik wykonywalny. Jako rezultat jego działania otrzymamy plik z~logami, które należy przeanalizować.
 
 \section{Przypadki testowe}
-Poniżej opisuję przypadki testowe przewidziane dla mojej biblioteki. Każdy z~tych testów powinien być uruchamiany podczas testów regresji~\cite{Sacha}.
+Poniżej opisuję przypadki testowe przewidziane dla mojej biblioteki. Aplikacje testujące te przypadki są dostępne w~repozytorium projektu, w~katalogu trunk/test. Każdy z~tych testów powinien być uruchamiany podczas testów regresji~\cite{Sacha}.
 
 \subsection{Mapowanie współrzędnych}
 Przetestowałem mapowanie globalnych współrzędnych widoku na lokalne współrzędne wykresu oraz odwrotnie. Poprawność działania tego mechanizmu jest niezbędna do realizacji interaktywności. Testy mapowań karmiłem zarówno poprawnymi, jak i~błędnymi danymi. W~obu przypadkach testy potwierdziły właściwe zachowanie mojej biblioteki. Na wydruku~\ref{test:coords} przedstawiam pełen log aplikacji testowej.
@@ -77,19 +77,19 @@ PASS   : TestSeries::mapFromGlobal(bottom right)
 PASS   : TestSeries::mapFromGlobal(center)
 PASS   : TestSeries::mapFromGlobal(top border)
 PASS   : TestSeries::mapFromGlobal(left border)
-XFAIL  : TestSeries::mapFromGlobal(purposeful fail) 
+XFAIL  : TestSeries::mapFromGlobal(intentional fail) 
 	This test should have failed.
-   	Loc: [../seriesTest/testseries.cpp(21)]
-PASS   : TestSeries::mapFromGlobal(purposeful fail)
+	Loc: [../seriesTest/testseries.cpp(21)]
+PASS   : TestSeries::mapFromGlobal(intentional fail)
 PASS   : TestSeries::mapToGlobal(top left)
 PASS   : TestSeries::mapToGlobal(bottom right)
 PASS   : TestSeries::mapToGlobal(center)
 PASS   : TestSeries::mapToGlobal(top border)
 PASS   : TestSeries::mapToGlobal(left border)
-XFAIL  : TestSeries::mapToGlobal(purposeful fail) 
+XFAIL  : TestSeries::mapToGlobal(intentional fail) 
 	This test should have failed.
 	Loc: [../seriesTest/testseries.cpp(50)]
-PASS   : TestSeries::mapToGlobal(purposeful fail)
+PASS   : TestSeries::mapToGlobal(intentional fail)
 PASS   : TestSeries::cleanupTestCase()
 Totals: 14 passed, 0 failed, 0 skipped
 ********* Finished testing of TestSeries *********
@@ -123,6 +123,6 @@ Totals: 5 passed, 0 failed, 0 skipped
 \end{lstlisting}
 
 \subsection{Odrysowywanie wykresu słupkowego}
-
+Postanowiłem przetestować skalowalność odrysowywania wykresu słupkowego za względu na rozmiar wykresu oraz wielkość zbioru prezentowanych danych. Podobny test trzeba będzie przeprowadzić dla każdego nowego wykresu dodawanego do biblioteki.
 
 
