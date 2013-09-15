@@ -8,7 +8,7 @@
 class QOC_QUICK_API QocQuickPlugin : public QQmlExtensionPlugin
 {
 	Q_OBJECT
-	Q_PLUGIN_METADATA(IID "org.qt-office-charts.Qt.QocQuickPlugin")
+	Q_PLUGIN_METADATA(IID "org.qt-office-charts.Qt.QocQuickPlugin/1.0")
 public:
 	explicit QocQuickPlugin(QObject *parent = 0);
 
