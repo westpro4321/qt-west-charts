@@ -1,8 +1,8 @@
-\chapter{Projekt}
+\chapter{Projekt}\label{chap:proj}\lstset{language=C++}
 Rozdział ten zawiera inżynierski projekt rozwiązań dla wymagań z~poprzednich rozdziałów. Poza opisem tekstowym, zastosowałem w~nim diagramy klas oraz sekwencji UML.
 
 \section{Podział na warstwy}
-Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu będzie się składało z~odrysowania zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
+Zdecydowałem się podzielić wykres na pięć warstw. Odrysowywanie wykresu polega na odrysowaniu zawartości każdej z~warstw, począwsze od tła, a~na pierwszym planie skończywszy.
 Układ warstw został przedstawiony na rysunku~\ref{rys:warstwy}.
 
 \begin{figure}[H]
@@ -18,11 +18,11 @@ Warstwy niska i~wysoka są odrysowywane zgodnie z~algorytmem malarza. Służą d
 Warstwa wykresu służy odrysowaniu głównej zawartości wykresu. Tym etapem steruje strategia danego wykresu. W~ogólnym przypadku programiści nie powinni dodawać własnych elementów do tej warstwy.
 
 %\subsection{Metoda szablonowa}
-Metoda odpowiedzialna za odrysowywanie wykresu powinna być \textit{Metodą Szablonową}~\cite{Patterns}, czyli niewirtualną, publiczną metodą klasy bazowej, wywołującą kolejne metody odpowiedzialne za odrysowanie pojedynczych warstw. Metody te powinny z~kolei być wirtualne i~chronione.
-Metody odpowiedzialne za tło i~pierwszy plan powinny udostępniać domyślną implementację, natomiast pozostałe powinny być czysto wirtualne.
+Metoda odpowiedzialna za odrysowywanie wykresu jest \textit{Metodą Szablonową}~\cite{Patterns}, czyli niewirtualną, publiczną metodą klasy bazowej, wywołującą kolejne metody odpowiedzialne za odrysowanie pojedynczych warstw. Metody te są wirtualne i~chronione.
+Metody odpowiedzialne za tło i~pierwszy plan udostępniają domyślną implementację, natomiast pozostałe są czysto wirtualne.
 
 \section{Lokalny układ współrzędnych}
-Każdy z~wykresów będzie posiadać lokalny, kartezjański układ współrzędnych rzeczywistych. Ponadto granice wykresu będą wyznaczane przez specjalny prostokąt. Takie podejście umożliwi układanie elementów względem lokalnego, a~nie globalnego układu współrzędnych, oraz ustalanie, które z~elementów są widoczne i~należy je odrysować. Dodatkowo ułatwiona będzie realizacja takich wymagań jak: skalowanie wykresu czy interaktywność. 
+Każdy z~wykresów posiada lokalny, kartezjański układ współrzędnych rzeczywistych. Ponadto granice wykresu są wyznaczane przez specjalny prostokąt. Takie podejście umożliwi układanie elementów względem lokalnego, a~nie globalnego układu współrzędnych, oraz ustalanie, które z~elementów są widoczne i~należy je odrysować. Dodatkowo ułatwiona to realizację takich wymagań jak: skalowanie wykresu czy interaktywność. 
 
 \begin{figure}[H]
 \centering
@@ -36,7 +36,7 @@ Na rysunku~\ref{rys:uklad:wspolrzednych} przedstawiono przykładowy układ wspó
 \section{Struktura wykresu}
 Ogólna koncepcja na strukturę wykresu została przedstawiona na diagramie~\ref{rys:klasy:top_level}.
 
-Klasy pochodne od QocAbstractChart są miejscem łączącym wszystkie inne elementy. To na nich będą ustawiane parametry odnoszące się do całości wykresu, np. włączenie antyaliasingu.
+Klasy pochodne od QocAbstractChart są miejscem łączącym wszystkie inne elementy. To na nich są ustawiane parametry odnoszące się do całości wykresu, np. włączenie antyaliasingu.
 
 QocSeries odpowiada za dane dostarczane do wykresu. Jest lekkim odpowiednikiem modelu z~architektury Model-Widok.
 
@@ -49,9 +49,9 @@ QocAbstractStrategy to klasa bazowa dla strategii -- layoutu, odpowiedzialnego z
 \caption{Diagram top level}\label{rys:klasy:top_level}
 \end{figure}
 
-\section{Źródła danych}
+\section{Źródła danych}\label{sec:zrodla}
 
-Jako że źródłem danych dla wykresu może być seria danych, zbiór serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta będzie \textit{Adapterem obiektowym}~\cite{Patterns} -- będzie agregowała źródła danych dostarczane jako obiekty \textit{QVariant}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
+Jako że źródłem danych dla wykresu może być seria danych, lista serii albo model, postanowiłem wprowadzić pośrednią klasę, która będzie odpowiedzialna za unifikację komunikacji wykresu ze źródłem danych. Klasa ta jest \textit{Adapterem obiektowym}~\cite{Patterns} -- agreguje źródła danych dostarczane jako obiekty \textit{QVariant}. Hierarchię klas związanych z~adapterem przedstawiłem na diagramie~\ref{rys:adapter:model}
 
 \begin{figure}[H]
 \centering
@@ -59,9 +59,9 @@ Jako że źródłem danych dla wykresu może być seria danych, zbiór serii alb
 \caption{Adapter}\label{rys:adapter:model}
 \end{figure}
 
-Za pomocą adaptera stworzę pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów będzie przyjmować identyfikator serii, dzięki czemu będzie można wyspecyfikować  której serii dotyczy dana operacja. 
+Za pomocą adaptera uzyskałem pewną abstrakcję, dzięki której niezależnie od klasy źródła danych, wykres zawsze będzie go postrzegał jako zbiór serii. Większość metod adaptera, jako jeden z~argmuentów przyjmuje numer serii, dzięki któremu można wyspecyfikować, której serii dotyczy dana operacja. 
 
-Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, które również będą niosły informację o~id serii. W~przypadku zbioru serii, wystarczy uzupełnić ich sygnały o~id serii oraz przepropagować na zewnątrz adaptera. Chcę to osiągnąć za pomocą obiektu klasy pochodnej od \textit{QSignalMapper}~\footnote{QSignalMapper \url{http://qt-project.org/doc/qt-5.0/qtcore/qsignalmapper.html}}. W~przypadku klas modeli, również będę musiał wykonać podobne mapowanie, podczas którego trzeba będzie sięgnąć do modelu po id serii. Przykładowy protokół komunikacji wykresu z~adapterem przedstawiłem na rysunku~\ref{rys:wykres:model}.
+Komunikacja w~drugą stronę została rozwiązana za pomocą zbioru sygnałów, które również niosą informację o~numerze serii. W~przypadku zbioru serii, wystarczy uzupełnić ich sygnały o~numer serii oraz przepropagować na zewnątrz adaptera. Chcę to osiągnąć za pomocą obiektu klasy pochodnej od \textit{QSignalMapper}~\footnote{QSignalMapper \url{http://qt-project.org/doc/qt-5.0/qtcore/qsignalmapper.html}}. W~przypadku klas modeli, również muszę wykonać podobne mapowanie, podczas którego trzeba sięgnąć do modelu po numer serii. Przykładowy protokół komunikacji wykresu z~adapterem przedstawiłem na rysunku~\ref{rys:wykres:model}.
 
 \begin{figure}[H]
 \centering
@@ -72,7 +72,7 @@ Komunikacja w~drugą stronę zostanie rozwiązana za pomocą zbioru sygnałów, 
 \subsection{Role}
 Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to typ wyliczeniowy, który służy do wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę.
 
-Dzięki rolom uzyskam stan, w~którym wykres chcąc pobrać dane z~modelu, przekaże do adaptera rolę. Adapter zajmie się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny, rola  albo właściwość obiektu.
+Dzięki rolom uzyskałem stan, w~którym wykres chcąc pobrać dane z~modelu, przekazuje do adaptera rolę. Adapter zajmuje się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny, rola  albo właściwość obiektu.
 
 \begin{lstlisting}[caption=Rola -- typ wyliczeniowy, label=code:role]
 enum Role{
@@ -88,11 +88,9 @@ enum Role{
 
 
 \subsection{Seria danych}
-Źródłem danych dla wykresu może być pojedyncza seria lub lista serii. Aby było to możliwe, typy \textit{QocSeries} i~ \textit{QList<QocSeries>} muszą zostać zarejestrowane jako  \textit{QVariant}.
+Źródłem danych dla wykresu może być pojedyncza seria lub lista serii. Aby było to możliwe, typy \textit{QocSeries} i~ \textit{QList<QocSeries>} muszą zostać zarejestrowane jako \textit{QVariant}.
 
-Próbka to w~dużej mierze mapa, w~której kluczem jest rola. Dzięki wsparciu QML dla tego typu map~\footnote{Typ variant\url{http://qt-project.org/doc/qt-5.0/qtqml/qml-variant.html\#storing-\newline arrays-and-objects}} modyfikacja zawartości próbki powinna być tak samo prosta i~intuicyjna w~C++ oraz w~QML. 
-
-Diagram~\ref{rys:seria} zawiera najważniejsze elementy klas odpowiedzialnych za serie oraz próbki w~mojej bibliotece.
+Próbka to w~dużej mierze mapa, w~której kluczem jest rola. Dzięki wsparciu QML dla tego typu map~\footnote{Typ variant\url{http://qt-project.org/doc/qt-5.0/qtqml/qml-variant.html\#storing-\newline arrays-and-objects}} modyfikacja zawartości próbki jest tak samo prosta i~intuicyjna w~C++ oraz w~QML. Diagram~\ref{rys:seria} zawiera najważniejsze elementy klas odpowiedzialnych za serie oraz próbki w~mojej bibliotece.
 
 \begin{figure}[H]
 \centering
@@ -103,12 +101,12 @@ Diagram~\ref{rys:seria} zawiera najważniejsze elementy klas odpowiedzialnych za
 \subsection{QAbstractItemModel}
 Pracując na seriach danych, które są mojego autorstwa, mogę założyć, że dla elementu o~danym indeksie i~roli wartość jest, np. tytułem zapisanym w~łańcuchu znaków. Takiego komfortu jednak nie będzie przy współpracy z~dowolnym innym modelem. Nie mogę wymagać od użytkownika, aby interesujące mnie dane trzymał w~kolumnach o~ustalonych przeze mnie indeksach. Rozwiązaniem tej sytuacji mogłoby być stworzenie specjalnego proxy modelu~\footnote{Proxy modele \url{http://qt-project.org/doc/qt-5.0/qtcore/qabstractproxymodel.html}}, jednak preferuję inny sposób.
 
-Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. W~przypadku jednowymiarowych modeli dziedziczących po \textit{QAbstractListModel} role wykresu będą mapowane na role tychże modeli. Z~perspektywy programisty mapowanie powinno się ograniczać jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
+Moje rozwiązanie polega na mapowaniu ról, które są zrozumiałe dla wykresów, na numery kolumn modeli do tych wykresów podłączanych. W~przypadku jednowymiarowych modeli dziedziczących po \textit{QAbstractListModel} role wykresu będą mapowane na role tychże modeli. Z~perspektywy programisty mapowanie ogranicza się jedynie do wywołania poniższej metody dla wszystkich wymagających tego ról:
 
-\begin{verbatim}
+\begin{lstlisting}
 QocAbstractChart::
 setRoleMapping(Qoc::Role role, int customValue);
-\end{verbatim}
+\end{lstlisting}
 
 Metoda ta przyjmuje jako pierwszy z~argumentów rolę, a~jako drugi numer kolumny, pod którą kryją się odpowiednie dane w~modelu.
 
@@ -118,10 +116,10 @@ ListModel i XmlListModel to pochodne \textit{QAbstractListModel}, które należy
 
 Dane z~tych modeli są dostępne również poprzez system właściwości. Aby dostać się do wartości właściwości wystarczy jedynie znać jej nazwę. Dzięki temu, wymuszając na użytkownikach określone nazwy właściwości, jestem w~stanie pobierać dane z~ich modeli. W~skrajnym przypadku, gdy programista korzystający z~mojej biblioteki nie będzie mógł dostarczyć danych w~oczekiwanym przeze mnie formacie, udostępniam mu przeładowaną metodę z~poprzedniego podpunktu:
 
-\begin{verbatim}
+\begin{lstlisting}
 QocAbstractChart::
 setRoleMapping(Qoc::Role role, const QString &name);
-\end{verbatim}
+\end{lstlisting}
 
 W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości. Po wywołaniu metody, nowa nazwa właściwości będzie wykorzystywana do komunikacji z~modelem.
 
@@ -130,17 +128,17 @@ W~tym przypadku jako drugi argument przyjmuję nową nazwę danej właściwości
 Wykorzystanie mojej biblioteki w~Qt~Quick wymaga pewnego narzutu pracy. Poniżej opisuję mechanizm umożliwiający wykorzystanie moich klas w~QML oraz przyjętą przeze mnie konwencję interfejsów dla QML.
 
 \subsection{Eksport klas C++ do QML}
-Klasy wszystkich wysokopoziomowych elementów powinny być pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowane przez programistów należy włączyć do zbioru właściwości tej klasy. W~szczególności należy zadbać o~to, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, powinny zostać opatrzone makrem \textit{Q\_INVOKABLE}.
+Klasy wszystkich wysokopoziomowych elementów są pochodnymi klasy QObject. Wszelkie ich parametry, które powinny być konfigurowalne dla programistów włączyłem do zbioru właściwości tych klas. Ważne jest, aby przy zmianie wartości danej właściwości, i~tylko wtedy, emitować sygnał informujący o~tym zdarzeniu. Jest to niezbędne do poprawnego działania mechanizmu wiązania w~QML. Ponadto, wszystkie metody, które powinny być dostępne z~QML, a~nie są slotami, zostają opatrzone makrem \textit{Q\_INVOKABLE}.
 
-Większość klas powinna być gotowa do wyeksportowania ich do QML za pomocą standardowej procedury, np. poprzez wywołanie funkcji szablonowej
-\begin{verbatim}
+Większość klas powinna jest gotowa do wyeksportowania ich do QML za pomocą standardowej procedury, np. poprzez wywołanie funkcji szablonowej
+\begin{lstlisting}
 template<typename T>
 int qmlRegisterType(const char *uri, int versionMajor, 
 		    int versionMinor, const char *qmlName)
-\end{verbatim}
+\end{lstlisting}
 Parametrem szablonu jest eksportowany typ, a~parametry funkcji to nazwa modułu, dwie liczby odpowiadające za wersję modułu oraz nazwa pod jaką będzie dostępna eksportowana klasa z~poziomu QML. Qt udostępnia jeszcze kilka innych, specjalizowanych szablonów, np. dla singletonów.
 
-Pozostałe klasy, do wykorzystania ich w~QML, będą wymagały specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
+Pozostałe klasy, do wykorzystania ich w~QML, będą wymagają specjalnych interfejsów. Dla klas związanych z~GUI, bazujących na QPainter będzie to QQuickPaintedItem, a~dla tych wykorzystujących SceneGraph -- QQuickItem.
 
 \subsection{Uproszczony interfejs}
 Aby zapobiec nadmiernemu rozrostowi interfejsów klas dostępnych w~QML, zdecydowałem się je uprościć w~porównaniu do tych dostępnych z~poziomu C++. Jest to konwencja szeroko stosowana w~QML. Najlepszym przykładem będzie ramka wokół prostokąta. Z~poziomu C++ istnieje możliwość ustawienia pióra używanego do jej odrysowania. Klasa pióra, czyli \textit{QPen}, nie dziedziczy po \textit{QObject}, więc nie może być dostępna w~QML. W~QML można zmienić jedynie kolor oraz grubość ramki.
@@ -149,7 +147,7 @@ Aby zapobiec nadmiernemu rozrostowi interfejsów klas dostępnych w~QML, zdecydo
 Wszystkie operacje interaktywne zostały rozwiązane za pomocą systemu zdarzeń Qt~\footnote{System zdarzeń Qt \url{http://qt-project.org/doc/qt-5.0/qtcore/eventsandfilters.html}}. Widoki mają obowiązek przekazywać wszelkie przeznaczone dla wykresu zdarzenia, np. pojawienie się kursora myszy nad wykresem czy kliknięcie.
 
 \subsection{Zaznaczanie}
-Aby zrealizować zaznaczanie elementów wykresu z~poziomu GUI, do wykresu musza być przekazywane zdarzenia związane z~kursorem myszy oraz dotykiem. Pojedyncze kliknięcie w~element reprezentujący dane będzie skutkować jego zaznaczeniem. Podwójne kliknięcie takiego elementu spowoduje zaznaczenie wszystkich elementów danej serii. Zaznaczenie powoduje zmianę koloru obramowania wokół danego elementu. Kolor zaznaczenia jest zdefiniowany jako właściwość całego wykresu.
+Aby zrealizować zaznaczanie elementów wykresu z~poziomu GUI, do wykresu muszą być przekazywane zdarzenia związane z~kursorem myszy oraz dotykiem. Pojedyncze kliknięcie w~element reprezentujący dane skutkuje jego zaznaczeniem. Podwójne kliknięcie takiego elementu spowoduje zaznaczenie wszystkich elementów danej serii. Zaznaczenie powoduje zmianę koloru obramowania wokół danego elementu. Kolor zaznaczenia jest zdefiniowany jako właściwość całego wykresu.
 
 \subsection{Zmiana wartości w modelu}
 Na rysunku~\ref{rys:seq:inter} przedstawiam diagram sekwencji dotyczący zmiany zawartości modelu poprzez modyfikację elementów widoku. Przerywane strzałki zawierające opis symbolizują wywołanie sygnału.
@@ -188,12 +186,10 @@ Na diagramie~\ref{rys:os:skala} prezentuję hierarchię klas związanych z~ukła
 \subsection{Układ współrzędnych}
 ,,Układ współrzędnych -- funkcja przypisująca każdemu punktowi danej przestrzeni (w szczególności przestrzeni dwuwymiarowej -- płaszczyzny, powierzchni kuli itp.) skończony ciąg (krotkę) liczb rzeczywistych zwanych współrzędnymi punktu.''~\footnote{\url{http://pl.wikipedia.org/wiki/Układ\_współrzędnych}}
 
-Głównym celem istnienia bytu o~nazwie \textit{QocAbstractCoordinateSystem} jest udostępnienie dwóch funkcji. Pierwsza z~nich przyjmuje wektor opisujący położenie punktu w~danej przestrzeni i~zwraca dwie współrzędne -- x~i~y tego punktu na płaszczyźnie wykresu. Druga funkcja działa dokładnie dokładnie odwrotnie. Takie podejście powinno umożliwić dwukierunkowe mapowanie przestrzeni dwuwymiarowych, ale może być niewystarczające dla wykresów 3D. 
-
-Poza wyżej opisaną funkcjonalnością układ współrzędnych odpowiada w~mojej bibliotece również za zarządzanie osiami oraz odrysowywanie siatki. Wydzielenie takiego bytu jak układ współrzędych umożliwi jego współdzielenie między różnymi wykresami.
+Głównym celem istnienia bytu o~nazwie \textit{QocAbstractCoordinateSystem} jest udostępnienie dwóch funkcji. Pierwsza z~nich przyjmuje wektor opisujący położenie punktu w~danej przestrzeni i~zwraca dwie współrzędne -- x~i~y tego punktu na płaszczyźnie wykresu. Druga funkcja działa dokładnie dokładnie odwrotnie. Takie podejście umożliwia dwukierunkowe mapowanie przestrzeni dwuwymiarowych, ale może być niewystarczające dla wykresów 3D. Poza opisaną funkcjonalnością, układ współrzędnych w~mojej bibliotece odpowiada również za zarządzanie osiami oraz odrysowywanie siatki.
 
 \subsection{Osie i skale} 
-Według mnie oś w układzie współrzędnych powinna być możliwie prostą i~niezmienną klasą, dlatego postanowiłem rozłączyć oś od jej skali -- jest to rozwiązanie podobne do zastosowanego w~Qwt~\footnote{Skala w Qwt \url{http://qwt.sourceforge.net/class\_qwt\_scale\_engine.html}}. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale takie podejście umożliwia włączenie do biblioteki, np. skali logarytmicznej.
+Według mnie oś w układzie współrzędnych powinna być możliwie prostą i~niezmienną klasą, dlatego postanowiłem rozłączyć oś od jej skali -- jest to rozwiązanie podobne do zastosowanego w~Qwt~\footnote{Skala w Qwt \url{http://qwt.sourceforge.net/class\_qwt\_scale\_engine.html}}. Oś jest odpowiedzialna głównie za swoje odrysowywanie, pozostałe zadania związane z~wyliczaniem współrzędnych czy ticków oddelegowuje do swojej skali. Domyślną skalą jest skala liniowa, ale moje podejście umożliwia włączenie do biblioteki, np. skali logarytmicznej.
 
 \section{Legenda}
 Legenda jest elementem służącym do prezentacji dwóch właściwości: koloru oraz tytułu. W~zależności od typu wykresu są to właściwości pojedynczej próbki albo całej serii. 
@@ -207,15 +203,15 @@ Dodawanie legendy do wykresu odbywa się za pomocą metody \textit{QocAbstractCh
 \end{figure}
 
 \subsection{Delegat}
-Możliwość zmieny elementu prezentującego w~legendzie kolor rozwiązałem przez dodanie nowej właściwości legendy -- delegata. Musi to być obiekt klasy dziedziczącej po \textit{QObject}. Klasa ta musi posiadać metodę \textit{draw()}, jeśli korzysta z~\textit{QPainter}, albo \textit{updatePaintNode()} dla \textit{SceneGraph}. Podczas odrysowywania legendy będę wywoływałe jedną z~tych metod korzystając z~systemu metadanych Qt -- wykorzystam metodę \textit{QMetaObject::invokeMethod()}. Do tworzenia kolejnych instancji delegata wykorzystam metodę \textit{QMetaObject::newInstance()}.  Dodatkowo delegat musi mieć właściwość kolor. Spełnienie tych kilku warunków sprawi, że programista będzie mógł wyświetlić w~legendzie kwadrat, trójkąt albo kwiatek. Domyślny delegat to element o~kształcie kwadratu.
+Możliwość zmieny elementu prezentującego w~legendzie kolor rozwiązałem przez dodanie nowej właściwości legendy -- delegata. Musi to być obiekt klasy dziedziczącej po \textit{QObject}. Klasa ta musi posiadać metodę \textit{draw()}, jeśli korzysta z~\textit{QPainter}, albo \textit{updatePaintNode()} dla \textit{SceneGraph}. Podczas odrysowywania legendy wywoływana będzie jedna z~tych metod, korzystając z~systemu metadanych Qt -- \textit{QMetaObject::invokeMethod()}. Do tworzenia kolejnych instancji delegata wykorzystuję metodę \textit{QMetaObject::newInstance()}.  Dodatkowo delegat musi mieć właściwość ,,color''. Spełnienie tych kilku warunków sprawi, że programista będzie mógł wyświetlić w~legendzie kwadrat, trójkąt albo kwiatek. Domyślny delegat to element o~kształcie kwadratu.
 
 \section{Współpraca wykresów z widokami }
 Jak już zostało ustalone, celem tworzonej biblioteki jest stworzenie uniwersalnego silnika, umożliwiającego tworzenie wykresów gotowych do podpięcia do jednego z~kilku widoków. Na rysunku~\ref{rys:widok:wykres} przedstawiłem składniki protokołu komunikacji między widokiem a dowolnym wykresem z~mojej biblioteki.
 
 Widok ma obowiązek przesyłać do wykresu wszelkie zdarzenia, które są dla niego przeznaczone oraz informować wykres o~zmianach swojej geometrii. Ponadto przy odrysowywaniu widok musi wywoływać metodę \textit{draw()} wykresu.
 
-Wykres nie powinien posiadać informacji z~widokiem jakiej klasy współpracuje. Można to osiągnać za pomocą mechanizmu sygnałów i~slotów, który pozwala na luźne wiązanie elementów. Odpowiednie sygnały  powinny być emitowane przez wykres zawsze wtedy, gdy wymaga on ponownego odrysowania.
-Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą zostać skolejkowane, sklejone i~obsłużone jako jedno zgłoszenie w~najbliższej wolnej chwili.
+Wykres nie posiada informacji z~widokiem jakiej klasy współpracuje. Można to osiągnać za pomocą mechanizmu sygnałów i~slotów, który pozwala na luźne wiązanie elementów. Odpowiednie sygnały są emitowane przez wykres zawsze wtedy, gdy wymaga on ponownego odrysowania.
+Sygnał \textit{repaint()} jest emitowany w~sytuacji, gdy ponowne odrysowanie musi nastąpić niemal natychmiast, natomiast sygnał \textit{update()} jest przeznaczony na sytuacje gdy zgłoszenia odrysowania mogą zostać skolejkowane, sklejone i~obsłużone jako jedno zgłoszenie w~najbliższej wolnej chwili.
 
 
 \begin{figure}[H]
@@ -246,7 +242,7 @@ Sygnał \textit{repaint()} powinien być emitowany w~sytuacji gdy ponowne odryso
 %	\end{itemize}
 %\end{itemize}
 
-\section{Zależności między plikami}
+\section{Zależności między plikami}\label{sec:most}
 Mogłoby się wydawać, że każde nowe wydanie Qt powinno wymagać ponownej kompilacji projektów zeń korzystających. Tak jednak nie jest. Twórcy Qt zadbali o~to, aby zawsze wtedy, kiedy to możliwe, zachowana była zgodność binarna. Oznacza to, że jeśli przy poprawkach do nowej wersji nie zostały zmienione nagłówki klas, a~jedynie ich implementacje, to przebudowanie całej aplikacji nie jest konieczne. Teoretycznie przejście z~Qt~w~wersji 4.8.3 na wersję 4.8.4 może odbyć się jedynie poprzez podmianę plików .dll. Temat zgodności binarnej oraz zależności czasu kompilacji między plikami został poruszony przez Scotta Meyersa~\cite{50Ways}.
 
 \subsection{QObject}
@@ -269,9 +265,6 @@ W~Qt przyjęto następującą koncepcję nazewniczą:
 
 
 \subsection{Dostęp do uchwytów i ciał}
-Podejście opisane w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
-Wskaźniki do uchwytu i~ciała są typów klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych niewystępujących w~klasach bazowych wymaga rzutowania w~dół. 
-Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tablicy~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}.
 
 \begin{table}[h]\footnotesize
 \centering
@@ -287,3 +280,9 @@ Metoda & Q\_D & Q\_Q\\
 \hline
 \end{tabular}
 \end{table}
+
+Podejście opisane w~poprzednim punkcie skutkuje jednak powstaniem pewnego efektu ubocznego.
+Wskaźniki do uchwytu i~ciała są typów klas znajdujących się na szczycie hierarchii dziedziczenia. Dostęp do metod klas pochodnych niewystępujących w~klasach bazowych wymaga rzutowania w~dół. 
+Problem ten rozwiązano za pomocą czterech makrodefinicji przyjmujących jako argument nazwę klasy uchwytu. Dwie z~nich należy wywołać w~odpowiednich nagłówkach. Z~kolei pozostałe dwie należy wywoływać na początku każdej metody wymagającej odwołania do ciała lub uchwytu. Miejsce wykorzystania konkretnych makr podaję w~tablicy~\ref{tab:makra}. Technika ta została szczegółowo opisana w~artykule~\footnote{QObject -- Most \url{http://qt-project.org/wiki/Dpointer}}.
+
+
