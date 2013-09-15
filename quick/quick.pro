@@ -24,10 +24,10 @@ SOURCES += \
 INCLUDEPATH += ../src
 DEPENDPATH += ../src
 
-LIBS+=  -L../src -lQoc
+LIBS+=  -L../plugins -lQoc
 
 DEFINES += QOC_QUICK_LIBRARY
 
-DESTDIR = plugins
+DESTDIR = ../plugins
 
-OTHER_FILES = standalone/qmldir
+#OTHER_FILES = standalone/qmldir

@@ -37,6 +37,8 @@ QocQuickDataItem *QocQuickDataSeries::at_item(QQmlListProperty<QocQuickDataItem>
 	{
 		return qobject_cast<QocQuickDataItem *>(s->m_items[index]);
 	}
+
+	return 0;
 }
 
 void QocQuickDataSeries::clear_item(QQmlListProperty<QocQuickDataItem> *list)
