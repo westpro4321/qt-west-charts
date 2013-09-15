@@ -64,25 +64,65 @@ Następnie należy uruchomić stworzony plik wykonywalny. Jako rezultat jego dzi
 \section{Przypadki testowe}
 Poniżej opisuję przypadki testowe przewidziane dla mojej biblioteki. Każdy z~tych testów powinien być uruchamiany podczas testów regresji~\cite{Sacha}.
 
-\subsection{Operacje na serii danych}
-Test będzie polegał na dodawaniu, usuwaniu i~modyfikowaniu danych w~serii. Po każdej operacji zawartość serii będzie porównywana z~oczekiwaną zawartością.
-
-\subsection{Poprawność działania adaptera}
-Należy przetestować poprawność działania adaptera pośredniczącego w~komunikacji między wykresem, a modelem. Należy sprawdzić poprawność działanie nastęþujących operacji:
-\begin{itemize}
-\item{dodawanie danych,}
-\item{modyfikacja danych,}
-\item{usuwanie danych,}
-\item{sortowanie.}
-\end{itemize}
-
-\subsection{Dostarczanie zdarzeń}
-Planuję przesyłać do wykresu zdarzenia, które powinny powodować zaznaczenie, bądź odznaczenie elementu wykresu. Przesłane w~zdarzeniu współrzędne powinny jednoznacznie wskazać, który z~elementów powinien zostać zaznaczony. Należy przetestować również wysyłanie zdarzeń nie trafiających w~żaden element. 
-
-\subsection{Modyfikacja modelu z poziomu wykresu}
-W~tym teście preparowane będą zdarzenia imitujące proces mający na celu zmianę danych zawartych w~modelu poprzez modyfikację elementów wykresu.
-
 \subsection{Mapowanie współrzędnych}
-Należy wykonać mapowanie współrzędnych całego wykresu na współrzędne wewnętrznego układu współrzędnych i~odwrotnie.
+Przetestowałem mapowanie globalnych współrzędnych widoku na lokalne współrzędne wykresu oraz odwrotnie. Poprawność działania tego mechanizmu jest niezbędna do realizacji interaktywności. Testy mapowań karmiłem zarówno poprawnymi, jak i~błędnymi danymi. W~obu przypadkach testy potwierdziły właściwe zachowanie mojej biblioteki. Na wydruku~\ref{test:coords} przedstawiam pełen log aplikacji testowej.
+
+
+\begin{lstlisting}[caption=Test mapowania współrzędnych, label=test:coords]
+********* Start testing of TestSeries *********
+Config: Using QtTest library 5.1.0, Qt 5.1.0
+PASS   : TestSeries::initTestCase()
+PASS   : TestSeries::mapFromGlobal(top left)
+PASS   : TestSeries::mapFromGlobal(bottom right)
+PASS   : TestSeries::mapFromGlobal(center)
+PASS   : TestSeries::mapFromGlobal(top border)
+PASS   : TestSeries::mapFromGlobal(left border)
+XFAIL  : TestSeries::mapFromGlobal(purposeful fail) 
+	This test should have failed.
+   	Loc: [../seriesTest/testseries.cpp(21)]
+PASS   : TestSeries::mapFromGlobal(purposeful fail)
+PASS   : TestSeries::mapToGlobal(top left)
+PASS   : TestSeries::mapToGlobal(bottom right)
+PASS   : TestSeries::mapToGlobal(center)
+PASS   : TestSeries::mapToGlobal(top border)
+PASS   : TestSeries::mapToGlobal(left border)
+XFAIL  : TestSeries::mapToGlobal(purposeful fail) 
+	This test should have failed.
+	Loc: [../seriesTest/testseries.cpp(50)]
+PASS   : TestSeries::mapToGlobal(purposeful fail)
+PASS   : TestSeries::cleanupTestCase()
+Totals: 14 passed, 0 failed, 0 skipped
+********* Finished testing of TestSeries *********
+\end{lstlisting}
+
+\subsection{Adapter modelu}
+Sporządziłem test adaptera modelu, w~którym wstawiam, modyfikuję oraz usuwam dane z~adaptera. Przetestowałem działanie adaptera jedynie dla modelu klasy \textit{QocDataSeries}. Po dodaniu do biblioteki obsługi nowych modeli należy uzupełnić metodę, która teraz wygląda następująco:
+
+\begin{lstlisting}
+void TestAdaptorModel::insertModels()
+{
+	QTest::addColumn<QVariant>("model");
+
+	QTest::newRow("QocDataSeries") << 
+	QVariant::fromValue(new QocDataSeries(this));
+}
+\end{lstlisting}
+
+Zaliczenie tego testu jest szczególnie ważne, gdyż ewentualne błędy we współpracy adaptera z~faktycznym źródłem danych będzie negatywnie wpływać na stabilność całej biblioteki. Poniżej znajduje się log testu.
+
+\begin{lstlisting}
+********* Start testing of TestAdaptorModel *********
+Config: Using QtTest library 5.1.0, Qt 5.1.0
+PASS   : TestAdaptorModel::initTestCase()
+PASS   : TestAdaptorModel::insert(QocDataSeries)
+PASS   : TestAdaptorModel::modify(QocDataSeries)
+PASS   : TestAdaptorModel::remove(QocDataSeries)
+PASS   : TestAdaptorModel::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped
+********* Finished testing of TestAdaptorModel *********
+\end{lstlisting}
+
+\subsection{Odrysowywanie wykresu słupkowego}
+
 
 
