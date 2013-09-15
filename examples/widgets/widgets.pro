@@ -16,7 +16,7 @@ TEMPLATE = app
 INCLUDEPATH += ../../src
 DEPENDPATH += ../../src
 
-LIBS+=  -L../../src -lQoc
+LIBS+=  -L../../plugins -lQoc
 
 SOURCES += main.cpp
 #HEADERS += ../../src/qoc_data_series.h

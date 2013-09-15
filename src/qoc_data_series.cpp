@@ -55,7 +55,7 @@ void QocDataSeries::insert(int index, QocDataItem *item)
 
 void QocDataSeries::removeAt(int index)
 {
-	//TODO: Wyciek?
+	//TODO:
 	m_items.removeAt(index);
 	emit dataRemoved(index);
 }

@@ -3,7 +3,7 @@
 TEMPLATE = subdirs
 CONFIG   += ordered
 
-SUBDIRS = src examples quick
+SUBDIRS = src examples quick test
 
 #OTHER_FILES = src/src.pro
 #SOURCES = src/main.cpp
