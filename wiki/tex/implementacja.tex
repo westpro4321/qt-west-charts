@@ -1,7 +1,7 @@
 \chapter{Implementacja}
 Podczas pracowni dyplomowej nie miałem wiele czasu na implementację biblioteki. Udało mi się wykonać jedynie prototyp rozwiązania w~postaci uproszczonego wykresu słupkowego. Jest to rozwiązanie niepełne, które jednak implementuje najważniejsze mechanizmy z~rozdziału \textit{Projekt}~\ref{chap:proj}. 
 
-Poniżej opisuję narzędzia, które wykorzystałem podczas prac nad biblioteką. Następnie opisuję najciekawsze szczegóły implementacyjne oraz odstąpienia od projektu. Na koniec przedstawiam zaimplementowany przeze mnie wykres słupkowy.
+Poniżej opisuję narzędzia, które wykorzystałem podczas prac nad biblioteką. Następnie opisuję najciekawsze szczegóły implementacyjne oraz odstępstwa od projektu. Na koniec przedstawiam zaimplementowany przeze mnie wykres słupkowy.
 
 \section{Wykorzystane narzędzia}
 Do stworzenia tej pracy inżynierskiej wykorzystałem najlepiej znane mi narzędzia. Ze wszystkich opisanych poniżej, tylko Qt~5 było dla mnie pewną nowością. Z~pozostałych korzystam zarówno w~pracy, jak i~na uczelni.
@@ -36,7 +36,7 @@ Kubuntu jest udostępniane z~bogatym zbiorem aplikacji biurowych, multimedialnyc
 
 
 \section{Szczegóły implementacyjne}
-Rozdział \textit{Projekt}~\ref{chap:proj} nie jest bardzo precyzyjną dokumentacją techniczną. Celem tego rozdziału było przedstawienie pewnych rozwiązań architektonicznych, których uszczegółowienie było możliwe dopiero na etapie implementacji, gdyż, jako projektant, nie byłem w~stanie przewidzieć wszystkich trudności związanych z~implementacją. Ten podrozdział służy uszczegółowieniu pewnych kwestii, które dotychczas nie zostały wystarczająco rozwinięte.
+Rozdział \textit{Projekt}~\ref{chap:proj} nie jest bardzo precyzyjną dokumentacją techniczną. Celem tego rozdziału było przedstawienie pewnych rozwiązań architektonicznych, których uszczegółowienie było możliwe dopiero na etapie implementacji, gdyż jako projektant, nie byłem w~stanie przewidzieć wszystkich trudności związanych z~implementacją. Ten podrozdział służy uszczegółowieniu pewnych kwestii, które dotychczas nie zostały wystarczająco rozwinięte.
 
 \subsection{Nieidealna separacja}
 W mojej bibliotece odseparowałem warstwę prezentacji od warstwy danych poprzez podział na wykres oraz model. Wykres odpowiada za prezentację danych, których źródłem jest model. Dany model może być źródłem danych dla wielu wykresów.
@@ -114,15 +114,21 @@ Miejscami, w~których dodatkowa praca przeznaczona na stworzenie mostu się zwra
 \section{Prototyp wykresu słupkowego}
 Udało mi się zaimplementować rdzeń wykresu słupkowego. Z~uwagi na niewielką ilość czasu pominąłem niektóre rozwiązania architektoniczne, jednak zachowałem najważniejsze z~nich, takie jak separacja danych od prezentacji czy podział wykresu na warstwy. 
 
-W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Poniżej prezentuję kilka zrzutów z~ekranu, zawierających ten wykres. 
+W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Poniżej znajdują się zrzuty z~ekranu, prezentujące ten wykres. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{img/BarChart_kubuntu.png}
-\caption{Wykres w widgecie -- Kubuntu 12.04}\label{rys:bar:kubuntu}
+\caption{Wykres słupkowy -- Kubuntu 12.04}\label{rys:bar:kubuntu}
 \end{figure}
 
-TODO: Windows 7 \& Qt~Quick
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.54]{img/BarChart_windows7.png}
+\caption{Wykres słupkowy -- Windows 7}\label{rys:bar:windows7}
+\end{figure}
+
+%TODO: Windows 7 \& Qt~Quick
 
 %\section{Tworzenie biblioteki współdzielonej}
 %Biblioteka współdzielona to rodzaj biblioteki dynamicznej, czyli biblioteki łączonej z~programem dopiero w~trakcie jego uruchamiania. Przy pierwszym uruchomieniu programu korzystającego z~danej biblioteki współdzielonej, biblioteka ta zostaje załadowana w~całości do pamięci. Od tej pory wszystkie programy, będą mogły korzystać z~tej biblioteki bez ponownego jej ładowania. W~systemach Unixowych biblioteki dynamiczne mają rozszerzenie .so, a~w~systemach Windows .dll.
