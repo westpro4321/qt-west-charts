@@ -1,5 +1,6 @@
 #include "qoc_adaptor_model.h"
 #include "qoc_data_series.h"
+#include "qoc_data_item.h"
 
 #include <QAbstractItemModel>
 #include <QAbstractListModel>
@@ -46,6 +47,36 @@ QVariant QocAdaptorModel::model() const
 	return m_model;
 }
 
+void QocAdaptorModel::insert(int index)
+{
+	if ( ! m_model.isNull() )
+	{
+		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
+		{
+			model->insert(index, new QocDataItem(model));
+		}
+		else
+		{
+			qFatal("Unknown model type");
+		}
+	}
+}
+
+void QocAdaptorModel::removeAt(int index)
+{
+	if ( ! m_model.isNull() )
+	{
+		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
+		{
+			model->removeAt(index);
+		}
+		else
+		{
+			qFatal("Unknown model type");
+		}
+	}
+}
+
 QVariant QocAdaptorModel::data(int seriesIndex, int itemIndex, Qoc::ItemDataRole role)
 {
 	QVariant retVal;
@@ -61,6 +92,21 @@ QVariant QocAdaptorModel::data(int seriesIndex, int itemIndex, Qoc::ItemDataRole
 		}
 	}
 	return retVal;
+}
+
+void QocAdaptorModel::setData(int seriesIndex, int itemIndex, const QVariant &value, Qoc::ItemDataRole role)
+{
+	if ( ! m_model.isNull() )
+	{
+		if ( QocDataSeries *model = qvariant_cast<QocDataSeries *>(m_model) )
+		{
+			model->setData(itemIndex, value, role);
+		}
+		else
+		{
+			qFatal("Unknown model type");
+		}
+	}
 }
 
 int QocAdaptorModel::size(int index) const
