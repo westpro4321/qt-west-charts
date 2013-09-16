@@ -6,25 +6,10 @@ Poniżej opisuję narzędzia, które wykorzystałem podczas prac nad biblioteką
 \section{Wykorzystane narzędzia}
 Do stworzenia tej pracy inżynierskiej wykorzystałem najlepiej znane mi narzędzia. Ze wszystkich opisanych poniżej, tylko Qt~5 było dla mnie pewną nowością. Z~pozostałych korzystam zarówno w~pracy, jak i~na uczelni.
  
-\subsubsection{Qt 5}
-Najnowsza dostępna wersja Qt to 5.1. Nowa odsłona dostarcza programistom szereg usprawnień oraz modułów, m.in. do obsługi formatu JSON. Jednak głównym punktem Qt~5 jest nowa implementacja Qt~Quick. 
-
-Do implementacji Qt~Quick~2 wykorzystano OpenGL i~SceneGraph, co znacznie poprawiło wydajność tego systemu. Qt~5 rozpoczęło też nowy kierunek rozwoju aplikacji wykorzystujących Qt. Qt~Quick jest promowany jako zalecany sposób tworzenia interfejsów użytkownika. Docelowo aplikacje Qt mają być podzielone na GUI napisane w~QML oraz logikę zaprogramowaną w~C++.
-
 \subsubsection{Qt Creator}
-Qt~Creator to zintegrowane środowisko programistyczne przeznaczone głównie dla języków C++, QML oraz JavaScript. Jego edytor tekstowy zawiera takie udogodnienia jak kolorowanie składni czy narzędzia do refaktoryzacji kodu. Qt~Creator zawiera także wtyczkę do tworzenia graficznych interfejsów użytkownika. Korzystanie z~Designera jest proste i~intuicyjne, a~proste GUI można w~dużej mierze ,,wyklikać''.
+Qt~Creator to zintegrowane środowisko programistyczne przeznaczone głównie dla języków C++, QML oraz JavaScript. Jego edytor tekstowy zawiera takie udogodnienia jak kolorowanie składni czy narzędzia do refaktoryzacji kodu. Qt~Creator zawiera także wtyczkę do tworzenia graficznych interfejsów użytkownika. Korzystanie z~Designera jest łatwe i~intuicyjne, a~proste GUI można w~dużej mierze ,,wyklikać''.
 
-Do budowania i~debugowania Qt~Creator wykorzystuje domyślne oprogramowanie danej platformy, np. kompilator gcc i~debuger gdb na systemie Linux. Creator posiada graficzny interfejs do debuggera, który w~znaczący sposób upraszcza procesz debugowania.
-
-Qt~Creator posiada również wtyczki integrujące go z~najpopularniejszymi systemami kontroli wersji. Lista wspieranych systemów:
-\begin{itemize}
-\item{Bazaar,}
-\item{CVS,}
-\item{Git,}
-\item{Mercurial,}
-\item{Perforce,}
-\item{Subversion.}
-\end{itemize}
+Do budowania i~debugowania Qt~Creator wykorzystuje domyślne oprogramowanie danej platformy, np. kompilatora gcc i~debugera gdb na systemie Linux. Creator posiada graficzny interfejs do debuggera, który w~znaczący sposób upraszcza proces debugowania. Qt~Creator posiada również wtyczki integrujące go z~najpopularniejszymi systemami kontroli wersji. 
 
 \subsubsection{Subversion}
 Subversion to scentralizowany system kontroli wersji będący następcą systemu CVS. Repozytorium SVN założyłem w~serwisie Google Code~\footnote{http://code.google.com/intl/pl/}, pod adresem \url{http://code.google.com/p/qt-west-charts/}.
@@ -38,7 +23,7 @@ Kubuntu jest udostępniane z~bogatym zbiorem aplikacji biurowych, multimedialnyc
 \section{Szczegóły implementacyjne}
 Rozdział \textit{Projekt}~\ref{chap:proj} nie jest bardzo precyzyjną dokumentacją techniczną. Celem tego rozdziału było przedstawienie pewnych rozwiązań architektonicznych, których uszczegółowienie było możliwe dopiero na etapie implementacji, gdyż jako projektant, nie byłem w~stanie przewidzieć wszystkich trudności związanych z~implementacją. Ten podrozdział służy uszczegółowieniu pewnych kwestii, które dotychczas nie zostały wystarczająco rozwinięte.
 
-\subsection{Nieidealna separacja}
+\subsection{Ułomna separacja warstw}
 W mojej bibliotece odseparowałem warstwę prezentacji od warstwy danych poprzez podział na wykres oraz model. Wykres odpowiada za prezentację danych, których źródłem jest model. Dany model może być źródłem danych dla wielu wykresów.
 
 Separacja tych dwóch warstw nie jest jednak idealna, gdyż model zawiera takie informacje jak kolor czy tytuł próbki. Uniemożliwia to zaprezentowanie tych samych danych w~dwóch wykresach za pomocą różnych palet kolorów. Podejście to ma jednak swoje plusy. Sprawia, że użytkownik nie musi ,,zaglądać'' do wewnętrznych elementów wykresu. Stworzenie prostego wykresu ogranicza się do powołania jego instancji i~podłączenia źródła wypełnionego danymi. Taka prostota jest szczególnie porządana w~przypadku deklaratywnego języka, jakim jest QML.
@@ -76,57 +61,55 @@ class QOC_QUICK_API QocQuickAbstractChart : public QocAbstractChart
 \end{lstlisting}
 
 
-\subsection{Biblioteka na platformie Windows}
-Podczas budowania dowolnej biblioteki na platformie Windows, niezbędne jest wyeksportowanie symboli. Proces ten muszą przejść wszystkie elementy, które mają być dostępne dla klientów danej biblioteki. W~przypadku mojego projektu eksportowane były jedynie nagłówki klas, jednak mogą to być również globalne funkcje lub zmienne. Eksport symboli odbywa się za pomocą dostarczanych przez Qt makrodefinicji, których wykorzystanie w~mojej bibliotece przedstawiam na wydrukach~\ref{code:qoc:global} i~\ref{code:qoc:klasa}.
+%\subsection{Biblioteka na platformie Windows}
+%Podczas budowania dowolnej biblioteki na platformie Windows, niezbędne jest wyeksportowanie symboli. Proces ten muszą przejść wszystkie elementy, które mają być dostępne dla klientów danej biblioteki. W~przypadku mojego projektu eksportowane były jedynie nagłówki klas, jednak mogą to być również globalne funkcje lub zmienne. Eksport symboli odbywa się za pomocą dostarczanych przez Qt makrodefinicji, których wykorzystanie w~mojej bibliotece przedstawiam na wydrukach~\ref{code:qoc:global} i~\ref{code:qoc:klasa}.
 
-\begin{lstlisting}[caption=Zawartość pliku qoc\_global.h, label=code:qoc:global]
-#include <QtCore/QtGlobal>
+%\begin{lstlisting}[caption=Zawartość pliku qoc\_global.h, label=code:qoc:global]
+%#include <QtCore/QtGlobal>
 
-#if defined(QOC_LIBRARY)
-#  define QOC_API Q_DECL_EXPORT
-#else
-#  define QOC_API Q_DECL_IMPORT
-#endif
-\end{lstlisting}
+%#if defined(QOC_LIBRARY)
+%#  define QOC_API Q_DECL_EXPORT
+%#else
+%#  define QOC_API Q_DECL_IMPORT
+%#endif
+%\end{lstlisting}
 
-\begin{lstlisting}[caption=Eksport klasy QocAbstractChart, label=code:qoc:klasa]
-#include "qoc_global.h"
+%\begin{lstlisting}[caption=Eksport klasy QocAbstractChart, label=code:qoc:klasa]
+%#include "qoc_global.h"
 
-class QOC_API QocAbstractChart : public QObject
-{
-   ...
-}
-\end{lstlisting}
+%class QOC_API QocAbstractChart : public QObject
+%{
+%   ...
+%}
+%\end{lstlisting}
 
 
-Dzięki dodadniu do pliku projektu instrukcji: \textit{DEFINES +=  QOC\_LIBRARY}, podczas budowania biblioteki makro \textit{QOC\_API} powoduje wyeksportowanie symboli. Z~kolei dla klientów biblioteki makro po rozwinięciu przez preprocesor spowoduje ich import.
+%Dzięki dodadniu do pliku projektu instrukcji: \textit{DEFINES +=  QOC\_LIBRARY}, podczas budowania biblioteki makro \textit{QOC\_API} powoduje wyeksportowanie symboli. Z~kolei dla klientów biblioteki makro po rozwinięciu przez preprocesor spowoduje ich import.
 
 
 \section{Odstępstwa od projektu}
-Faza implementacji zweryfikowała założenia projektowe. Część z~nich się obroniła, pozostałe musiałem nagiąć bądź całkowicie z~nich zrezygnować. Poniżej opisuję wszystkie sytuacje, w~których postępowałem niezgodnie z~projektem.
+Faza implementacji zweryfikowała założenia projektowe. Część z~nich się obroniła, pozostałe musiałem nagiąć bądź całkowicie z~nich zrezygnować. Poniżej podaję najpoważniejsze odstąpienia od założeń projektu.
 
 \subsection{Oszczędne korzystanie ze wzorca Most}
-Zmniejszenie zależności między plikami poprzez wykorzystanie wzorca mostu, opisane w~rozdziale~\ref{sec:most}, dostarczyło mi dość dużo dodatkowej pracy. Dlatego postanowiłem korzystać z~tego rozwiązania jedynie tam, gdzie ma to sens.
-
-Miejscami, w~których dodatkowa praca przeznaczona na stworzenie mostu się zwraca, są klasy przeznaczone do rozbudowywanie. Są to klasy bazowe takie jak \textit{QocAbstractChart} albo węzły takie jak \textit{QocAdaptorModel}. Korzyści wynikające z~zastosowania mostu w~takim miejscu opisałem w~punkcie~\ref{sub:flexible}. Natomiast proste klasy, które nie są przeznaczone do dziedziczenia, jak \textit{QocAxis}, nie zostały zaimplementowane jako most.
+Podczas fazy implementacji projektu doszedłem do wniosku, że nie wszystkie klasy biblioteki muszą być implementowane z~wykorzystaniem wzorca mostu. Miejscami, w~których dodatkowa praca przeznaczona na stworzenie mostu się zwraca, są klasy przeznaczone do rozbudowywanie. Są to klasy bazowe takie jak \textit{QocAbstractChart} albo węzły takie jak \textit{QocAdaptorModel}. Korzyści wynikające z~zastosowania mostu w~takim miejscu opisałem w~punkcie~\ref{sub:flexible}. Natomiast proste klasy, które nie są przeznaczone do dziedziczenia, jak \textit{QocAxis}, nie zostały zaimplementowane jako most.
 
 
 \section{Prototyp wykresu słupkowego}
 Udało mi się zaimplementować rdzeń wykresu słupkowego. Z~uwagi na niewielką ilość czasu pominąłem niektóre rozwiązania architektoniczne, jednak zachowałem najważniejsze z~nich, takie jak separacja danych od prezentacji czy podział wykresu na warstwy. 
 
-W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Poniżej znajdują się zrzuty z~ekranu, prezentujące ten wykres. 
+W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Bibliotekę zawierającą prototyp rozwiązania zbudowałem i~uruchomiłem na systemach Kubuntu~12.04 oraz Windows~7. Rysunek~\ref{rys:bar:kubuntu} zawiera okno aplikacji, w~której wykres został wyświetlony za pomocą widgetu.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{img/BarChart_kubuntu.png}
+\includegraphics[scale=0.54]{img/BarChart_kubuntu.png}
 \caption{Wykres słupkowy -- Kubuntu 12.04}\label{rys:bar:kubuntu}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.54]{img/BarChart_windows7.png}
-\caption{Wykres słupkowy -- Windows 7}\label{rys:bar:windows7}
-\end{figure}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.54]{img/BarChart_windows7.png}
+%\caption{Wykres słupkowy -- Windows 7}\label{rys:bar:windows7}
+%\end{figure}
 
 %TODO: Windows 7 \& Qt~Quick
 

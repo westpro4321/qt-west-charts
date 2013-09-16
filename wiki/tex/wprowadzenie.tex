@@ -18,6 +18,9 @@ W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny 
 \section{Qt}
 Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}~\footnote{\url{http://qt-project.org/wiki/QtWhitepaper}} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego.  
 
+Najnowsza dostępna wersja Qt to 5.1. Nowa odsłona dostarcza programistom szereg usprawnień oraz modułów, m.in. do obsługi formatu JSON. Jednak głównym punktem Qt~5 jest nowa implementacja Qt~Quick. 
+
+Do implementacji Qt~Quick~2 wykorzystano OpenGL i~SceneGraph, co znacznie poprawiło wydajność tego systemu. Qt~5 rozpoczęło też nowy kierunek rozwoju aplikacji wykorzystujących Qt. Qt~Quick jest promowany jako zalecany sposób tworzenia interfejsów użytkownika. Docelowo aplikacje Qt mają być podzielone na GUI napisane w~QML oraz logikę zaprogramowaną w~C++.
 
 \subsection{Narzędzia}
 Najważniejszymi narzędziami, które umożliwiają tudzież ułatwiają pracę z~Qt są:
@@ -70,34 +73,69 @@ Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez 
   captionpos=t
  }
 \begin{lstlisting}[caption=Przykład QML, label=code:qml]
-Item {
-	width: 400
-	height: 200
+import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
-	Rectangle {
-		id: rect
-		x: 100; y: 50;
-		width: height / 2; height: parent.height
-		anchors.centerIn: parent
-		color: "lightblue"
-	}
+Rectangle {
+    width: 530
+    height: 530
+    color: "white"
+
+    Grid {
+        id: grid
+        x: 20; y:20
+        rows: 5;columns: 5; spacing: 25;
+        Repeater {
+            model: 25
+            Item {
+                width: 80; height: 80
+                RectangularGlow {
+                    id: effect
+                    anchors.fill: rect
+                    glowRadius: 10
+                    spread: 0.2
+                    color: "blue"
+                    cornerRadius: 5
+                    rotation: rect.rotation
+                }
+                Rectangle {
+                    id: rect
+                    width:70; height: 70;
+                    rotation: 45
+                    RadialGradient {
+                    id: radial
+                    anchors.fill: parent
+                    gradient: Gradient {
+                    GradientStop { position: 0.000
+                    color: Qt.rgba(0, 0, 1, 1) }
+                    GradientStop { position: 0.167;
+                    color: Qt.rgba(1, 1, 1, 1) }
+                    }
+                    
+                    horizontalRadius: 300
+                    verticalRadius: 300
+                    }
+                }
+            }
+        }
+    }
 }
 \end{lstlisting}
 
-Wykonanie powyższego kodu spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element posiada dziecko będące prostokątem o~takiej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
+%Wykonanie powyższego kodu spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element posiada dziecko będące prostokątem o~takiej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
 
-Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \textit{parent}. Z~kolei inne elementy mogą się odwoływać do danego elementu za pomocą jego właściwości -- id.
+%Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \textit{parent}. Z~kolei inne elementy mogą się odwoływać do danego elementu za pomocą jego właściwości -- id.
 
 \begin{figure}[H]
 \centering
-\includegraphics{img/qml.png}
+\includegraphics[scale=0.6]{img/qml.png}
 \caption{Przykład wykorzystania QML}\label{rys:qml}
 \end{figure}
 
 \subsection{Własne elementy}
 Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Jednak bardzo złożone elementy, np. wykresy, łatwiej jest stworzyć w~C++, a następnie wyeksponować w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt. W~ten sposób zintegrowano z~QML chociażby bibliotekę Box2D.
 
-\section{Qt Office Charts}
+\section{Założenia, cele i cechy biblioteki}
 Podstawowym problemem bibliotek już dostępnych na rynku jest wąski zakres zastosowań. Dostarczane przez nie wykresy są zazwyczaj widgetami gotowymi do osadzenia w~GUI. Dla typowych aplikacji napisanych w~C++ może to być rozwiązanie wygodne, jednak ogranicza ono możliwości wykorzystania w~innym kontekście. Osadzenie widgetu w~dokumencie tekstowym lub w~\textit{GraphicsView} jest co najmniej nieefektywne. Stąd pierwszy z~celów stawianych mojej bibliotece -- dostarczenie uniwersalnego silnika, umożliwiającego wyświetlanie wykresów w~dowolnym miejscu aplikacji napisanych w~Qt. Na etapie definiowania wymagań ograniczyłem zbiór widoków, z~którymi moja biblioteka ma być kompatybilna, jednak teoretycznie powinna współpracować z~dowolnym widokiem.
 
 Jak już wspomniałem we wstępie, Qt~Quick jest stosunkowo nową technologią i~cierpi na typowe schorzenie wieku dziecięcego -- ogarniczony zbiór bibliotek. Aktualnie na rynku istnieje tylko jedna biblioteka wspierająca tworzenie wykresów w~QML i~jest to rozwiązanie komercyjne. Istnieje duże zapotrzebowanie na wartościowe, darmowe rozwiązanie.
