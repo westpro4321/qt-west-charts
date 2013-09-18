@@ -11,6 +11,7 @@ QocAbstractChart::QocAbstractChart(QObject *parent) :
 	m_titleFont(QFont("Arial", 12, QFont::Normal)),
 	m_titleVisible(true),
 	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop),
+	m_chartSize(QSizeF(200, 150)),
 	m_adaptorModel(new QocAdaptorModel(this))
 {
 	connect(m_adaptorModel, SIGNAL(modelChanged()), this, SIGNAL(modelChanged()));

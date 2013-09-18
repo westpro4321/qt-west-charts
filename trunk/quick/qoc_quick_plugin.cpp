@@ -21,7 +21,9 @@ void QocQuickPlugin::registerTypes(const char *uri)
 //	qmlRegisterType<QocQuickDataSeries>("qoc.dataseries", 1, 0, "DataSeries");
 //	qmlRegisterType<QocQuickView>("qoc.chartview", 1, 0, "ChartView");
 
-	qmlRegisterInterface<QocQuickAbstractChart>("AbstractChart");
+//	qmlRegisterInterface<QocQuickAbstractChart>("AbstractChart");
+	qmlRegisterType<QocQuickAbstractChart>(uri, 1, 0, "AbstractChart");
+
 	qmlRegisterType<QocQuickBarChart>(uri, 1, 0, "BarChart");
 	qmlRegisterType<QocQuickDataItem>(uri, 1, 0, "DataItem");
 	qmlRegisterType<QocQuickDataSeries>(uri, 1, 0, "DataSeries");
