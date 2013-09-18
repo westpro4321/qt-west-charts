@@ -80,6 +80,7 @@ public:
 
 	QList<QocAbstractChartItem *> items(Layer l);
 
+	QRectF viewGeometry() const;
 	void setViewGeometry(const QRectF &r);
 
 signals:

@@ -250,6 +250,11 @@ QList<QocAbstractChartItem *> QocAbstractChart::items(QocAbstractChart::Layer l)
 	return m_itemsMap.value(l);
 }
 
+QRectF QocAbstractChart::viewGeometry() const
+{
+	return m_viewGeometry;
+}
+
 void QocAbstractChart::setViewGeometry(const QRectF &r)
 {
 	if ( m_viewGeometry != r )

@@ -1,15 +1,27 @@
 #ifndef QOC_QUICK_ABSTRACT_CHART_H
 #define QOC_QUICK_ABSTRACT_CHART_H
 
-#include <qoc_abstract_chart.h>
+#include <QObject>
+#include <QString>
+#include <QFont>
+#include <QRectF>
+#include <QBrush>
+#include <QPen>
+#include <QVariant>
 
 #include "qoc_quick_global.h"
 
-class QOC_QUICK_API QocQuickAbstractChart : public QocAbstractChart
+class QocAbstractChart;
+class QPainter;
+
+class QOC_QUICK_API QocQuickAbstractChart : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)
 	Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
 	Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor NOTIFY foregroundColorChanged)
+	Q_PROPERTY(QRectF viewGeometry READ viewGeometry WRITE setViewGeometry NOTIFY viewGeometryChanged)
+
 
 public:
 	explicit QocQuickAbstractChart(QObject *parent = 0);
@@ -18,13 +30,24 @@ public:
 	void setBackgroundColor(const QColor &c);
 	QColor foregroundColor() const;
 	void setForegroundColor(const QColor &c);
+	QVariant model() const;
+	virtual void setModel(const QVariant &model);
+
+	QRectF viewGeometry() const;
+	void setViewGeometry(const QRectF &r);
+
+	void draw(QPainter *painter);
 
 signals:
+	void modelChanged();
 	void backgroundColorChanged(const QColor &);
 	void foregroundColorChanged(const QColor &);
+	void viewGeometryChanged(const QRectF &);
+	void repaint();
+	void update();
 
-public slots:
-	
+protected:
+	QocAbstractChart *m_chart;
 };
 
 #endif // QOC_QUICK_ABSTRACT_CHART_H
