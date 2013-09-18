@@ -17,9 +17,11 @@ QocQuickAbstractChart *QocQuickView::chart() const
 
 void QocQuickView::setChart(QocQuickAbstractChart *chart)
 {
+	qDebug() << Q_FUNC_INFO;
 	if ( m_chart != chart )
 	{
 		m_chart = chart;
+		m_chart->setViewGeometry(QRect(x(), y(), width(), height()));
 		emit chartChanged();
 	}
 }
@@ -28,9 +30,13 @@ void QocQuickView::paint(QPainter *p)
 {
 	p->save();
 
+	qDebug() << Q_FUNC_INFO;
+
 	if ( m_chart )
 	{
 		m_chart->draw(p);
+		qDebug() << Q_FUNC_INFO << m_chart->backgroundColor();
+
 	}
 
 	p->restore();

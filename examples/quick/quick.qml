@@ -8,19 +8,48 @@ Rectangle {
     ChartView {
         anchors.fill: parent
         BarChart {
+            model : DataSeries {
+                DataItem {
+                    x: 2
+                    y: 300
+                    color: "blue"
+                }
 
-        }
-    }
+                DataItem {
+                    x: 18
+                    y: 500
+                    color: "blue"
+                }
 
-    function f(a, b) {
-      console.log("a is ", a, "b is ", b);
-    }
+                DataItem {
+                    x: 32
+                    y: 300
+                    color: "blue"
+                }
 
-    MouseArea {
-        anchors.fill: parent
+                DataItem {
+                    x: 48
+                    y: 1000
+                    color: "blue"
+                }
 
-        onClicked: {
-            f(1, 2)
+                DataItem {
+                    x: 62
+                    y: 300
+                    color: "blue"
+                }
+                DataItem {
+                    x: 78
+                    y: 500
+                    color: "blue"
+                }
+                DataItem {
+                    x: 94
+                    y: 300
+                    color: "blue"
+                }
+            }
+
         }
     }
 }
