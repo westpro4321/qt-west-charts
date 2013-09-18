@@ -73,52 +73,27 @@ Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez 
   captionpos=t
  }
 \begin{lstlisting}[caption=Przykład QML, label=code:qml]
-import QtQuick 2.0
+import QtQuick 2.1
 import QtGraphicalEffects 1.0
 
-Rectangle {
-    width: 530
-    height: 530
-    color: "white"
+Item {
+  width: 400; height: width
 
-    Grid {
-        id: grid
-        x: 20; y:20
-        rows: 5;columns: 5; spacing: 25;
-        Repeater {
-            model: 25
-            Item {
-                width: 80; height: 80
-                RectangularGlow {
-                    id: effect
-                    anchors.fill: rect
-                    glowRadius: 10
-                    spread: 0.2
-                    color: "blue"
-                    cornerRadius: 5
-                    rotation: rect.rotation
-                }
-                Rectangle {
-                    id: rect
-                    width:70; height: 70;
-                    rotation: 45
-                    RadialGradient {
-                    id: radial
-                    anchors.fill: parent
-                    gradient: Gradient {
-                    GradientStop { position: 0.000
-                    color: Qt.rgba(0, 0, 1, 1) }
-                    GradientStop { position: 0.167;
-                    color: Qt.rgba(1, 1, 1, 1) }
-                    }
-                    
-                    horizontalRadius: 300
-                    verticalRadius: 300
-                    }
-                }
-            }
-        }
+  Rectangle {
+    id: rct
+    width: parent.width/2; height: width
+    anchors.centerIn: parent
+    gradient: Gradient {
+     GradientStop { position: 0; color: "#8F00FF" }
+     GradientStop { position: 0.5; color: "red" }
+     GradientStop { position: 1; color: "yellow" }
     }
+    border { color: "black"; width: 2 }
+    radius: 10
+    rotation: 45
+  }
+  layer.enabled: true
+  layer.effect: Glow { radius: 30; samples: 16; color: "#9F00FF" }
 }
 \end{lstlisting}
 
@@ -128,7 +103,7 @@ Rectangle {
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.6]{img/qml.png}
+\includegraphics{img/qml.png}
 \caption{Przykład wykorzystania QML}\label{rys:qml}
 \end{figure}
 
