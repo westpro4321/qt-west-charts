@@ -97,13 +97,46 @@ Podczas fazy implementacji projektu doszedłem do wniosku, że nie wszystkie kla
 \section{Prototyp wykresu słupkowego}
 Udało mi się zaimplementować rdzeń wykresu słupkowego. Z~uwagi na niewielką ilość czasu pominąłem niektóre rozwiązania architektoniczne, jednak zachowałem najważniejsze z~nich, takie jak separacja danych od prezentacji czy podział wykresu na warstwy. 
 
-W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Bibliotekę zawierającą prototyp rozwiązania zbudowałem i~uruchomiłem na systemach Kubuntu~12.04 oraz Windows~7. Rysunek~\ref{rys:bar:kubuntu} zawiera okno aplikacji, w~której wykres został wyświetlony za pomocą widgetu.
+W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Bibliotekę zawierającą prototyp rozwiązania zbudowałem i~uruchomiłem na systemach Kubuntu~12.04 oraz Windows~7. Rysunek~\ref{rys:bar:kubuntu} zawiera okno aplikacji, w~której wykres został wyświetlony za pomocą widgetu. Udało mi się również wyświetlić przykładowy wykres w~QML. Na rysunku~\ref{rys:bar:qml} przedstawiłem efekt wykonania kodu z~wydruku~\ref{code:bar:qml}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{img/BarChart_qml.png}
+\caption{Wykres słupkowy -- QML}\label{rys:bar:qml}
+\end{figure}
+
+\begin{lstlisting}[caption=Przykładowy wykres w QML, label=code:bar:qml]
+import QtQuick 2.1
+import QocQuick 1.0
+
+Item {
+    width: 500; height: 500
+    ChartView {
+        anchors.fill: parent
+        BarChart {
+            backgroundColor: "khaki"
+            model : DataSeries {
+                DataItem {
+                    x: 1; y: 2
+                    color: "crimson"
+                }
+                DataItem {
+                    x: 2; y: 3
+                    color: "limegreen"
+                }
+		...
+            }
+        }
+    }
+}
+\end{lstlisting}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.54]{img/BarChart_kubuntu.png}
-\caption{Wykres słupkowy -- Kubuntu 12.04}\label{rys:bar:kubuntu}
+\caption{Wykres słupkowy -- QWidget}\label{rys:bar:kubuntu}
 \end{figure}
+
 
 %\begin{figure}[H]
 %\centering
