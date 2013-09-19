@@ -39,8 +39,8 @@ void QocViewWidget::setChart(QocAbstractChart *c)
 void QocViewWidget::rebuildChart() const
 {
 	QPushButton *pb = qobject_cast<QPushButton *>(sender());
-	QParallelAnimationGroup *group = new QParallelAnimationGroup();
-//	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
+//	QParallelAnimationGroup *group = new QParallelAnimationGroup();
+	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
 
 	if (pb)
 	{
@@ -57,8 +57,7 @@ void QocViewWidget::rebuildChart() const
 			QPropertyAnimation *anim = new QPropertyAnimation(i, "value", group);
 			anim->setStartValue(0);
 			anim->setEndValue(i->value());
-			anim->setDuration(2000);
-//			anim->setDuration(100);
+			anim->setDuration(2000/items.size());
 			group->addAnimation(anim);
 
 //			i->blockSignals(true);
