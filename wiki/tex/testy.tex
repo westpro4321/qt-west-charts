@@ -122,8 +122,104 @@ Totals: 5 passed, 0 failed, 0 skipped
 ********* Finished testing of TestAdaptorModel *********
 \end{lstlisting}
 
-%\subsection{Odrysowywanie wykresu słupkowego}
-%Postanowiłem przetestować skalowalność odrysowywania wykresu słupkowego za względu na rozmiar wykresu oraz wielkość zbioru prezentowanych danych. Podobny test trzeba będzie przeprowadzić dla każdego nowego wykresu dodawanego do biblioteki.
+\subsection{Wydajność animacji}
+Postanowiłem przetestować skalowalność odrysowywania wykresu słupkowego podczas animacji. Parametrami zmiennymi tesu były rozmiar okna oraz wielkość zbioru próbek. Podobny test trzeba będzie przeprowadzić dla każdego nowego wykresu dodawanego do biblioteki.
+
+Ten test wyjatkowo nie został wykonany za pomocą QtTestLib, a~polega na porównywaniu liczby uzyskanych w~animacji klatek. Odbywa się to poprzez zliczanie zdarzeń typu \textit{QEvent::Paint}, odpowiedzialnych za odrysowywanie widgetu. Po zakończeniu się animacji liczba odrysowań zostaje wyrzucona na konsolę. Każda z~animacji trwała dokładnie 2 sekundy, a~w czasie ich trwania słupki stopniowo ,,rosły'', ostatecznie osiągając swoją oczekiwaną wysokość. Testy odbywały się na komputerze wyposażonym w~czterordzeniowy procesor AMD Phenom~II 3,2~GHz, 4GB pamięci RAM oraz kartę graficzną ATI Radeon HD~6850.
+
+\begin{table}\footnotesize
+\centering
+\caption{Wyniki animacji sekwencyjnej}
+\label{tab:wykresy}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Rozmiar okna & Liczba próbek danych & FPS\\
+\hline
+600x480 & 10 & 125\\
+\hline
+600x480 & 100 & 124\\
+\hline
+600x480 & 1000 & 68\\
+\hline
+800x600 & 10 & 125\\
+\hline
+800x600 & 100 & 124\\
+\hline
+800x600 & 1000 & 53\\
+\hline
+1024x768 & 10 & 125\\
+\hline
+1024x768 & 100 & 122\\
+\hline
+1024x768 & 1000 & 41\\
+\hline
+1920x1080 & 10 & 125\\
+\hline
+1920x1080 & 100 & 94\\
+\hline
+1920x1080 & 1000 & 27\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}\footnotesize
+\centering
+\caption{Wyniki animacji równoległej}
+\label{tab:wykresy}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Rozmiar okna & Liczba próbek danych & FPS\\
+\hline
+600x480 & 10 & 125\\
+\hline
+600x480 & 100 & 124\\
+\hline
+600x480 & 1000 & 64\\
+\hline
+800x600 & 10 & 125\\
+\hline
+800x600 & 100 & 124\\
+\hline
+800x600 & 1000 & 54\\
+\hline
+1024x768 & 10 & 125\\
+\hline
+1024x768 & 100 & 125\\
+\hline
+1024x768 & 1000 & 45\\
+\hline
+1920x1080 & 10 & 125\\
+\hline
+1920x1080 & 100 & 99\\
+\hline
+1920x1080 & 1000 & 32\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}\footnotesize
+\centering
+\caption{Wyniki animacji dwóch wykresów}
+\label{tab:wykresy}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Rozmiar okna & Typ animacji & Liczba próbek danych & FPS\\
+\hline
+1024x768 & Sekwencyjna & 10 & 125\\
+\hline
+1024x768 & Sekwencyjna &  100 & 104\\
+\hline
+1024x768 & Sekwencyjna &  1000 & 25\\
+\hline
+1024x768 & Równoległa & 10 & 125\\
+\hline
+1024x768 & Równoległa &  100 & 110\\
+\hline
+1024x768 & Równoległa &  1000 & 25\\
+\hline
+\end{tabular}
+\end{table}
+
 
 %TODO: Próbowałem wykorzystać tutaj QBENCHMARK, ale średnio się sprawdziło.
 

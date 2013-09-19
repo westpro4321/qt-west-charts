@@ -60,31 +60,19 @@ class QOC_QUICK_API QocQuickAbstractChart : public QocAbstractChart
 }
 \end{lstlisting}
 
+\subsection{Złożone właściwości}
+Niekiedy istnieje potrzeba dostępu do większej liczby parametrów niż sam kolor. W~QML rozwiązano to za pomocą złożonych właściwości, czyli takich, które mają swoje własne właściwości. Taka kompozycja może mieć kilka poziomów i~jest skutecznym sposobem walki z~problemem nadmiernie rozbudowanego interfejsu klasy. Wydruk~\ref{code:props} zawiera przykład wykorzystania właściwości złożonych.
 
-%\subsection{Biblioteka na platformie Windows}
-%Podczas budowania dowolnej biblioteki na platformie Windows, niezbędne jest wyeksportowanie symboli. Proces ten muszą przejść wszystkie elementy, które mają być dostępne dla klientów danej biblioteki. W~przypadku mojego projektu eksportowane były jedynie nagłówki klas, jednak mogą to być również globalne funkcje lub zmienne. Eksport symboli odbywa się za pomocą dostarczanych przez Qt makrodefinicji, których wykorzystanie w~mojej bibliotece przedstawiam na wydrukach~\ref{code:qoc:global} i~\ref{code:qoc:klasa}.
-
-%\begin{lstlisting}[caption=Zawartość pliku qoc\_global.h, label=code:qoc:global]
-%#include <QtCore/QtGlobal>
-
-%#if defined(QOC_LIBRARY)
-%#  define QOC_API Q_DECL_EXPORT
-%#else
-%#  define QOC_API Q_DECL_IMPORT
-%#endif
-%\end{lstlisting}
-
-%\begin{lstlisting}[caption=Eksport klasy QocAbstractChart, label=code:qoc:klasa]
-%#include "qoc_global.h"
-
-%class QOC_API QocAbstractChart : public QObject
-%{
-%   ...
-%}
-%\end{lstlisting}
-
-
-%Dzięki dodadniu do pliku projektu instrukcji: \textit{DEFINES +=  QOC\_LIBRARY}, podczas budowania biblioteki makro \textit{QOC\_API} powoduje wyeksportowanie symboli. Z~kolei dla klientów biblioteki makro po rozwinięciu przez preprocesor spowoduje ich import.
+\begin{lstlisting}[caption=Właściwości złożone w QML, label=code:props]
+Item {
+    width: 500; height: 500
+    Rectangle {
+        anchors.fill: parent
+        border.color: "blue"
+        border.width: 5
+    }
+}
+\end{lstlisting}
 
 
 \section{Odstępstwa od projektu}
@@ -97,12 +85,12 @@ Podczas fazy implementacji projektu doszedłem do wniosku, że nie wszystkie kla
 \section{Prototyp wykresu słupkowego}
 Udało mi się zaimplementować rdzeń wykresu słupkowego. Z~uwagi na niewielką ilość czasu pominąłem niektóre rozwiązania architektoniczne, jednak zachowałem najważniejsze z~nich, takie jak separacja danych od prezentacji czy podział wykresu na warstwy. 
 
-W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Bibliotekę zawierającą prototyp rozwiązania zbudowałem i~uruchomiłem na systemach Kubuntu~12.04 oraz Windows~7. Rysunek~\ref{rys:bar:kubuntu} zawiera okno aplikacji, w~której wykres został wyświetlony za pomocą widgetu. Udało mi się również wyświetlić przykładowy wykres w~QML. Na rysunku~\ref{rys:bar:qml} przedstawiłem efekt wykonania kodu z~wydruku~\ref{code:bar:qml}.
+W~obecnym stanie, za pomocą wykresu słupkowego można prezentować dane tylko z~jednej serii. Możliwa jest animacja elementów wykresu. W~przykładowym programie zaanimowałem wysokość słupków. Wykres podpiąłem do dwóch widoków -- widgetu oraz elementu QML. Bibliotekę zawierającą prototyp rozwiązania zbudowałem i~uruchomiłem na systemach Kubuntu~12.04 oraz Windows~7. Rysunek~\ref{rys:bar:kubuntu} zawiera okno aplikacji, w~której wykres został wyświetlony za pomocą widgetu. Udało mi się również wyświetlić przykładowy wykres w~Qt~Quick. Na rysunku~\ref{rys:bar:qml} przedstawiłem efekt wykonania kodu z~wydruku~\ref{code:bar:qml}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{img/BarChart_qml.png}
-\caption{Wykres słupkowy -- QML}\label{rys:bar:qml}
+\caption{Wykres słupkowy -- Qt~Quick}\label{rys:bar:qml}
 \end{figure}
 
 \begin{lstlisting}[caption=Przykładowy wykres w QML, label=code:bar:qml]

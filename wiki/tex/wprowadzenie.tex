@@ -68,6 +68,7 @@ Ciekawą cechą QML jest system wiązania wartości z~właściwością, który u
 Elementy QML mogą być rozszerzane przez kod napisany w~JavaScript lub poprzez integrację z modułami napisanymi w~C++.
 
 \subsection{Przykładowy kod QML}
+Qt~Quick umożliwia tworzenie ładnych i~płynnie działających interfejsów użytkownika. Nawet GUI zawierające jedynie proste elementy graficzne, takie jak prostokąty, może wyglądać atrakcyjnie. Poniżej próbka możliwości tej technologii.
 
 \lstset{
   captionpos=t
@@ -97,9 +98,7 @@ Item {
 }
 \end{lstlisting}
 
-%Wykonanie powyższego kodu spowoduje wyświetlenie okienka z~rysunku~\ref{rys:qml}. Główny element posiada dziecko będące prostokątem o~takiej samej wysokości i~szerokości równej połowie jego wysokości. Ponadto prostokąt ten jest wyśrodkowany w~swoim rodzicu oraz ma jasnoniebieski kolor.
-
-%Jak widać dziecko może odwoływać się do swego rodzica za pomocą słowa \textit{parent}. Z~kolei inne elementy mogą się odwoływać do danego elementu za pomocą jego właściwości -- id.
+Wykonanie kodu~\ref{code:qml} spowoduje wyświetlenie kwadratowego okna, którego centralnym elementem jest kwadrat obrócony o~45\degree. Kwadrat ma zaokrąglone rogi i~jest wypełniony gradientem trzech kolorów. Dodatkowo na całość nałożono efekt poświaty. Rysunek~\ref{rys:qml} prezentuje rezultat wykonania powyższego kodu.
 
 \begin{figure}[H]
 \centering
@@ -110,7 +109,8 @@ Item {
 \subsection{Własne elementy}
 Istnieje możliwość tworzenia własnych elementów składających się z~elementów już dostępnych w~QML. Jednak bardzo złożone elementy, np. wykresy, łatwiej jest stworzyć w~C++, a następnie wyeksponować w~QML. Możliwe jest eksponowanie pojedynczych obiektów, jak i~eksportowanie całych klas. Aby klasa była zdatna do wykorzystania w~QML musi dziedziczyć po \textit{QObject}. Wyeksportowanie klasy odbywa się poprzez wywołanie jednej globalnej funkcji dostarczanej przez Qt. W~ten sposób zintegrowano z~QML chociażby bibliotekę Box2D.
 
-\section{Założenia, cele i cechy biblioteki}
+%\section{Założenia, cele i cechy biblioteki}
+\section{Brief}
 Podstawowym problemem bibliotek już dostępnych na rynku jest wąski zakres zastosowań. Dostarczane przez nie wykresy są zazwyczaj widgetami gotowymi do osadzenia w~GUI. Dla typowych aplikacji napisanych w~C++ może to być rozwiązanie wygodne, jednak ogranicza ono możliwości wykorzystania w~innym kontekście. Osadzenie widgetu w~dokumencie tekstowym lub w~\textit{GraphicsView} jest co najmniej nieefektywne. Stąd pierwszy z~celów stawianych mojej bibliotece -- dostarczenie uniwersalnego silnika, umożliwiającego wyświetlanie wykresów w~dowolnym miejscu aplikacji napisanych w~Qt. Na etapie definiowania wymagań ograniczyłem zbiór widoków, z~którymi moja biblioteka ma być kompatybilna, jednak teoretycznie powinna współpracować z~dowolnym widokiem.
 
 Jak już wspomniałem we wstępie, Qt~Quick jest stosunkowo nową technologią i~cierpi na typowe schorzenie wieku dziecięcego -- ogarniczony zbiór bibliotek. Aktualnie na rynku istnieje tylko jedna biblioteka wspierająca tworzenie wykresów w~QML i~jest to rozwiązanie komercyjne. Istnieje duże zapotrzebowanie na wartościowe, darmowe rozwiązanie.
