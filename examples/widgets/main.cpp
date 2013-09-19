@@ -35,11 +35,11 @@ int main(int argc, char *argv[])
 	wgt->setChart(chart);
 	QocDataSeries *series = new QocDataSeries(chart);
 
-	for(int i=1; i<95; ++i)
+	for(int i=1; i<10; ++i)
 	{
 		QocDataItem *item = new QocDataItem(series);
 		item->setData(QVariant(i), Qoc::XValueRole);
-		item->setData(QVariant(1+(qFloor(qPow(i, 2)) % 1000)), Qoc::YValueRole);
+		item->setData(QVariant(1+(qFloor(qPow(i, 2)) % 10)), Qoc::YValueRole);
 		item->setData(QVariant::fromValue(QColor(static_cast<Qt::GlobalColor>(5+(i%14))).lighter(100 + i/4)), Qoc::ColorRole);
 		series->append(item);
 	}

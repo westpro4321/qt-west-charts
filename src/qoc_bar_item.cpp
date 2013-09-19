@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-
+const qreal _fillFactor = 0.5;
 
 QocBarItem::QocBarItem(QObject *parent) :
 	QocAbstractValueItem(parent),
@@ -35,7 +35,10 @@ void QocBarItem::draw(QPainter *painter, const QRectF &rect)
 	QRectF r(m_chart->mapToGlobal(boundingRect().topLeft()),
 			 m_chart->mapToGlobal(boundingRect().bottomRight()));
 
-	painter->drawRoundedRect(r, 0, 0);
+	QocBarChart *c = qobject_cast<QocBarChart *>(m_chart);
+	qreal radius = c->radius();
+	painter->drawRoundedRect(r, radius*c->xScale(), radius*c->yScale());
+//	painter->drawRoundedRect(r, 20.0, 10.0);
 
 	painter->restore();
 }
@@ -47,7 +50,10 @@ QRectF QocBarItem::boundingRect() const
 //	return QRectF(m_pos.x(), height(), _barWidth, m_pos.y());
 	QocBarChart *c = qobject_cast<QocBarChart *>(m_chart);
 
-	return QRectF(m_pos.x(), m_pos.y(), 0.9*
+//	return QRectF(m_pos.x(), m_pos.y(), _fillFactor*
+//				  (qAbs(c->m_hAxis->m_end.x()-c->m_hAxis->m_begin.x())/(c->m_hAxis->maxValue()-c->m_hAxis->minValue())),
+//				  -m_pos.y()+height());
+	return QRectF(m_pos.x(), m_pos.y()-height(), _fillFactor*
 				  (qAbs(c->m_hAxis->m_end.x()-c->m_hAxis->m_begin.x())/(c->m_hAxis->maxValue()-c->m_hAxis->minValue())),
-				  -m_pos.y()+height());
+				  height());
 }

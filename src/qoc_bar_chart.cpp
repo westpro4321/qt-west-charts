@@ -3,19 +3,19 @@
 #include "qoc_axis.h"
 #include "qoc_bar_item.h"
 
-#include <QDebug>
+#include <QPainter>
 
 
 QocBarChart::QocBarChart(QObject *parent) :
 	QocAbstractChart(parent),
-	m_radius(1)
+	m_radius(0)
 {
 	setupAxes();
 }
 
 QocBarChart::QocBarChart(const QSizeF &size, QObject *parent) :
 	QocAbstractChart(size, parent),
-	m_radius(1)
+	m_radius(0)
 {
 	setupAxes();
 }
@@ -60,9 +60,19 @@ void QocBarChart::setRadius(qreal r)
 	}
 }
 
+QocAxis *QocBarChart::verticalAxis()
+{
+	return m_vAxis;
+}
+
+QocAxis *QocBarChart::horizontalAxis()
+{
+	return m_hAxis;
+}
+
 void QocBarChart::drawLowLayer(QPainter *painter, const QRectF &rect)
 {
-
+	QocAbstractChart::drawLowLayer(painter, rect);
 }
 
 void QocBarChart::drawChartLayer(QPainter *p, const QRectF &rect)
@@ -74,23 +84,33 @@ void QocBarChart::drawChartLayer(QPainter *p, const QRectF &rect)
 	{
 		i->draw(p, rect);
 	}
-
-	qDebug() << Q_FUNC_INFO << m_hAxis->valueToPos(10) << m_vAxis->valueToPos(10);
 }
 
 void QocBarChart::drawHighLayer(QPainter *painter, const QRectF &rect)
 {
-
+	QocAbstractChart::drawHighLayer(painter, rect);
 }
 
 void QocBarChart::setupAxes()
 {
 	m_vAxis = new QocAxis(QPointF(20, 130), QPointF(20, 20), this);
 	m_vAxis->setMinValue(0);
-	m_vAxis->setMaxValue(1000);
+	m_vAxis->setMaxValue(11);
+	connect(m_vAxis, SIGNAL(beginChanged(QPointF)), this, SIGNAL(repaint()));
+	connect(m_vAxis, SIGNAL(endChanged(QPointF)), this, SIGNAL(repaint()));
+	connect(m_vAxis, SIGNAL(minValueChanged(qreal)), this, SIGNAL(repaint()));
+	connect(m_vAxis, SIGNAL(maxValueChanged(qreal)), this, SIGNAL(repaint()));
+	connect(m_vAxis, SIGNAL(colorChanged(QColor)), this, SIGNAL(repaint()));
+
+
 	m_hAxis = new QocAxis(QPointF(20, 130), QPointF(180, 130), this);
 	m_hAxis->setMinValue(0);
-	m_hAxis->setMaxValue(100);
+	m_hAxis->setMaxValue(11);
+	connect(m_hAxis, SIGNAL(beginChanged(QPointF)), this, SIGNAL(repaint()));
+	connect(m_hAxis, SIGNAL(endChanged(QPointF)), this, SIGNAL(repaint()));
+	connect(m_hAxis, SIGNAL(minValueChanged(qreal)), this, SIGNAL(repaint()));
+	connect(m_hAxis, SIGNAL(maxValueChanged(qreal)), this, SIGNAL(repaint()));
+	connect(m_hAxis, SIGNAL(colorChanged(QColor)), this, SIGNAL(repaint()));
 }
 
 void QocBarChart::onItemValueChanged(qreal val)
@@ -98,6 +118,6 @@ void QocBarChart::onItemValueChanged(qreal val)
 	QocBarItem *i = qobject_cast<QocBarItem *>(sender());
 	if ( i )
 	{
-		i->setHeight(m_vAxis->valueToPos(val).y());
+		i->setHeight(val*m_vAxis->unit());
 	}
 }

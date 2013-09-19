@@ -5,6 +5,10 @@
 #include "qoc_quick_data_series.h"
 #include "qoc_quick_view.h"
 
+#include <qoc_axis.h>
+#include <qoc_bar_item.h>
+
+#include <QDebug>
 
 QocQuickPlugin::QocQuickPlugin(QObject *parent) :
 	QQmlExtensionPlugin(parent)
@@ -21,14 +25,17 @@ void QocQuickPlugin::registerTypes(const char *uri)
 //	qmlRegisterType<QocQuickDataSeries>("qoc.dataseries", 1, 0, "DataSeries");
 //	qmlRegisterType<QocQuickView>("qoc.chartview", 1, 0, "ChartView");
 
-//	qmlRegisterInterface<QocQuickAbstractChart>("AbstractChart");
-	qmlRegisterType<QocQuickAbstractChart>(uri, 1, 0, "AbstractChart");
+	qDebug() << qmlRegisterType<QocQuickAbstractChart>(uri, 1, 0, "AbstractChart");
+	qDebug() << qmlRegisterType<QocQuickBarChart>(uri, 1, 0, "BarChart");
+	qDebug() << qmlRegisterType<QocQuickDataItem>(uri, 1, 0, "DataItem");
+	qDebug() << qmlRegisterType<QocQuickDataSeries>(uri, 1, 0, "DataSeries");
+	qDebug() << qmlRegisterType<QocQuickView>(uri, 1, 0, "ChartView");
 
-	qmlRegisterType<QocQuickBarChart>(uri, 1, 0, "BarChart");
-	qmlRegisterType<QocQuickDataItem>(uri, 1, 0, "DataItem");
-	qmlRegisterType<QocQuickDataSeries>(uri, 1, 0, "DataSeries");
-	qmlRegisterType<QocQuickView>(uri, 1, 0, "ChartView");
+	qDebug() << qmlRegisterInterface<QocAbstractChartItem>("AbstractItem");
+	qDebug() << qmlRegisterType<QocAxis>(uri, 1, 0, "Axis");
 
+	qDebug() << qmlRegisterInterface<QocAbstractValueItem>("AbstractValueItem");
+	qDebug() << qmlRegisterType<QocBarItem>(uri, 1, 0, "BarItem");
 
 //	qmlRegisterType<>(uri, 1, 0, "");
 }

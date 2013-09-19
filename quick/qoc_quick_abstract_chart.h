@@ -21,6 +21,7 @@ class QOC_QUICK_API QocQuickAbstractChart : public QObject
 	Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
 	Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor NOTIFY foregroundColorChanged)
 	Q_PROPERTY(QRectF viewGeometry READ viewGeometry WRITE setViewGeometry NOTIFY viewGeometryChanged)
+	Q_PROPERTY(QSizeF size READ size WRITE setSize NOTIFY sizeChanged)
 
 
 public:
@@ -36,13 +37,18 @@ public:
 	QRectF viewGeometry() const;
 	void setViewGeometry(const QRectF &r);
 
-	void draw(QPainter *painter);
+	QSizeF size() const;
+	void setSize(const QSizeF &size);
+
+	void draw(QPainter *painter, const QRectF &rect=QRectF());
 
 signals:
 	void modelChanged();
 	void backgroundColorChanged(const QColor &);
 	void foregroundColorChanged(const QColor &);
 	void viewGeometryChanged(const QRectF &);
+	void sizeChanged(const QSizeF &);
+
 	void repaint();
 	void update();
 
