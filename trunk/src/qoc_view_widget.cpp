@@ -8,19 +8,22 @@
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
 #include <QPushButton>
+#include <QDebug>
 
 QocViewWidget::QocViewWidget(QWidget *parent) :
 	QWidget(parent),
-	m_chart(0)
+	m_chart(0),
+	m_events(0),
+	m_animationStarted(false)
 {
 }
 
 bool QocViewWidget::event(QEvent *e)
 {
-//	if ( m_chart && !m_chart->event(e) )
-//	{
-//		return true;
-//	}
+	if ( m_animationStarted && e->type() == QEvent::Paint )
+	{
+		m_events++;
+	}
 
 	return QWidget::event(e);
 }
@@ -36,11 +39,15 @@ void QocViewWidget::setChart(QocAbstractChart *c)
 	connect(m_chart, SIGNAL(repaint()), this, SLOT(update()));
 }
 
-void QocViewWidget::rebuildChart() const
+bool QocViewWidget::eventFilter(QObject *watched, QEvent *event)
+{
+}
+
+void QocViewWidget::rebuildChart()
 {
 	QPushButton *pb = qobject_cast<QPushButton *>(sender());
-//	QParallelAnimationGroup *group = new QParallelAnimationGroup();
-	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
+	QParallelAnimationGroup *group = new QParallelAnimationGroup();
+//	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
 
 	if (pb)
 	{
@@ -57,7 +64,7 @@ void QocViewWidget::rebuildChart() const
 			QPropertyAnimation *anim = new QPropertyAnimation(i, "value", group);
 			anim->setStartValue(0);
 			anim->setEndValue(i->value());
-			anim->setDuration(2000/items.size());
+			anim->setDuration(2000/*/items.size()*/);
 			group->addAnimation(anim);
 
 //			i->blockSignals(true);
@@ -67,10 +74,15 @@ void QocViewWidget::rebuildChart() const
 	}
 	//connect(group, SIGNAL(finished()), group, SLOT(deleteLater()));
 	group->start(QAbstractAnimation::DeleteWhenStopped);
+	m_animationStarted = true;
 }
 
 void QocViewWidget::animationFinished()
 {
+	qDebug() << Q_FUNC_INFO << m_events;
+	m_animationStarted = false;
+	m_events = 0;
+
 	emit animationEnded(true);
 }
 
