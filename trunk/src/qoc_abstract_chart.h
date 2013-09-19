@@ -19,6 +19,7 @@ class QOC_API QocAbstractChart : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QVariant model READ model WRITE setModel NOTIFY modelChanged)	
+	Q_PROPERTY(QSizeF size READ size WRITE setSize NOTIFY sizeChanged)
 	Q_ENUMS(Layer)
 public:
 	enum Layer {
@@ -48,6 +49,9 @@ public:
 
 	QVariant model() const;
 	virtual void setModel(const QVariant &model);
+
+	QSizeF size() const;
+	void setSize(const QSizeF &size);
 
 //	double topMargin();
 //	void setTopMargin(double fraction);
@@ -85,6 +89,7 @@ public:
 
 signals:
 	void modelChanged();
+	void sizeChanged(const QSizeF &);
 	void repaint();
 	void update();
 	
@@ -104,18 +109,13 @@ protected:
 	QBrush m_backgroundBrush;
 	QBrush m_foregroundBrush;
 
-//	double m_topMargin;
-//	double m_bottomMargin;
-//	double m_leftMargin;
-//	double m_rightMargin;
-
 	QString m_title;
 	QFont m_titleFont;
 	bool m_titleVisible;
 	int m_titleFlags;
 	
 	QRectF m_viewGeometry;
-	QSizeF m_chartSize;
+	QSizeF m_size;
 
 	QocAdaptorModel *m_adaptorModel;
 	QMap<Layer, QList<QocAbstractChartItem *> > m_itemsMap;

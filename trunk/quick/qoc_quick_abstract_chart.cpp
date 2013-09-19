@@ -2,6 +2,7 @@
 
 #include <qoc_abstract_chart.h>
 
+#include <QDebug>
 
 QocQuickAbstractChart::QocQuickAbstractChart(QObject *parent) :
 	QObject(parent)
@@ -15,10 +16,14 @@ QColor QocQuickAbstractChart::backgroundColor() const
 
 void QocQuickAbstractChart::setBackgroundColor(const QColor &c)
 {
+	qDebug() << c << m_chart->backgroundBrush();
+
 	if ( c !=  m_chart->backgroundBrush().color() )
 	{
 		m_chart->setBackgroundBrush(QBrush(c));
 		emit backgroundColorChanged(c);
+
+		qDebug() << m_chart->backgroundBrush();
 	}
 }
 
@@ -60,8 +65,22 @@ void QocQuickAbstractChart::setViewGeometry(const QRectF &r)
 	}
 }
 
-void QocQuickAbstractChart::draw(QPainter *painter)
+QSizeF QocQuickAbstractChart::size() const
 {
-	m_chart->draw(painter);
+	return m_chart->size();
+}
+
+void QocQuickAbstractChart::setSize(const QSizeF &size)
+{
+	if ( m_chart->size() != size )
+	{
+		m_chart->setSize(size);
+		emit sizeChanged(size);
+	}
+}
+
+void QocQuickAbstractChart::draw(QPainter *painter, const QRectF &rect)
+{
+	m_chart->draw(painter, rect);
 }
 

@@ -10,8 +10,8 @@ QocAbstractChartItem::QocAbstractChartItem(QObject *parent) :
 	m_titleAnchor(TopAnchor),
 	m_titleVisible(true),
 	m_visible(true),
-	m_pen(new QPen(QColor(Qt::black))),
-	m_brush(new QBrush(Qt::red)),
+	m_pen(QColor(Qt::black)),
+	m_brush(QBrush(Qt::black)),
 	m_selected(false)
 {
 }
@@ -67,7 +67,7 @@ void QocAbstractChartItem::setColor(const QColor &c)
 	m_color = c;
 }
 
-bool QocAbstractChartItem::isVisible()
+bool QocAbstractChartItem::isVisible() const
 {
 	return m_visible;
 }
@@ -77,25 +77,23 @@ void QocAbstractChartItem::setVisible(bool b)
 	m_visible = b;
 }
 
-QPen QocAbstractChartItem::pen()
+QPen QocAbstractChartItem::pen()  const
 {
-	return *m_pen;
+	return m_pen;
 }
 
-void QocAbstractChartItem::setPen(QPen *pen)
+void QocAbstractChartItem::setPen(const QPen &pen)
 {
-	delete m_pen;
 	m_pen = pen;
 }
 
 QBrush QocAbstractChartItem::brush() const
 {
-	return *m_brush;
+	return m_brush;
 }
 
-void QocAbstractChartItem::setBrush(QBrush *brush)
+void QocAbstractChartItem::setBrush(const QBrush &brush)
 {
-	delete m_brush;
 	m_brush = brush;
 }
 

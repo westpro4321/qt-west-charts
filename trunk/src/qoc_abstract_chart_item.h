@@ -37,14 +37,14 @@ public:
 	QColor color() const;
 	void setColor(const QColor &c);
 
-	bool isVisible();
+	bool isVisible() const;
 	void setVisible(bool b);
 
-	QPen pen();
-	void setPen(QPen *pen);
+	QPen pen() const;
+	void setPen(const QPen &pen);
 
 	QBrush brush() const;
-	void setBrush(QBrush *brush);
+	void setBrush(const QBrush &brush);
 
 	bool isSelected() const;
 	void setSelected(bool b);
@@ -61,8 +61,8 @@ protected:
 	quint64 m_z;
 	QColor m_color;
 	bool m_visible;
-	QPen *m_pen;
-	QBrush *m_brush;
+	QPen m_pen;
+	QBrush m_brush;
 	bool m_selected;
 	QocAbstractChart *m_chart;
 	QPointF m_pos;

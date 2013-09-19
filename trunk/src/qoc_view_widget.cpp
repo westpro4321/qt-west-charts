@@ -4,7 +4,6 @@
 
 #include <QPaintEvent>
 #include <QPainter>
-#include <QDebug>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
@@ -78,8 +77,6 @@ void QocViewWidget::animationFinished()
 
 void QocViewWidget::paintEvent(QPaintEvent *event)
 {
-	qDebug() << Q_FUNC_INFO << event;
-
 	if ( m_chart )
 	{
 		QPainter p(this);

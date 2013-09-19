@@ -9,6 +9,10 @@ class QOC_API QocBarChart : public QocAbstractChart
 {
 	Q_OBJECT
 	Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
+	Q_PROPERTY(QocAxis* verticalAxis READ verticalAxis)
+	Q_PROPERTY(QocAxis* horizontalAxis READ horizontalAxis)
+	Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
+
 public:
 	explicit QocBarChart(QObject *parent = 0);
 	QocBarChart(const QSizeF &size, QObject *parent = 0);
@@ -17,8 +21,12 @@ public:
 
 	qreal radius() const;
 	void setRadius(qreal r);
+
+	QocAxis *verticalAxis();
+	QocAxis *horizontalAxis();
+
 signals:
-	void radiusChanged(uint);
+	void radiusChanged(qreal);
 	
 public slots:
 	

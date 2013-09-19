@@ -1,8 +1,10 @@
 #include "qoc_abstract_chart.h"
 #include "qoc_adaptor_model.h"
+#include "qoc_abstract_chart_item.h"
 
 #include <QPainter>
 #include <QDebug>
+
 
 QocAbstractChart::QocAbstractChart(QObject *parent) :
 	QObject(parent),
@@ -11,7 +13,7 @@ QocAbstractChart::QocAbstractChart(QObject *parent) :
 	m_titleFont(QFont("Arial", 12, QFont::Normal)),
 	m_titleVisible(true),
 	m_titleFlags(Qt::AlignHCenter | Qt::AlignTop),
-	m_chartSize(QSizeF(200, 150)),
+	m_size(QSizeF(200, 150)),
 	m_adaptorModel(new QocAdaptorModel(this))
 {
 	connect(m_adaptorModel, SIGNAL(modelChanged()), this, SIGNAL(modelChanged()));
@@ -20,7 +22,7 @@ QocAbstractChart::QocAbstractChart(QObject *parent) :
 QocAbstractChart::QocAbstractChart(const QSizeF &size, QObject *parent) :
 	QObject(parent),
 	m_antialiased(true),
-	m_chartSize(size),
+	m_size(size),
 	m_adaptorModel(new QocAdaptorModel(this))
 {
 }
@@ -30,9 +32,12 @@ void QocAbstractChart::draw(QPainter *painter, const QRectF &rect)
 	if ( rect.isValid() )
 		m_viewGeometry = rect;
 
-//	painter->setClipping(true);
-
 	painter->save();
+
+	QPen pen = painter->pen();
+	qreal scale = xScale() <= yScale() ? xScale() : yScale();
+	pen.setWidthF(pen.widthF() * scale / 2);
+	painter->setPen(pen);
 
 	painter->setRenderHint(QPainter::Antialiasing, isAntialiased());
 	drawBackground(painter, rect);
@@ -62,6 +67,7 @@ QBrush QocAbstractChart::backgroundBrush() const
 void QocAbstractChart::setBackgroundBrush(const QBrush &brush)
 {
 	m_backgroundBrush = brush;
+	repaint();
 }
 
 QBrush QocAbstractChart::foregroundBrush() const
@@ -72,6 +78,7 @@ QBrush QocAbstractChart::foregroundBrush() const
 void QocAbstractChart::setForegroundBrush(const QBrush &brush)
 {
 	m_foregroundBrush = brush;
+	repaint();
 }
 
 QPen QocAbstractChart::selectionPen() const
@@ -94,62 +101,19 @@ void QocAbstractChart::setModel(const QVariant &model)
 	m_adaptorModel->setModel(model);
 }
 
-//double QocAbstractChart::topMargin()
-//{
-//	return m_topMargin;
-//}
+QSizeF QocAbstractChart::size() const
+{
+	return m_size;
+}
 
-
-//void QocAbstractChart::setTopMargin(double fraction)
-//{
-//	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-//	m_topMargin = fraction;
-//}
-
-//double QocAbstractChart::bottomMargin()
-//{
-//	return m_bottomMargin;
-//}
-
-//void QocAbstractChart::setBottomMargin(double fraction)
-//{
-//	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-//	m_bottomMargin = fraction;
-//}
-
-//double QocAbstractChart::leftMargin()
-//{
-//	return m_leftMargin;
-//}
-
-//void QocAbstractChart::setLeftMargin(double fraction)
-//{
-//	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-//	m_leftMargin = fraction;
-//}
-
-//double QocAbstractChart::rightMargin()
-//{
-//	return m_rightMargin;
-//}
-
-//void QocAbstractChart::setRightMargin(double fraction)
-//{
-//	Q_ASSERT(0.0 <= fraction && fraction <= 1.0);
-
-//	m_rightMargin = fraction;
-//}
-
-//void QocAbstractChart::setMargins(double top, double bottom, double left, double right)
-//{
-//	setTopMargin(top);
-//	setBottomMargin(bottom);
-//	setLeftMargin(left);
-//	setRightMargin(right);
-//}
+void QocAbstractChart::setSize(const QSizeF &size)
+{
+	if ( m_size != size )
+	{
+		m_size = size;
+		emit sizeChanged(size);
+	}
+}
 
 QString QocAbstractChart::title() const
 {
@@ -193,28 +157,23 @@ void QocAbstractChart::setTitleFlags(int flags)
 
 QPointF QocAbstractChart::mapFromGlobal(QPointF p)
 {
-	//TODO: Weryfikacja poprawności
 	QPointF retVal;
 	if ( m_viewGeometry.width() && m_viewGeometry.height() )
 	{
-		retVal.setX((p.x() - m_viewGeometry.x()) * m_chartSize.width() / m_viewGeometry.width());
-		retVal.setY((p.y() - m_viewGeometry.y()) * m_chartSize.height() / m_viewGeometry.height());
+		retVal.setX((p.x() - m_viewGeometry.x()) * m_size.width() / m_viewGeometry.width());
+		retVal.setY((p.y() - m_viewGeometry.y()) * m_size.height() / m_viewGeometry.height());
 	}
 	return retVal;
 }
 
 QPointF QocAbstractChart::mapToGlobal(QPointF p)
 {
-	//TODO: Weryfikacja poprawności
-	qDebug() << Q_FUNC_INFO << p << m_viewGeometry << m_chartSize;
-
 	QPointF retVal;
-	if ( m_chartSize.width() && m_chartSize.height() )
+	if ( m_size.width() && m_size.height() )
 	{
-		retVal.setX(m_viewGeometry.x() + p.x() * m_viewGeometry.width() / m_chartSize.width());
-		retVal.setY(m_viewGeometry.y() + p.y() * m_viewGeometry.height() / m_chartSize.height());
+		retVal.setX(m_viewGeometry.x() + p.x() * m_viewGeometry.width() / m_size.width());
+		retVal.setY(m_viewGeometry.y() + p.y() * m_viewGeometry.height() / m_size.height());
 	}
-	qDebug() << Q_FUNC_INFO << retVal;
 	return retVal;
 }
 
@@ -238,12 +197,12 @@ void QocAbstractChart::removeItem(QocAbstractChartItem *item)
 
 qreal QocAbstractChart::xScale() const
 {
-	return m_chartSize.width() ? m_viewGeometry.width()/m_chartSize.width() : 0;
+	return m_size.width() ? m_viewGeometry.width()/m_size.width() : 0;
 }
 
 qreal QocAbstractChart::yScale() const
 {
-	return m_chartSize.height() ? m_viewGeometry.height()/m_chartSize.height() : 0;
+	return m_size.height() ? m_viewGeometry.height()/m_size.height() : 0;
 }
 
 QList<QocAbstractChartItem *> QocAbstractChart::items(QocAbstractChart::Layer l)
@@ -267,13 +226,29 @@ void QocAbstractChart::setViewGeometry(const QRectF &r)
 
 void QocAbstractChart::drawBackground(QPainter *painter, const QRectF &rect)
 {
-	qDebug() << Q_FUNC_INFO << painter << rect;
 	if ( m_backgroundBrush.style() != Qt::NoBrush )
 	{
 		painter->save();
-		painter->setBrush(QBrush(m_backgroundBrush));
+		painter->setPen(m_backgroundBrush.color());
+		painter->setBrush(m_backgroundBrush);
 		painter->drawRect(rect);
 		painter->restore();
+	}
+}
+
+void QocAbstractChart::drawLowLayer(QPainter *painter, const QRectF &rect)
+{
+	foreach (QocAbstractChartItem *i, m_itemsMap.value(LowLayer))
+	{
+		i->draw(painter, rect);
+	}
+}
+
+void QocAbstractChart::drawHighLayer(QPainter *painter, const QRectF &rect)
+{
+	foreach (QocAbstractChartItem *i, m_itemsMap.value(HighLayer))
+	{
+		i->draw(painter, rect);
 	}
 }
 
@@ -283,7 +258,8 @@ void QocAbstractChart::drawForeground(QPainter *painter, const QRectF &rect)
 	{
 
 		painter->save();
-		painter->setBrush(QBrush(m_foregroundBrush));
+		painter->setPen(m_foregroundBrush.color());
+		painter->setBrush(m_foregroundBrush);
 		painter->drawRect(rect);
 		painter->restore();
 	}

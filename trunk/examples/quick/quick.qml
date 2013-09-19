@@ -1,55 +1,52 @@
 import QtQuick 2.1
 import QocQuick 1.0
 
-Rectangle {
-    width: 360
-    height: 360
-
+Item {
+    width: 500; height: 500
     ChartView {
         anchors.fill: parent
         BarChart {
+            backgroundColor: "khaki"
+            foregroundColor: "#000000FF"
+
             model : DataSeries {
                 DataItem {
-                    x: 2
-                    y: 300
-                    color: "blue"
-                }
-
-                DataItem {
-                    x: 18
-                    y: 500
-                    color: "blue"
-                }
-
-                DataItem {
-                    x: 32
-                    y: 300
-                    color: "blue"
-                }
-
-                DataItem {
-                    x: 48
-                    y: 1000
-                    color: "blue"
-                }
-
-                DataItem {
-                    x: 62
-                    y: 300
-                    color: "blue"
+                    x: 1; y: 2
+                    color: "crimson"
                 }
                 DataItem {
-                    x: 78
-                    y: 500
-                    color: "blue"
+                    x: 2; y: 3
+                    color: "limegreen"
                 }
                 DataItem {
-                    x: 94
-                    y: 300
-                    color: "blue"
+                    x: 3; y: 2
+                    color: "deepskyblue"
+                }
+                DataItem {
+                    x: 4; y: 6
+                    color: "coral"
+                }
+                DataItem {
+                    x: 5; y: 9
+                    color: "mediumseagreen"
+                }
+                DataItem {
+                    x: 6; y: 6
+                    color: "teal"
+                }
+                DataItem {
+                    x: 7; y: 2
+                    color: "red"
+                }
+                DataItem {
+                    x: 8; y: 3
+                    color: "lime"
+                }
+                DataItem {
+                    x: 9; y: 2
+                    color: "aqua"
                 }
             }
-
         }
     }
 }

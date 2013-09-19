@@ -27,6 +27,9 @@ void QocAxis::draw(QPainter *p, const QRectF &rect)
 
 	p->save();
 
+	QPen pen = p->pen();
+	pen.setColor(m_brush.color());
+	p->setPen(pen);
 	p->drawLine(m_chart->mapToGlobal(m_begin), m_chart->mapToGlobal(m_end));
 
 	// Drawing Arrow -- don't touch
@@ -61,6 +64,34 @@ QRectF QocAxis::boundingRect() const
 	return QRectF(topLeft, bottomRight);
 }
 
+QPointF QocAxis::begin() const
+{
+	return m_begin;
+}
+
+void QocAxis::setBegin(const QPointF &p)
+{
+	if ( m_begin != p )
+	{
+		m_begin = p;
+		emit beginChanged(p);
+	}
+}
+
+QPointF QocAxis::end() const
+{
+	return m_end;
+}
+
+void QocAxis::setEnd(const QPointF &p)
+{
+	if ( m_end != p )
+	{
+		m_end = p;
+		emit endChanged(p);
+	}
+}
+
 qreal QocAxis::minValue() const
 {
 	return m_min;
@@ -89,6 +120,20 @@ void QocAxis::setMaxValue(qreal v)
 	}
 }
 
+QColor QocAxis::color() const
+{
+	return m_brush.color();
+}
+
+void QocAxis::setColor(const QColor &c)
+{
+	if ( m_brush.color() != c )
+	{
+		m_brush = QBrush(c);
+		emit colorChanged(c);
+	}
+}
+
 QPointF QocAxis::valueToPos(qreal v)
 {
 	QPointF vector = m_end - m_begin;
@@ -97,5 +142,12 @@ QPointF QocAxis::valueToPos(qreal v)
 	vector *= (v - m_min) / (m_max - m_min);
 //	qSqrt(qPow(vector.x(), 2) + qPow(vector.y(), 2));
 	return QPointF(m_begin.x() + vector.x(), m_begin.y() - vector.y());
+}
+
+qreal QocAxis::unit()
+{
+	QPointF vector = m_end - m_begin;
+	qreal length = qSqrt(qPow(vector.x(), 2) + qPow(vector.y(), 2));
+	return length / (m_max - m_min);
 }
 
