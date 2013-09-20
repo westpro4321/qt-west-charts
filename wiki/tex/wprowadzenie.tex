@@ -16,7 +16,7 @@ Moja praca inżynierska składa się z~rozdziałów opisujących kolejne etapy t
 W~tym rozdziale przedstawiam podstawy Qt oraz Qt~Quick, dzięki którym dowolny czytelnik powinien zrozumieć zawartość mojej pracy. Następnie opisuję podstawowe założenia, cele oraz cechy stworzonej biblioteki.
 
 \section{Qt}
-Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}~\footnote{\url{http://qt-project.org/wiki/QtWhitepaper}} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego. Qt posiada bardzo dobrą dokumentację~\cite{Qt:Dokumentacja}, która jest bardzo przejrzysta, zawiera liczne przykłady i~zazwyczaj wystarcza programiście do rozwiązania jego problemów z~niedziałającym programem.
+Qt jest zbiorem bibliotek języka C++, które są dostępne na licencjach LGPL, GPL oraz komercyjnej. Lista bibliotek jest dość okazała, a~znaleźć na niej można narzędzia do tworzenia interfejsów użytkownika, parsowania plików XML czy dostępu do baz danych. Naczelną zasadą Qt jest: \textit{pisz raz, kompiluj wielokrotnie}~\cite{Qt:Whitepaper} -- dzięki takiemu podejściu programy napisane w~Qt są przenośne pomiędzy najpopularniejszymi platformami na poziomie kodu źródłowego. Qt posiada bardzo dobrą dokumentację~\cite{Qt:Dokumentacja}, która jest bardzo przejrzysta, zawiera liczne przykłady i~zazwyczaj wystarcza programiście do rozwiązania jego problemów z~niedziałającym programem.
 
 Najnowsza dostępna wersja Qt to 5.1. Nowa odsłona dostarcza programistom szereg usprawnień oraz modułów, m.in. do obsługi formatu JSON. Jednak głównym punktem Qt~5 jest nowa implementacja Qt~Quick. 
 
@@ -59,7 +59,7 @@ Na Qt~Quick składają się:
 W Qt4, Qt~Quick był oparty na architekturze \textit{Graphics View}~\footnote{Framework Graphics View  \url{http://qt-project.org/doc/qt-5.0/qtwidgets/graphicsview.html}}, jednak problemy wydajnościowe zmusiły projektantów do sięgnięcia po bardziej zaawansowane narzędzia. W Qt5 wykorzystano bezpośrednio \textit{OpenGL} oraz \textit{SceneGraph}~\cite{Scene:Graph}.
 
 \subsection{QML}
-QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowym systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\footnote{Qt Build Suit \url{http://qt-project.org/wiki/qbs}} językiem opisu projektu jest właśnie QML.
+QML (Qt Modeling Language) jest deklaratywnym językiem służącym głównie do opisu wyglądu i~zachowania GUI. QML może jednak służyć do zupełnie innych zastosowań. W~nowym systemie zarządzania procesem budowania projektów napisanych w~Qt -- QBS~\cite{Qt:Qbs} językiem opisu projektu jest właśnie QML.
 
 Relacja rodzic-dziecko elementów QML została zorganizowana w~drzewiastą strukturę, ułatwiającą zarządzanie elementami. Podobnie jak obiekty w~klasycznym Qt, elementy są parametryzowane poprzez  właściwości, np. id lub szerokość. 
 

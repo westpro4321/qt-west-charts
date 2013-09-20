@@ -28,7 +28,7 @@ W mojej bibliotece odseparowałem warstwę prezentacji od warstwy danych poprzez
 
 Separacja tych dwóch warstw nie jest jednak idealna, gdyż model zawiera takie informacje jak kolor czy tytuł próbki. Uniemożliwia to zaprezentowanie tych samych danych w~dwóch wykresach za pomocą różnych palet kolorów. Podejście to ma jednak swoje plusy. Sprawia, że użytkownik nie musi ,,zaglądać'' do wewnętrznych elementów wykresu. Stworzenie prostego wykresu ogranicza się do powołania jego instancji i~podłączenia źródła wypełnionego danymi. Taka prostota jest szczególnie porządana w~przypadku deklaratywnego języka, jakim jest QML.
 
-Na myśl przyszło mi kilka rozwiązań tego problemu, ale wydają mi się one albo niezbyt eleganckie, albo nazbyt skomplikowane. Zdaje się, że najwłaściwszym byłoby wprowadzenie elementu takiego jak delegat~\footnote{Delegat \url{http://qt-project.org/doc/qt-5.0/qtwidgets/model-view-\newline programming.html\#delegates}} w~architekturze \textit{Model-Widok}. Byłoby to odpowiednie rozwiązanie dla doświadczonych programistów, chcących tworzyć bardziej zaawansowane wykresy.
+Na myśl przyszło mi kilka rozwiązań tego problemu, ale wydają mi się one albo niezbyt eleganckie, albo nazbyt skomplikowane. Zdaje się, że najwłaściwszym byłoby wprowadzenie elementu takiego jak delegat~\cite{Qt:Delegate} w~architekturze \textit{Model-Widok}. Byłoby to odpowiednie rozwiązanie dla doświadczonych programistów, chcących tworzyć bardziej zaawansowane wykresy.
 
 Z uwagi na prostotę użycia zdecydowałem się pozostać przy obecnym rozwiązaniu. Jeśli wyżej opisany problem okaże się palący dla użytkowników, będę zmuszony wprowadzić mechanizm delegatów.
 
