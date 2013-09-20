@@ -19,15 +19,15 @@ QtTestLib udostępnia swoją funkcjonalność za pomocą zbioru makrodefinicji, 
 
 
 \subsection{Testy sterowane danymi}
-Aby stworzyć test sterowany danymi, należy dodać do klasy testowej dwa sloty:
-\begin{lstlisting}
+Aby stworzyć test sterowany danymi, należy dodać do klasy testowej dwa sloty~\ref{code:slots}.
+\begin{lstlisting}[caption=Slot z danymi, label=code:slots]
 void someTest();
 void someTest_data();
 \end{lstlisting}
 Pierwszy ze slotów odpowiada za test jednostkowy, natomiast drugi za dostarczenie danych do owego testu. Takie odseparowanie logiki od danych ułatwia dodawanie nowych danych, gdyż nie powoduje zmian w~kodzie logiki testu. Technika ta bardziej szczegółowo została omówiona w~artykule~\footnote{Testy sterowane danymi \url{http://qt-project.org/doc/qt-4.8/qtestlib-tutorial2.html}}.
 
 \subsection{Testy wydajnościowe}
-Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test wydajności:
+Tworzenie testów wydajnościowych, czyli tzw. benchmark-ów, jest możliwe za pomocą makra \textit{QBENCHMARK}. Przykładowy test wydajności znajduje się w~wydruku~\ref{code:test}.
 \begin{lstlisting}[caption=Test wydajności, label=code:test]
 void TestFoo::simpleTest()
 {
@@ -46,14 +46,11 @@ Jak widać, w~jednym miejscu łączone są tutaj dwa testy metody \newline \text
 
 \subsection{Funkcja main}
 Utworzenie funkcji main naszego testu sprowadza się do wykorzystania makra, które jako argument przyjmuje nazwę naszej klasy testowej, np.
-\begin{lstlisting}
-	QTEST_MAIN(TestFoo)
-\end{lstlisting}
-Tak utworzona funkcja main spowoduje uruchomienie każdego testu jednostkowego, dla każdego przygotowanego dlań zbioru danych.
+\textit{QTEST\_MAIN(TestFoo)}. Tak utworzona funkcja main spowoduje uruchomienie każdego testu jednostkowego, dla każdego przygotowanego dlań zbioru danych.
 
 \subsection{Uruchomienie testu}
-Aby zbudować naszą testową aplikację należy wpisać w~konsoli następujące komendy:
-\begin{lstlisting}
+Aby zbudować naszą testową aplikację należy wpisać w~konsoli poniższe komendy~\ref{code:test:build}.
+\begin{lstlisting}[caption=Budowanie aplikacji testowej, label=code:test:build]
 qmake -project "QT += testlib"
 qmake
 make
@@ -96,9 +93,9 @@ Totals: 14 passed, 0 failed, 0 skipped
 \end{lstlisting}
 
 \subsection{Adapter modelu}
-Sporządziłem test adaptera modelu, w~którym wstawiam, modyfikuję oraz usuwam dane z~adaptera. Przetestowałem działanie adaptera jedynie dla modelu klasy \textit{QocDataSeries}. Po dodaniu do biblioteki obsługi nowych modeli należy uzupełnić metodę, która teraz wygląda następująco:
+Sporządziłem test adaptera modelu, w~którym wstawiam, modyfikuję oraz usuwam dane z~adaptera. Przetestowałem działanie adaptera jedynie dla modelu klasy \textit{QocDataSeries}. Po dodaniu do biblioteki obsługi nowych modeli należy uzupełnić metodę z~wydruku~\ref{test:data}.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Dane sterujące testami, label=test:data]
 void TestAdaptorModel::insertModels()
 {
 	QTest::addColumn<QVariant>("model");
@@ -108,9 +105,9 @@ void TestAdaptorModel::insertModels()
 }
 \end{lstlisting}
 
-Zaliczenie tego testu jest szczególnie ważne, gdyż ewentualne błędy we współpracy adaptera z~faktycznym źródłem danych będzie negatywnie wpływać na stabilność całej biblioteki. Poniżej znajduje się log testu.
+Zaliczenie tego testu jest szczególnie ważne, gdyż ewentualne błędy we współpracy adaptera z~faktycznym źródłem danych będzie negatywnie wpływać na stabilność całej biblioteki. Poniżej znajduje się log~\ref{test:adaptor} testu.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Test adptera modelu, label=test:adaptor]
 ********* Start testing of TestAdaptorModel *********
 Config: Using QtTest library 5.1.0, Qt 5.1.0
 PASS   : TestAdaptorModel::initTestCase()
@@ -127,95 +124,97 @@ Postanowiłem przetestować skalowalność odrysowywania wykresu słupkowego pod
 
 Ten test wyjatkowo nie został wykonany za pomocą QtTestLib, a~polega na porównywaniu liczby uzyskanych w~animacji klatek. Odbywa się to poprzez zliczanie zdarzeń typu \textit{QEvent::Paint}, odpowiedzialnych za odrysowywanie widgetu. Po zakończeniu się animacji liczba odrysowań zostaje wyrzucona na konsolę. Każda z~animacji trwała dokładnie 2 sekundy, a~w czasie ich trwania słupki stopniowo ,,rosły'', ostatecznie osiągając swoją oczekiwaną wysokość. Testy odbywały się na komputerze wyposażonym w~czterordzeniowy procesor AMD Phenom~II 3,2~GHz, 4GB pamięci RAM oraz kartę graficzną ATI Radeon HD~6850.
 
+Tablica~\ref{bench:seq} zawiera wyniki sekwencyjnej animacji wysokości słupków jednego wykresu. Animacja kolejnego słupka zaczynała się dopiero, gdy animacja poprzedniego słupka została zakończona. W~tablicy~\ref{bench:par} umieściłem wyniki analogicznego testu dla animacji równoległej. Wykonałem również test podczas którego animowałem jednocześnie dwa wykresy. Jego wyniki przedstawia tablica~\ref{bench:two}.
+
 \begin{table}\footnotesize
 \centering
-\caption{Wyniki animacji sekwencyjnej}
+\caption{Wyniki animacji sekwencyjnej}\label{bench:seq}
 \label{tab:wykresy}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Rozmiar okna & Liczba próbek danych & FPS\\
 \hline
-600x480 & 10 & 125\\
+600x480 & 10 & 62\\
 \hline
-600x480 & 100 & 124\\
+600x480 & 100 & 62\\
 \hline
-600x480 & 1000 & 68\\
+600x480 & 1000 & 34\\
 \hline
-800x600 & 10 & 125\\
+800x600 & 10 & 62\\
 \hline
-800x600 & 100 & 124\\
+800x600 & 100 & 62\\
 \hline
-800x600 & 1000 & 53\\
+800x600 & 1000 & 26\\
 \hline
-1024x768 & 10 & 125\\
+1024x768 & 10 & 62\\
 \hline
-1024x768 & 100 & 122\\
+1024x768 & 100 & 61\\
 \hline
-1024x768 & 1000 & 41\\
+1024x768 & 1000 & 20\\
 \hline
-1920x1080 & 10 & 125\\
+1920x1080 & 10 & 62\\
 \hline
-1920x1080 & 100 & 94\\
+1920x1080 & 100 & 47\\
 \hline
-1920x1080 & 1000 & 27\\
+1920x1080 & 1000 & 13\\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{table}\footnotesize
 \centering
-\caption{Wyniki animacji równoległej}
+\caption{Wyniki animacji równoległej}\label{bench:par}
 \label{tab:wykresy}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Rozmiar okna & Liczba próbek danych & FPS\\
 \hline
-600x480 & 10 & 125\\
+600x480 & 10 & 62\\
 \hline
-600x480 & 100 & 124\\
+600x480 & 100 & 62\\
 \hline
-600x480 & 1000 & 64\\
+600x480 & 1000 & 32\\
 \hline
-800x600 & 10 & 125\\
+800x600 & 10 & 62\\
 \hline
-800x600 & 100 & 124\\
+800x600 & 100 & 62\\
 \hline
-800x600 & 1000 & 54\\
+800x600 & 1000 & 27\\
 \hline
-1024x768 & 10 & 125\\
+1024x768 & 10 & 62\\
 \hline
-1024x768 & 100 & 125\\
+1024x768 & 100 & 62\\
 \hline
-1024x768 & 1000 & 45\\
+1024x768 & 1000 & 22\\
 \hline
-1920x1080 & 10 & 125\\
+1920x1080 & 10 & 62\\
 \hline
-1920x1080 & 100 & 99\\
+1920x1080 & 100 & 49\\
 \hline
-1920x1080 & 1000 & 32\\
+1920x1080 & 1000 & 16\\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{table}\footnotesize
 \centering
-\caption{Wyniki animacji dwóch wykresów}
+\caption{Wyniki animacji dwóch wykresów}\label{bench:two}
 \label{tab:wykresy}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Rozmiar okna & Typ animacji & Liczba próbek danych & FPS\\
 \hline
-1024x768 & Sekwencyjna & 10 & 125\\
+1024x768 & Sekwencyjna & 10 & 62\\
 \hline
-1024x768 & Sekwencyjna &  100 & 104\\
+1024x768 & Sekwencyjna &  100 & 52\\
 \hline
-1024x768 & Sekwencyjna &  1000 & 25\\
+1024x768 & Sekwencyjna &  1000 & 12\\
 \hline
-1024x768 & Równoległa & 10 & 125\\
+1024x768 & Równoległa & 10 & 62\\
 \hline
-1024x768 & Równoległa &  100 & 110\\
+1024x768 & Równoległa &  100 & 55\\
 \hline
-1024x768 & Równoległa &  1000 & 25\\
+1024x768 & Równoległa &  1000 & 12\\
 \hline
 \end{tabular}
 \end{table}

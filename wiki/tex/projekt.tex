@@ -70,7 +70,7 @@ Komunikacja w~drugą stronę została rozwiązana za pomocą zbioru sygnałów, 
 \end{figure}
 
 \subsection{Role}
-Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to typ wyliczeniowy, który służy do wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę.
+Wzorując się na systemie Model-Widok, zdecydowałem się wprowadzić do mojej biblioteki byt o~nazwie: Rola. Rola to typ wyliczeniowy, który służy do wskazania przez widok, jakich danych oczekuje od modelu. Widok chcąc uzyskać dane z~modelu musi mu przekazać indeks i~właśnie rolę. Przykładową listę ról zawiera wydruk~\ref{code:role}.
 
 Dzięki rolom uzyskałem stan, w~którym wykres chcąc pobrać dane z~modelu, przekazuje do adaptera rolę. Adapter zajmuje się przetłumaczeniem roli. W~zależności od kontekstu, może to być numer kolumny, rola  albo właściwość obiektu.
 
