@@ -19,8 +19,11 @@ void QocQuickView::setChart(QocQuickAbstractChart *chart)
 {
 	if ( m_chart != chart )
 	{
+		disconnect(m_chart, SIGNAL(repaint()), this, SLOT(update()));
+
 		m_chart = chart;
 		m_chart->setViewGeometry(QRect(x(), y(), width(), height()));
+		connect(m_chart, SIGNAL(repaint()), this, SLOT(update()));
 		emit chartChanged();
 	}
 }

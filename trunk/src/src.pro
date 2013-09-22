@@ -39,8 +39,7 @@ SOURCES += \
     qoc_abstract_value_item.cpp \
     qoc_view_text.cpp
 
-DEFINES += QOC_LIBRARY
-#QT_NO_DEBUG_OUTPUT
+DEFINES += QOC_LIBRARY QT_NO_DEBUG_OUTPUT
 
 TARGET = Qoc
 
