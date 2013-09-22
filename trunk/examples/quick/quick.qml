@@ -99,16 +99,7 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-
-        onPressed: {
-            view.state == "stop" ? view.state = "start" : view.state = "stop"
-            console.log(chart.bars[4].value);
-
-        }
-    }
-    function f()
-    {
-        console.log("dupa");
+        onPressed: view.state == "stop" ? view.state = "start" : view.state = "stop"
     }
 }
 
