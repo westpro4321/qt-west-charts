@@ -46,8 +46,8 @@ bool QocViewWidget::eventFilter(QObject *watched, QEvent *event)
 void QocViewWidget::rebuildChart()
 {
 	QPushButton *pb = qobject_cast<QPushButton *>(sender());
-	QParallelAnimationGroup *group = new QParallelAnimationGroup();
-//	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
+//	QParallelAnimationGroup *group = new QParallelAnimationGroup();
+	QSequentialAnimationGroup *group = new QSequentialAnimationGroup();
 
 	if (pb)
 	{
@@ -64,7 +64,7 @@ void QocViewWidget::rebuildChart()
 			QPropertyAnimation *anim = new QPropertyAnimation(i, "value", group);
 			anim->setStartValue(0);
 			anim->setEndValue(i->value());
-			anim->setDuration(2000/*/items.size()*/);
+			anim->setDuration(2000/items.size());
 			group->addAnimation(anim);
 
 //			i->blockSignals(true);
