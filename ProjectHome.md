@@ -1,0 +1,1 @@
+Library for creating office type charts in Qt and Qt Quick.
